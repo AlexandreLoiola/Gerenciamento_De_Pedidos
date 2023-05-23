@@ -65,7 +65,6 @@ public class CustomerService {
         customerModel.setName(customerForm.getName());
         customerModel.setBirthDate(customerForm.getBirthDate());
         customerModel.setCpf(customerForm.getCpf());
-        customerModel.setIsActive(true);
 
         return customerModel;
     }
@@ -81,12 +80,12 @@ public class CustomerService {
         return customerDto;
     }
 
-    private List<CustomerDto> convertListToDto(List<CustomerModel> list) {
-        List<CustomerDto> customerDtoList = new ArrayList<>();
-        for (CustomerModel customerModel : list) {
-            CustomerDto customerDto = this.convertModelToDto(customerModel);
-            customerDtoList.add(customerDto);
+        private List<CustomerDto> convertListToDto(List<CustomerModel> list) {
+            List<CustomerDto> customerDtoList = new ArrayList<>();
+            for (CustomerModel customerModel : list) {
+                CustomerDto customerDto = this.convertModelToDto(customerModel);
+                customerDtoList.add(customerDto);
+            }
+            return customerDtoList;
         }
-        return customerDtoList;
-    }
 }

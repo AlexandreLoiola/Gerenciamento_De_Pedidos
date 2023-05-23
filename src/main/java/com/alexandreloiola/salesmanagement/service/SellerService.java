@@ -45,12 +45,10 @@ public class SellerService {
             sellerUpdated.setBirthDate(sellerUpdateForm.getBirthDate());
             sellerUpdated.setIsActive(sellerUpdateForm.getIsActive());
 
-            System.out.println("||||||||||||||||" + sellerUpdated);
-
             sellerRepository.save(sellerUpdated);
             return convertModelToDto(sellerUpdated);
         } else {
-            throw new DataIntegrityViolationException("O cliente não pode ser atualizado");
+            throw new DataIntegrityViolationException("O vendedor não pode ser atualizado");
         }
     }
 
@@ -58,7 +56,7 @@ public class SellerService {
         if (sellerRepository.existsById(id)) {
             sellerRepository.deleteById(id);
         } else {
-            throw new DataIntegrityViolationException("O cliente não pode ser atualizado");
+            throw new DataIntegrityViolationException("O vendedor não pode ser atualizado");
         }
     }
 
