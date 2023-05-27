@@ -37,7 +37,7 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDto> updateOrder(
+    public ResponseEntity<OrderDto> updateorder(
             @Valid @RequestBody OrderUpdateForm orderUpdateForm,
             @PathVariable("id") long id
     ) {
@@ -46,7 +46,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable("id") long id) {
+    public ResponseEntity<Void> deleteorder(@PathVariable("id") long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
