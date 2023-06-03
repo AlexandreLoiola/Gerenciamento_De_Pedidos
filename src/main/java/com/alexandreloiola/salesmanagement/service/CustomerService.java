@@ -17,7 +17,7 @@ import java.util.Optional;
 public class CustomerService {
 
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     public List<CustomerDto> getAllCustomers() {
         List<CustomerModel> customerList = customerRepository.findAll();
@@ -80,12 +80,13 @@ public class CustomerService {
         return customerDto;
     }
 
-        private List<CustomerDto> convertListToDto(List<CustomerModel> list) {
-            List<CustomerDto> customerDtoList = new ArrayList<>();
-            for (CustomerModel customerModel : list) {
-                CustomerDto customerDto = this.convertModelToDto(customerModel);
-                customerDtoList.add(customerDto);
-            }
-            return customerDtoList;
+    private List<CustomerDto> convertListToDto(List<CustomerModel> list) {
+        List<CustomerDto> customerDtoList = new ArrayList<>();
+        for (CustomerModel customerModel : list) {
+            CustomerDto customerDto = this.convertModelToDto(customerModel);
+            customerDtoList.add(customerDto);
         }
+
+        return customerDtoList;
+    }
 }

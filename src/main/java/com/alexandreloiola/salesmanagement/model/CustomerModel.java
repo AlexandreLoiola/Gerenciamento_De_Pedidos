@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@Table(name="TB_CLIENT")
+@Table(name="TB_CUSTOMER")
 public class CustomerModel {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
