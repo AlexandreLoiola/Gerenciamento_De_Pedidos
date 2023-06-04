@@ -27,4 +27,7 @@ public class CustomerModel {
     @Column(name = "isActive",  nullable = false)
     private Boolean isActive;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "customerModel")
+    private UserModel userModel;
+
 }
