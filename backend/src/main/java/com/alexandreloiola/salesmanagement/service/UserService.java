@@ -39,7 +39,21 @@ public class UserService {
         } catch(NoSuchElementException err) {
             throw new ObjectNotFoundException("Usuário não encontrado!");
         }
+    }
 
+    public String login(String name, String password) {
+        try {
+            UserModel userModel = userRepository.findByName(name).orElseThrow(
+                    () -> new ObjectNotFoundException("Credenciais de login inválidas")
+            );
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (!(passwordEncoder.matches(password, userModel.getPassword()))) {
+                throw new ObjectNotFoundException("Credenciais de login inválidas");
+            }
+            return "Tudo ocorreu bem";
+        } catch (ObjectNotFoundException err) {
+            throw err;
+        }
     }
 
     @Transactional

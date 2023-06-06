@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="98818630-df94-4e6c-b350-d8ecda2717c9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Sistema_De_Vendas.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sales-management/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/SalesManagementApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/config/validation/ErrorFormDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/config/validation/ErrorHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/model/CustomerModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/model/OrderItemsModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/model/OrderModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/model/ProductModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/model/SellerModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/model/UserModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/repository/CustomerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/repository/OrderItemsRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/repository/OrderRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/repository/ProductRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/repository/SellerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/controller/CustomerController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/controller/OrderController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/controller/OrderItemsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/controller/ProductController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/controller/SellerController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/controller/exceptions/ControllerExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/controller/exceptions/StandardError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/controller/userController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/dto/CustomerDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/dto/OrderDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/dto/OrderItemsDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/dto/ProductDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/dto/SellerDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/dto/UserDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/CustomerForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/CustomerUpdateForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/OrderForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/OrderItemsForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/OrderItemsUpdateForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/OrderUpdateForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/ProductForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/ProductUpdateForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/SellerForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/SellerUpdateForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/UserForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/rest/form/UserUpdateForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/CustomerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/OrderItemsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/OrderService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/ProductService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/SellerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/exceptions/BusinessRuleException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/exceptions/ConstraintException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/exceptions/DataIntegrityException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/exceptions/DataIntegrityViolationException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alexandreloiola/salesmanagement/service/exceptions/ObjectNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/alexandreloiola/salesmanagement/SalesManagementApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2PvDVc4x99wY4pRcdwYIoU5xvQo" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/alexa/Desktop/Programas/1Portfolio/Sistema_De_Vendas",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="sales-management" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="sales-management" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="98818630-df94-4e6c-b350-d8ecda2717c9" name="Changes" comment="" />
+      <created>1684328687634</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1684328687634</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/com/alexandreloiola/salesmanagement/SalesManagementApplicationTests.java</url>
+          <line>6</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
