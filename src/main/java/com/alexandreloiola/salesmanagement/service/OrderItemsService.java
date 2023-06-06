@@ -9,13 +9,14 @@ import com.alexandreloiola.salesmanagement.repository.ProductRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.OrderItemsDto;
 import com.alexandreloiola.salesmanagement.rest.form.OrderItemsForm;
 import com.alexandreloiola.salesmanagement.rest.form.OrderItemsUpdateForm;
-import com.alexandreloiola.salesmanagement.rest.form.OrderUpdateForm;
+import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -33,49 +34,68 @@ public class OrderItemsService {
     }
 
     public OrderItemsDto getOrderItems(Long id) {
-        OrderItemsModel orderItemsModel = orderItemsRepository.findById(id).get();
-        return convertModelToDto(orderItemsModel);
+        try {
+            OrderItemsModel orderItemsModel = orderItemsRepository.findById(id).get();
+            return convertModelToDto(orderItemsModel);
+        } catch(NoSuchElementException err) {
+            throw new ObjectNotFoundException("O(s) item(ns) do pedido não foi(foram) encontrado(s)!");
+        }
     }
 
     public OrderItemsDto insertOrderItems(OrderItemsForm orderItemsForm) {
-        OrderItemsModel newOrderItemsModel = convertFormToModel(orderItemsForm);
-        newOrderItemsModel = orderItemsRepository.save(newOrderItemsModel);
+        try {
+            OrderItemsModel newOrderItemsModel = convertFormToModel(orderItemsForm);
+            newOrderItemsModel = orderItemsRepository.save(newOrderItemsModel);
 
-        return convertModelToDto(newOrderItemsModel);
+            return convertModelToDto(newOrderItemsModel);
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do(s) item(ns) do pedido não foi(foram) devidamente preenchido(s).");
+        }
     }
 
     public OrderItemsDto updateOrderDto(Long id, OrderItemsUpdateForm orderItemsUpdateForm) {
-        Optional<OrderItemsModel> orderItemsModel = orderItemsRepository.findById(id);
-        if (orderItemsModel.isPresent()) {
-            OrderItemsModel orderItemsUpdated = orderItemsModel.get();
-            orderItemsUpdated.setQuantity(orderItemsUpdateForm.getQuantity());
-            orderItemsUpdated = orderItemsRepository.save(orderItemsUpdated);
+        try {
+            Optional<OrderItemsModel> orderItemsModel = orderItemsRepository.findById(id);
+            if (orderItemsModel.isPresent()) {
+                OrderItemsModel orderItemsUpdated = orderItemsModel.get();
+                orderItemsUpdated.setQuantity(orderItemsUpdateForm.getQuantity());
+                orderItemsUpdated = orderItemsRepository.save(orderItemsUpdated);
 
-            return convertModelToDto(orderItemsUpdated);
-        } else {
-            throw new DataIntegrityViolationException("Os itens do pedido não pode ser atualizado");
+                return convertModelToDto(orderItemsUpdated);
+            } else {
+                throw new DataIntegrityViolationException("O(s) item(ns) do pedido não pode(podem) ser atualizado(s)");
+            }
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do(s) item(ns) do pedido não foi(foram) devidamente preenchido(s).");
         }
     }
 
     public void deleteOrderItems(Long id) {
-        if (orderItemsRepository.existsById(id)) {
-            orderItemsRepository.deleteById(id);
-        } else {
-            throw new DataIntegrityViolationException("Os itens do pedido não pode ser deletado");
+        try {
+            if (orderItemsRepository.existsById(id)) {
+                orderItemsRepository.deleteById(id);
+            }
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Não foi possível deletar o(s) item(ns) do pedido");
         }
     }
 
     private OrderItemsModel convertFormToModel(OrderItemsForm orderItemsForm) {
         OrderItemsModel orderItemsModel = new OrderItemsModel();
-
-        OrderModel orderModel = orderRepository.findByOrderNumber(orderItemsForm.getOrderNumber()).get();
-        orderItemsModel.setOrder(orderModel);
-
-        ProductModel productModel = productRepository.findByName(orderItemsForm.getProductName()).get();
-        orderItemsModel.setProduct(productModel);
+        try {
+            OrderModel orderModel = orderRepository.findByOrderNumber(orderItemsForm.getOrderNumber()).get();
+            orderItemsModel.setOrder(orderModel);
+        } catch (NoSuchElementException err) {
+            throw new ObjectNotFoundException("O pedido não foi encontrado");
+        }
+        try {
+            ProductModel productModel = productRepository.findByName(orderItemsForm.getProductName()).get();
+            orderItemsModel.setProduct(productModel);
+        } catch (NoSuchElementException err) {
+            throw new ObjectNotFoundException("O produto não foi encontrado");
+        }
 
         orderItemsModel.setQuantity(orderItemsForm.getQuantity());
-
         return orderItemsModel;
     }
 

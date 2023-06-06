@@ -12,4 +12,5 @@ public interface SellerRepository extends JpaRepository<SellerModel, Long> {
 
     Optional<SellerModel> findByName(String name);
 
+    Optional<SellerModel> findByCpf(String cpf);
 }

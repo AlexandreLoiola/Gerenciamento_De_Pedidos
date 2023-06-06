@@ -1,16 +1,21 @@
 package com.alexandreloiola.salesmanagement.service;
 
 import com.alexandreloiola.salesmanagement.model.CustomerModel;
+import com.alexandreloiola.salesmanagement.model.SellerModel;
 import com.alexandreloiola.salesmanagement.repository.CustomerRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.CustomerDto;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerForm;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerUpdateForm;
+import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
+import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -25,38 +30,62 @@ public class CustomerService {
     }
 
     public CustomerDto getCustomerById(long id) {
-        CustomerModel customerModel = customerRepository.findById(id).get();
-        return convertModelToDto(customerModel);
-    }
-
-    public CustomerDto insertCustomer(CustomerForm customerForm) {
-        CustomerModel newCustomer = convertFormToModel(customerForm);
-        newCustomer.setIsActive(true);
-        newCustomer = customerRepository.save(newCustomer);
-
-        return convertModelToDto(newCustomer);
-    }
-
-    public CustomerDto updateCustomer(long id, CustomerUpdateForm customerUpdateForm) {
-        Optional<CustomerModel> customerModel = customerRepository.findById(id);
-        if (customerModel.isPresent()) {
-            CustomerModel customerUpdated = customerModel.get();
-            customerUpdated.setName(customerUpdateForm.getName());
-            customerUpdated.setBirthDate(customerUpdateForm.getBirthDate());
-            customerUpdated.setIsActive(customerUpdateForm.getIsActive());
-            customerRepository.save(customerUpdated);
-
-            return convertModelToDto(customerUpdated);
-        } else {
-            throw new DataIntegrityViolationException("O cliente não pode ser atualizado");
+        try {
+            CustomerModel customerModel = customerRepository.findById(id).get();
+            return convertModelToDto(customerModel);
+        } catch(NoSuchElementException err) {
+            throw new ObjectNotFoundException("Cliente não encontrado!");
         }
     }
 
+    @Transactional
+    public CustomerDto insertCustomer(CustomerForm customerForm) {
+        try {
+            CustomerModel newCustomer = convertFormToModel(customerForm);
+            Optional<CustomerModel> byCpf = customerRepository.findByCpf(newCustomer.getCpf());
+
+            if (byCpf.isPresent()) {
+                throw new DataIntegrityException("Esse cpf já foi cadastrado em um cliente");
+            }
+
+            newCustomer.setIsActive(true);
+            newCustomer = customerRepository.save(newCustomer);
+            return convertModelToDto(newCustomer);
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do cliente não foi(foram) devidamente preenchido(s).");
+        }
+    }
+
+    @Transactional
+    public CustomerDto updateCustomer(long id, CustomerUpdateForm customerUpdateForm) {
+        try {
+            Optional<CustomerModel> customerModel = customerRepository.findById(id);
+            if (customerModel.isPresent()) {
+                CustomerModel customerUpdated = customerModel.get();
+                customerUpdated.setName(customerUpdateForm.getName());
+                customerUpdated.setBirthDate(customerUpdateForm.getBirthDate());
+                customerUpdated.setIsActive(customerUpdateForm.getIsActive());
+                customerRepository.save(customerUpdated);
+
+                return convertModelToDto(customerUpdated);
+            } else {
+                throw new DataIntegrityViolationException("O cliente não pode ser atualizado");
+            }
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do cliente não foi(foram) devidamente preenchido(s).");
+        }
+    }
+
+    @Transactional
     public void deleteCustomer(long id) {
-        if(customerRepository.existsById(id)) {
-            customerRepository.deleteById(id);
-        } else {
-            throw new DataIntegrityViolationException("O cliente não pode ser deletado");
+        try {
+            if(customerRepository.existsById(id)) {
+                customerRepository.deleteById(id);
+            } else {
+                throw new DataIntegrityViolationException("O cliente não pode ser deletado");
+            }
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Não foi possível deletar o deletado");
         }
     }
 

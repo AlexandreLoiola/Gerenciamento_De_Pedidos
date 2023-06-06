@@ -7,13 +7,16 @@ import com.alexandreloiola.salesmanagement.repository.UserRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.UserDto;
 import com.alexandreloiola.salesmanagement.rest.form.UserForm;
 import com.alexandreloiola.salesmanagement.rest.form.UserUpdateForm;
+import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -30,49 +33,69 @@ public class UserService {
     }
 
     public UserDto getUserByName(String name) {
-        UserModel userModel = userRepository.findByName(name).get();
-        return convertModelToDto(userModel);
+        try {
+            UserModel userModel = userRepository.findByName(name).get();
+            return convertModelToDto(userModel);
+        } catch(NoSuchElementException err) {
+            throw new ObjectNotFoundException("Usuário não encontrado!");
+        }
+
     }
 
+    @Transactional
     public UserDto insertUser(UserForm userForm) {
-        UserModel newUser = convertFormToModel(userForm);
-        newUser.setIsActive(true);
-        newUser = userRepository.save(newUser);
+        try {
+            UserModel newUser = convertFormToModel(userForm);
+            newUser.setIsActive(true);
+            newUser = userRepository.save(newUser);
 
-        return convertModelToDto(newUser);
+            return convertModelToDto(newUser);
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do usuário não foi(foram) devidamente preenchido(s).");
+        }
+
     }
 
+    @Transactional
     public UserDto updateUser(String name, UserUpdateForm userUpdateForm) {
-        Optional<UserModel> userModel = userRepository.findByName(name);
-        if (userModel.isPresent()) {
-            UserModel userUpdated = userModel.get();
-            userUpdated.setPassword(userUpdateForm.getPassword());
-            userUpdated.setIsActive(userUpdateForm.getIsActive());
+        try {
+            Optional<UserModel> userModel = userRepository.findByName(name);
+            if (userModel.isPresent()) {
+                UserModel userUpdated = userModel.get();
+                userUpdated.setPassword(userUpdateForm.getPassword());
+                userUpdated.setIsActive(userUpdateForm.getIsActive());
 
-            userRepository.save(userUpdated);
-            return convertModelToDto(userUpdated);
-        } else {
-            throw new DataIntegrityViolationException("O usuário não pode ser atualizado");
+                userRepository.save(userUpdated);
+                return convertModelToDto(userUpdated);
+            } else {
+                throw new DataIntegrityViolationException("O usuário não pode ser atualizado");
+            }
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do Usuário não foi(foram) devidamente preenchido(s).");
         }
     }
 
     public void deleteUser(long id) {
-        if(userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-        } else {
-            throw new DataIntegrityViolationException("O cliente não pode ser deletado");
+        try {
+            if (userRepository.existsById(id)) {
+                userRepository.deleteById(id);
+            }
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Não é possível deletar um usuário");
         }
     }
 
     private UserModel convertFormToModel(UserForm userform) {
         UserModel userModel = new UserModel();
 
-        CustomerModel customerModel = customerRepository.findByName(userform.getName()).get();
-        userModel.setCustomerModel(customerModel);
-
+        try {
+            CustomerModel customerModel = customerRepository.findByName(userform.getName()).get();
+            userModel.setCustomerModel(customerModel);
+        } catch (NoSuchElementException err) {
+            throw new ObjectNotFoundException("O usuário não foi encontrado");
+        }
         userModel.setName(userform.getName());
         userModel.setPassword(new BCryptPasswordEncoder().encode(userform.getPassword()));
-
         return userModel;
     }
 
