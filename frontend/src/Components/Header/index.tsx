@@ -1,11 +1,16 @@
 import React from 'react';
 import { HeaderContainer } from './styles';
 import DividerLine from '../Divisor';
+import HeaderTitle from '../HeaderTitle';
 
-const MainHeader: React.FC = () => {
+interface Iprops {
+  title: String;
+}
+
+const MainHeader: React.FC<Iprops> = (props) => {
   return (
     <HeaderContainer>
-      <h1>Sistema de Gerenciamento <br/> de Pedidos</h1>
+      <HeaderTitle title={props.title} />
       <DividerLine/>
     </HeaderContainer>
   );

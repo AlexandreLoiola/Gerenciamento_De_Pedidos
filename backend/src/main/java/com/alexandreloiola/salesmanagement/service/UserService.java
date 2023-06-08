@@ -41,7 +41,7 @@ public class UserService {
         }
     }
 
-    public String login(String name, String password) {
+    public UserDto login(String name, String password) {
         try {
             UserModel userModel = userRepository.findByName(name).orElseThrow(
                     () -> new ObjectNotFoundException("Credenciais de login inválidas")
@@ -50,7 +50,7 @@ public class UserService {
             if (!(passwordEncoder.matches(password, userModel.getPassword()))) {
                 throw new ObjectNotFoundException("Credenciais de login inválidas");
             }
-            return "Tudo ocorreu bem";
+            return convertModelToDto(userModel);
         } catch (ObjectNotFoundException err) {
             throw err;
         }

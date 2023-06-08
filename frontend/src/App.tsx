@@ -1,14 +1,15 @@
 import React from 'react';
-import MainHeader from './Components/MainHeader';
 import { GlobalStyle } from './Styles/GlobalStyles';
-import LoginForm from './Components/LoginForm';
+
+import Login from './Pages/Login';
+import Home from './Pages/Home';
+import Register from './Pages/Register';
 
 function App() {
   return (
     <div className="App">
       <GlobalStyle />
-      <MainHeader></MainHeader>
-      <LoginForm/>
+      <Register/>
     </div>
   );
 }

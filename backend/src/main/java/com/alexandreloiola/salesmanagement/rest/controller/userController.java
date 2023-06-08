@@ -34,12 +34,12 @@ public class userController {
         return ResponseEntity.ok().body(userDto);
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<String> login(
+    @PostMapping("/login")
+    public ResponseEntity<UserDto> login(
             @Valid @RequestBody UserForm userForm
     ) {
-        String res = userService.login(userForm.getName(), userForm.getPassword());
-        return ResponseEntity.ok().body(res);
+        UserDto userDto  = userService.login(userForm.getName(), userForm.getPassword());
+        return ResponseEntity.ok().body(userDto);
     }
 
     @PostMapping
