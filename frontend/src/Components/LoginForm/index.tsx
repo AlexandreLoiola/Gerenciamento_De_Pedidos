@@ -1,12 +1,16 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { FormContainer, FormInput } from "./styles";
 import SubmitButton from "../SubmitButton";
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent, email: string, password: string) => {
     event.preventDefault();
@@ -16,12 +20,12 @@ const LoginForm: React.FC = () => {
   async function validateLogin(email: string, password: string): Promise<void> {
     try {
       axios.post('http://localhost:8080/api/management/users/login', {
-          name: email,
+          email: email,
           password: password
       }).then(function (response) {
-          window.alert("200 "+ response);
+          navigate('/')
       }).catch(function (error) {
-          console.error(error);
+          window.alert(error);
       });
     } catch (error) {
       console.error(error);

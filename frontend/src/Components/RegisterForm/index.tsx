@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { FormContainer, FormInput, FormRow } from "./styles";
 import SubmitButton from "../SubmitButton";
+import { useNavigate } from 'react-router-dom';
 
 interface IRegisterUser {
   name: String,
@@ -18,6 +19,8 @@ const RegistrationForm: React.FC = () => {
   const [birthDate, setBirthDate] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent, registUser: IRegisterUser) => {
     event.preventDefault();
@@ -39,6 +42,7 @@ const RegistrationForm: React.FC = () => {
       }
       ).then(function (response) {
         alert("Usuário cadastrado com sucesso!");
+        navigate("/login");
       }).catch(function (error) {
         console.log(error);
       });
