@@ -1,8 +1,37 @@
 import styled from "styled-components";
+import { HiOutlineLogout, HiUser } from "react-icons/hi";
 
 export const HeaderContainer = styled.div`
-  padding: 80px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  margin: 60px auto ;
 `;
 
-export const Header = styled.header``;
+export const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+  width: 60%;
+  flex-direction: column;
+`;
+
+export const TitleText = styled.h1`
+  color: #fff;
+  font-size: 32px;
+`;
+
+export const LogoutIcon = styled(HiOutlineLogout)`
+  color: #fff;
+  font-size: 60px;
+  margin-right: 5px;
+  width: 20%;
+  cursor: pointer;
+`;
+
+export const UserIcon = styled(HiUser)`
+  color: #fff;
+  font-size: 60px;
+  margin-left: 5px;
+  width: 20%;
+  cursor: pointer;
+`;

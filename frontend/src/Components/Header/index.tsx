@@ -1,19 +1,22 @@
-import React from 'react';
-import { HeaderContainer } from './styles';
-import DividerLine from '../Divisor';
-import HeaderTitle from '../HeaderTitle';
+import React from "react";
+import { HeaderContainer, TitleContainer, TitleText, LogoutIcon, UserIcon } from "./styles";
+import DividerLine from "../Divisor";
 
-interface Iprops {
-  title: String;
+interface IProps {
+  title: string;
 }
 
-const MainHeader: React.FC<Iprops> = (props) => {
+const MainHeader: React.FC<IProps> = ({ title }) => {
   return (
     <HeaderContainer>
-      <HeaderTitle title={props.title} />
-      <DividerLine/>
+      <UserIcon />
+      <TitleContainer>
+        <TitleText>{title}</TitleText>
+        <DividerLine />
+      </TitleContainer>
+      <LogoutIcon />
     </HeaderContainer>
   );
-}
+};
 
 export default MainHeader;
