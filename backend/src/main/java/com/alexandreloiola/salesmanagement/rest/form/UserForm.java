@@ -12,8 +12,8 @@ import lombok.Data;
 public class UserForm {
 
     @NotEmpty
-    @NotBlank(message = "O campo nome não pode ficar vazio")
-    private String name;
+    @NotBlank(message = "O campo email não pode ficar vazio")
+    private String email;
 
     @NotEmpty
     @NotBlank(message = "O campo senha não pode ficar vazio")

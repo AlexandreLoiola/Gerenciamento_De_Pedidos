@@ -1,5 +1,6 @@
 package com.alexandreloiola.salesmanagement.rest.controller;
 
+import com.alexandreloiola.salesmanagement.rest.form.RegisterCustomerForm;
 import com.alexandreloiola.salesmanagement.service.CustomerService;
 import com.alexandreloiola.salesmanagement.rest.dto.CustomerDto;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerForm;
@@ -17,6 +18,14 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @PostMapping("/register")
+    public ResponseEntity<CustomerDto> registerCustomer(
+            @Valid @RequestBody RegisterCustomerForm registerCustomerForm
+            ) {
+        CustomerDto customerDto = customerService.registerCustomer(registerCustomerForm);
+        return ResponseEntity.ok().body(customerDto);
+    }
 
     @GetMapping
     public ResponseEntity<List<CustomerDto>> getAllCustomers() {

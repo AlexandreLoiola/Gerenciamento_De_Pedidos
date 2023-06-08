@@ -13,7 +13,7 @@ public class UserModel {
     private Long id;
 
     @Column(name = "name", length = 256, nullable = false)
-    private String name;
+    private String email;
 
     @Column(name = "password", length = 128, nullable = false)
     private String password;

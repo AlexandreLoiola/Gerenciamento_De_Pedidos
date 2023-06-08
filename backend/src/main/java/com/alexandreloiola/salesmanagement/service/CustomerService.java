@@ -6,6 +6,8 @@ import com.alexandreloiola.salesmanagement.repository.CustomerRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.CustomerDto;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerForm;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerUpdateForm;
+import com.alexandreloiola.salesmanagement.rest.form.RegisterCustomerForm;
+import com.alexandreloiola.salesmanagement.rest.form.UserForm;
 import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
@@ -23,6 +25,31 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @Transactional
+    public CustomerDto registerCustomer(RegisterCustomerForm registerCustomerForm) {
+        try {
+            CustomerForm customerForm = new CustomerForm();
+            customerForm.setName(registerCustomerForm.getName());
+            customerForm.setEmail(registerCustomerForm.getEmail());
+            customerForm.setBirthDate(registerCustomerForm.getBirthDate());
+            customerForm.setCpf(registerCustomerForm.getCpf());
+
+            UserForm userForm = new UserForm();
+            userForm.setEmail(registerCustomerForm.getEmail());
+            userForm.setPassword(registerCustomerForm.getPassword());
+
+            CustomerDto customerDto = this.insertCustomer(customerForm);
+            userService.insertUser(userForm);
+
+            return customerDto;
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do Cadastro do cliente não foi(foram) devidamente preenchido(s).");
+        }
+    }
 
     public List<CustomerDto> getAllCustomers() {
         List<CustomerModel> customerList = customerRepository.findAll();
@@ -85,13 +112,14 @@ public class CustomerService {
                 throw new DataIntegrityViolationException("O cliente não pode ser deletado");
             }
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("Não foi possível deletar o deletado");
+            throw new DataIntegrityViolationException("Não foi possível deletar o cliente");
         }
     }
 
     private CustomerModel convertFormToModel(CustomerForm customerForm) {
         CustomerModel customerModel = new CustomerModel();
         customerModel.setName(customerForm.getName());
+        customerModel.setEmail(customerForm.getEmail());
         customerModel.setBirthDate(customerForm.getBirthDate());
         customerModel.setCpf(customerForm.getCpf());
 
@@ -102,6 +130,7 @@ public class CustomerService {
         CustomerDto customerDto = new CustomerDto();
 
         customerDto.setName(customerModel.getName());
+        customerDto.setEmail(customerModel.getEmail());
         customerDto.setBirthDate(customerModel.getBirthDate());
         customerDto.setCpf(customerModel.getCpf());
         customerDto.setIsActive(customerModel.getIsActive());

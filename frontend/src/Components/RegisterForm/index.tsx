@@ -3,34 +3,45 @@ import axios from "axios";
 import { FormContainer, FormInput, FormRow } from "./styles";
 import SubmitButton from "../SubmitButton";
 
+interface IRegisterUser {
+  name: String,
+  email: String,
+  cpf: String,
+  birthDate: String,
+  password: String,
+}
+
 const RegistrationForm: React.FC = () => {
-  const [fullName, setFullName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
-  const [birthdate, setBirthdate] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent, registUser: IRegisterUser) => {
     event.preventDefault();
     if (validatePassword()) {
-      await registerUser();
+      await registerUser(registUser);
     } else {
       alert("A senha e a confirmação de senha não coincidem.");
     }
   };
 
-  async function registerUser(): Promise<void> {
+  async function registerUser(registUser: IRegisterUser): Promise<void> {
     try {
-      const response = await axios.post("http://localhost:8080/api/management/customers", {
-        fullName,
-        email,
-        cpf,
-        birthdate,
-        password,
-        confirmPassword,
+      await axios.post("http://localhost:8080/api/management/customers/register", {
+        name: registUser.name,
+        email: registUser.email,
+        birthDate: registUser.birthDate,
+        cpf: registUser.cpf,
+        password: registUser.password,
+      }
+      ).then(function (response) {
+        alert("Usuário cadastrado com sucesso!");
+      }).catch(function (error) {
+        console.log(error);
       });
-      alert("Usuário cadastrado com sucesso!");
     } catch (error) {
       console.error(error);
     }
@@ -42,13 +53,18 @@ const RegistrationForm: React.FC = () => {
 
   return (
     <FormContainer>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(event) => handleSubmit(event, 
+                                    {
+                                      name: name, email: email, 
+                                      cpf: cpf, birthDate: birthDate, 
+                                      password: password
+                                    })}>
         <FormRow>
           <FormInput
             type="text"
             placeholder="Nome completo"
-            value={fullName}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => setFullName(event.target.value)}
+            value={name}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
           />
           <FormInput
             type="email"
@@ -67,8 +83,8 @@ const RegistrationForm: React.FC = () => {
           <FormInput
             type="text"
             placeholder="Data de nascimento"
-            value={birthdate}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => setBirthdate(event.target.value)}
+            value={birthDate}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => setBirthDate(event.target.value)}
           />
         </FormRow>
         <FormRow>

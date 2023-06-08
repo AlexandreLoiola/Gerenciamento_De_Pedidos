@@ -18,6 +18,9 @@ public class CustomerModel {
     @Column(name = "name", length = 256, nullable = false)
     private String name;
 
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
     @Column(name = "birthDate", nullable = false)
     private LocalDate birthDate;
 

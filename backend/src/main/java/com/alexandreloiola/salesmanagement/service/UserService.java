@@ -34,7 +34,7 @@ public class UserService {
 
     public UserDto getUserByName(String name) {
         try {
-            UserModel userModel = userRepository.findByName(name).get();
+            UserModel userModel = userRepository.findByEmail(name).get();
             return convertModelToDto(userModel);
         } catch(NoSuchElementException err) {
             throw new ObjectNotFoundException("Usuário não encontrado!");
@@ -43,7 +43,7 @@ public class UserService {
 
     public UserDto login(String name, String password) {
         try {
-            UserModel userModel = userRepository.findByName(name).orElseThrow(
+            UserModel userModel = userRepository.findByEmail(name).orElseThrow(
                     () -> new ObjectNotFoundException("Credenciais de login inválidas")
             );
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -63,6 +63,7 @@ public class UserService {
             newUser.setIsActive(true);
             newUser = userRepository.save(newUser);
 
+
             return convertModelToDto(newUser);
         } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do usuário não foi(foram) devidamente preenchido(s).");
@@ -73,7 +74,7 @@ public class UserService {
     @Transactional
     public UserDto updateUser(String name, UserUpdateForm userUpdateForm) {
         try {
-            Optional<UserModel> userModel = userRepository.findByName(name);
+            Optional<UserModel> userModel = userRepository.findByEmail(name);
             if (userModel.isPresent()) {
                 UserModel userUpdated = userModel.get();
                 userUpdated.setPassword(userUpdateForm.getPassword());
@@ -103,12 +104,13 @@ public class UserService {
         UserModel userModel = new UserModel();
 
         try {
-            CustomerModel customerModel = customerRepository.findByName(userform.getName()).get();
+            CustomerModel customerModel = customerRepository.findByEmail(userform.getEmail()).get();
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| " + customerModel);
             userModel.setCustomerModel(customerModel);
         } catch (NoSuchElementException err) {
             throw new ObjectNotFoundException("O usuário não foi encontrado");
         }
-        userModel.setName(userform.getName());
+        userModel.setEmail(userform.getEmail());
         userModel.setPassword(new BCryptPasswordEncoder().encode(userform.getPassword()));
         return userModel;
     }
@@ -116,7 +118,7 @@ public class UserService {
     private UserDto convertModelToDto(UserModel userModel) {
         UserDto userDto = new UserDto();
 
-        userDto.setName(userModel.getName());
+        userDto.setEmail(userModel.getEmail());
         userDto.setIsActive(userModel.getIsActive());
 
         return userDto;

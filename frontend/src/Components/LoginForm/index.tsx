@@ -14,7 +14,6 @@ const LoginForm: React.FC = () => {
   };
 
   async function validateLogin(email: string, password: string): Promise<void> {
-    
     try {
       axios.post('http://localhost:8080/api/management/users/login', {
           name: email,

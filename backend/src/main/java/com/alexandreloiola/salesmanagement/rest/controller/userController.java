@@ -38,7 +38,7 @@ public class userController {
     public ResponseEntity<UserDto> login(
             @Valid @RequestBody UserForm userForm
     ) {
-        UserDto userDto  = userService.login(userForm.getName(), userForm.getPassword());
+        UserDto userDto  = userService.login(userForm.getEmail(), userForm.getPassword());
         return ResponseEntity.ok().body(userDto);
     }
 
