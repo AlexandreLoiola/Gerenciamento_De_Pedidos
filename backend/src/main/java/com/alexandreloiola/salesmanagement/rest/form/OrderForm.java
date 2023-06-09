@@ -1,10 +1,6 @@
 package com.alexandreloiola.salesmanagement.rest.form;
 
-import com.alexandreloiola.salesmanagement.model.SellerModel;
-import com.alexandreloiola.salesmanagement.rest.dto.CustomerDto;
-import com.alexandreloiola.salesmanagement.rest.dto.SellerDto;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import lombok.Data;
 
 import java.math.BigDecimal;

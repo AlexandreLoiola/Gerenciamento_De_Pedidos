@@ -4,7 +4,7 @@ import com.alexandreloiola.salesmanagement.rest.dto.ProductDto;
 import com.alexandreloiola.salesmanagement.rest.form.ProductForm;
 import com.alexandreloiola.salesmanagement.rest.form.ProductUpdateForm;
 import com.alexandreloiola.salesmanagement.service.ProductService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

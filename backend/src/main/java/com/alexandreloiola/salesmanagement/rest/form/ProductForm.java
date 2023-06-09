@@ -1,7 +1,6 @@
 package com.alexandreloiola.salesmanagement.rest.form;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.*;
+import javax.validation.constraints.*;
 import jdk.jfr.BooleanFlag;
 import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;

@@ -1,7 +1,6 @@
 package com.alexandreloiola.salesmanagement.rest.form;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.*;;
 import lombok.Data;
 
 import java.math.BigDecimal;

@@ -1,7 +1,8 @@
 package com.alexandreloiola.salesmanagement.rest.form;
 
+import javax.validation.constraints.*;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;
 

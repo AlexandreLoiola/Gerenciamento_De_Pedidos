@@ -1,8 +1,6 @@
 package com.alexandreloiola.salesmanagement.model;
 
-import com.alexandreloiola.salesmanagement.rest.dto.CustomerDto;
-import com.alexandreloiola.salesmanagement.rest.dto.SellerDto;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;

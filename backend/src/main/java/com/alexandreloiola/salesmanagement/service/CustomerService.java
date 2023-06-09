@@ -1,7 +1,6 @@
 package com.alexandreloiola.salesmanagement.service;
 
 import com.alexandreloiola.salesmanagement.model.CustomerModel;
-import com.alexandreloiola.salesmanagement.model.SellerModel;
 import com.alexandreloiola.salesmanagement.repository.CustomerRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.CustomerDto;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerForm;
@@ -10,7 +9,7 @@ import com.alexandreloiola.salesmanagement.rest.form.RegisterCustomerForm;
 import com.alexandreloiola.salesmanagement.rest.form.UserForm;
 import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;

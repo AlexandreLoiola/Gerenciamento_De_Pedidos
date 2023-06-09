@@ -5,7 +5,7 @@ import com.alexandreloiola.salesmanagement.service.CustomerService;
 import com.alexandreloiola.salesmanagement.rest.dto.CustomerDto;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerForm;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerUpdateForm;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

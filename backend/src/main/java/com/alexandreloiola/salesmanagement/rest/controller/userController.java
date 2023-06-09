@@ -1,12 +1,10 @@
 package com.alexandreloiola.salesmanagement.rest.controller;
 
 import com.alexandreloiola.salesmanagement.rest.dto.UserDto;
-import com.alexandreloiola.salesmanagement.rest.form.SellerForm;
 import com.alexandreloiola.salesmanagement.rest.form.UserForm;
 import com.alexandreloiola.salesmanagement.rest.form.UserUpdateForm;
 import com.alexandreloiola.salesmanagement.service.UserService;
-import jakarta.validation.Valid;
-import org.apache.catalina.User;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

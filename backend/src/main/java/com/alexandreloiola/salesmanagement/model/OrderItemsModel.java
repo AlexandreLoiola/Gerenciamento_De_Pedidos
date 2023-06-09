@@ -1,6 +1,6 @@
 package com.alexandreloiola.salesmanagement.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Entity

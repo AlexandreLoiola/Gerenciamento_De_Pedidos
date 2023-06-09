@@ -4,8 +4,7 @@ import com.alexandreloiola.salesmanagement.service.exceptions.BusinessRuleExcept
 import com.alexandreloiola.salesmanagement.service.exceptions.ConstraintException;
 import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

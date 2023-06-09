@@ -1,6 +1,6 @@
 package com.alexandreloiola.salesmanagement.rest.form;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import lombok.Data;
 
 @Data

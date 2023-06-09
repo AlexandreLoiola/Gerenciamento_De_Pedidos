@@ -1,9 +1,8 @@
 package com.alexandreloiola.salesmanagement.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import javax.persistence.*;
 import lombok.Data;
-import jakarta.persistence.*;
+
 
 import java.time.LocalDate;
 

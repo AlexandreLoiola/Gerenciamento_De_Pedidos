@@ -7,7 +7,7 @@ import com.alexandreloiola.salesmanagement.rest.form.SellerForm;
 import com.alexandreloiola.salesmanagement.rest.form.SellerUpdateForm;
 import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;

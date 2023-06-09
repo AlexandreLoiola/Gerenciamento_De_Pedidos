@@ -1,7 +1,6 @@
 package com.alexandreloiola.salesmanagement.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import javax.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;

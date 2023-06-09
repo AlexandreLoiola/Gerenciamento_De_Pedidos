@@ -1,7 +1,7 @@
 package com.alexandreloiola.salesmanagement.rest.form;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.*;
+import javax.validation.constraints.*;
 import jdk.jfr.BooleanFlag;
 import lombok.Data;
 
