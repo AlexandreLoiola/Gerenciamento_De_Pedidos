@@ -105,7 +105,6 @@ public class UserService {
 
         try {
             CustomerModel customerModel = customerRepository.findByEmail(userform.getEmail()).get();
-            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| " + customerModel);
             userModel.setCustomerModel(customerModel);
         } catch (NoSuchElementException err) {
             throw new ObjectNotFoundException("O usuário não foi encontrado");

@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { FormContainer, FormInput } from "./styles";
 import SubmitButton from "../SubmitButton";
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
