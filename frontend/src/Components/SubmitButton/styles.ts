@@ -18,7 +18,11 @@ export const Button = styled.button`
 
   &:hover {
     background-color: #3D9F2A;
-    font-size: 18px;
-    transition: font-size .5s;
+    transition: font-size 3s;
+  } 
+
+  &:active {
+    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+    transform: translateY(2px);
   }
 `;

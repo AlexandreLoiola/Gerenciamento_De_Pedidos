@@ -15,9 +15,9 @@ const BigButton: React.FC<Iprops> = (props) => {
     navigate(props.redirectTo);
   }  
   return (
-            <Button onClick={handleButtonClick}>
-              {props.title}
-            </Button>
+      <Button onClick={handleButtonClick}>
+        {props.title}
+      </Button>
   )
 };
 

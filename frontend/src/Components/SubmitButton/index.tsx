@@ -3,7 +3,7 @@ import { Button } from './styles';
 
 interface Iprops {
   title: String;
-  style?: React.CSSProperties
+  style?: React.CSSProperties;
 }
 
 const SubmitButton: React.FC<Iprops> = (props) => {
