@@ -6,6 +6,8 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register';
 import ProductCatalog from '../Pages/ProductCatalog';
+import MyOrders from '../Pages/MyOrders';
+import ManagementSeller from '../Pages/ManagementSeller';
 
 const router = createBrowserRouter([
     {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
             {
               path: "/catalogo-de-produtos",
               element: <ProductCatalog />
+            },
+            {
+              path: "/meus-pedidos",
+              element: <MyOrders />
+            },
+            {
+              path: "/gerenciar-vendedores",
+              element: <ManagementSeller />
             }
         ]
     },

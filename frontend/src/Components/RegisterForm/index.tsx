@@ -62,7 +62,9 @@ const RegistrationForm: React.FC = () => {
                                       name: name, email: email, 
                                       cpf: cpf, birthDate: birthDate, 
                                       password: password
-                                    })}>
+                                    })}
+                                    
+      >
         <FormRow>
           <FormInput
             type="text"

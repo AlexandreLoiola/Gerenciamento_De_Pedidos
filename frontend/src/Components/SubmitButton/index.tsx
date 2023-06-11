@@ -3,11 +3,12 @@ import { Button } from './styles';
 
 interface Iprops {
   title: String;
+  style?: React.CSSProperties
 }
 
 const SubmitButton: React.FC<Iprops> = (props) => {
     return (
-        <Button type="submit">{props.title}</Button>
+        <Button style={props.style} type="submit">{props.title}</Button>
     )
   };
 
