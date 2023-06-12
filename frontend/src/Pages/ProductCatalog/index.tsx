@@ -22,7 +22,6 @@ const ProductCatalog: React.FC = () => {
         .get<IProduct[]>("http://localhost:8080/api/management/products")
         .then((response) => {
           setProducts(response.data);
-          alert()
         })
         .catch((error) => {
           console.error("AXIOS ERROR : ", error);

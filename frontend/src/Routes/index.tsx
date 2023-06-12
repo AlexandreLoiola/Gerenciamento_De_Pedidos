@@ -9,6 +9,7 @@ import ProductCatalog from '../Pages/ProductCatalog';
 import MyOrders from '../Pages/MyOrders';
 import ManagementSeller from '../Pages/ManagementSeller';
 import ManagementCustomer from '../Pages/ManagementCustomer';
+import ManagementProduct from '../Pages/ManagementProduct';
 
 const router = createBrowserRouter([
     {
@@ -41,8 +42,12 @@ const router = createBrowserRouter([
               element: <ManagementSeller />
             },
             {
-              path: "gerenciar-clientes",
+              path: "/gerenciar-clientes",
               element: <ManagementCustomer />
+            },
+            {
+              path: "/gerenciar-produtos",
+              element: <ManagementProduct />
             }
         ]
     },
