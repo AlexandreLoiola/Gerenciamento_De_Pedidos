@@ -1,61 +1,131 @@
-import React, { useState } from "react";
-import {FormContainer, FormInput, FormRow, ButtonContainer} from './styles'
+import React, { ChangeEvent, useState } from "react";
+import {FormContainer, FormInput, FormRow, ButtonContainer, SearchFormInput} from './styles';
 import SubmitButton from "../../Components/SubmitButton";
-
 import MainHeader from "../../Components/Header";
 
+import axios from "axios";
+
+interface IFormData {
+  name: string,
+  cpf: string,
+  birthDate: string,
+  status?: string,
+  email: string,
+  password?: string,
+}
 
 const ManagementSeller = () => {
+    const [formData, setFormData] = useState<IFormData[]>([])
+
     const [identifier, setIdentifier] = useState("");
-    const [formData, setFormData] = useState({
-        fullName: "",
-        cpf: "",
-        birthDate: "",
-        status: "",
-        password: "",
-        email: "",
-    });
+    const [name, setName] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [birthDate, setBirthDate] = useState("");
+    const [status, setStatus] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-  const handleSearch = () => {
-    //AXIOS.GET
-    window.alert(identifier);
+  // NÃO SERÁ POSSÍVEL REGISTRAR O VENDEDOR POR ENQUANTO
+  const handleCreate = async () => {
+    try {
+      await axios.post<IFormData>('http://localhost:8080/api/management/sellers', {
+          name: name,
+          email: email,
+          birthDate: birthDate,
+          cpf: cpf,
+      })
+      .then((response) => {
+        alert("Vendedor Cadastrado");
+      })
+      .catch((error) => {
+        alert("Não foi possível cadastrar o vendedor");
+        console.error(error);
+      })
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
+  const handleFetch = async () => {
+    try {
+      await axios
+        .get<IFormData[]>('http://localhost:8080/api/management/sellers')
+        .then((response) => {
+          setFormData(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+      });
+    } catch(error) {
+        console.error(error);
+    };
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIdentifier(event.target.value);
-  };
+  const handleUpdate = async (id: string, name: string, email: string, birthDate: string, status: string) => {
+    try {
+      await axios
+        .put(`http://localhost:8080/api/management/sellers/${id}`, {
+          name: name,
+          email: email,
+          birthDate: birthDate,
+          isActive: status
+      })
+      .then((response) => {
+        alert('Vendedor Atualizado');
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    } catch(error) {
+        alert('O Vendedor não foi Atualizado');
+        console.error(error);
+    }
+  }
+
+  const handleDelete = async (id: string) => {
+    try {
+      await axios
+        .delete(`http://localhost:8080/api/management/sellers/${id}`)
+        .then(() => {
+          alert('Vendedor Deletado!');
+        })
+        .catch((error) => {
+          alert('Não foi possível deletar o vendedor');
+        })
+    } catch(error) {
+      console.error(error);
+    }
+  }
 
   return (
     <>
         <MainHeader title={"Gerenciador de Vendedores"} />
           <FormContainer>
             <form>
-            <FormRow>
+            <SearchFormInput>
               <FormInput
                 type="text"
                 value={identifier}
-                onChange={handleChange}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setIdentifier(event.target.value)}
                 placeholder="Identificador"
-                style={{ width: "900px", margin: "auto", marginLeft: "15%" , position: "relative", zIndex: 1, marginBottom: "20px" }}
               />
-              <SubmitButton style={{backgroundColor: "#4169E1", marginTop: "0px", marginLeft: "50px", height: "60px", width: "280px", paddingTop: "25px" }} title={'BUSCAR'}/>
-            </FormRow>
+              <SubmitButton onClick={handleFetch} style={{backgroundColor: "#4169E1"}} title={'BUSCAR'}/>
+            </SearchFormInput>
               <FormRow >
                   <FormInput
                       type="text"
                       id="fullName"
                       name="fullName"
-                      value={formData.fullName}
-                      onChange={handleChange}
+                      value={name}
+                      onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
                       placeholder="Nome completo"
-                      style={{ marginLeft: "17.5%" }}
                   />
                   <FormInput
                 type="text"
                 id="cpf"
                 name="cpf"
-                value={formData.cpf}
-                onChange={handleChange}
+                value={cpf}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setCpf(event.target.value)}
                 placeholder="CPF"
             />
           </FormRow>
@@ -64,17 +134,16 @@ const ManagementSeller = () => {
               type="text"
               id="birthDate"
               name="birthDate"
-              value={formData.birthDate}
-              onChange={handleChange}
+              value={birthDate}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setBirthDate(event.target.value)}
               placeholder="Data de Nascimento"
-              style={{ marginLeft: "17.5%" }}
             />
             <FormInput
               type="text"
               id="status"
               name="status"
-              value={formData.status}
-              onChange={handleChange}
+              value={status}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setStatus(event.target.value)}
               placeholder="Status"
             />
           </FormRow>
@@ -83,17 +152,16 @@ const ManagementSeller = () => {
               type="email"
               id="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
               placeholder="E-mail"
-              style={{ marginLeft: "17.5%" }}
             />
             <FormInput
               type="password"
               id="password"
               name="password"
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
               placeholder="Senha"
               
             />
@@ -102,9 +170,9 @@ const ManagementSeller = () => {
       </FormContainer>
       
       <ButtonContainer>
-        <SubmitButton style={{backgroundColor: "#FF8C00"}} title={'ALTERAR'}/>
-        <SubmitButton style={{backgroundColor: "#008000"}} title={'CADASTRAR'}/>
-        <SubmitButton style={{backgroundColor: "#FF0000"}} title={'DELETAR'}/>
+        <SubmitButton onClick={() => handleUpdate(identifier, name, email, birthDate, status)} style={{backgroundColor: "#FF8C00"}} title={'ALTERAR'}/>
+        <SubmitButton onClick={handleCreate} style={{backgroundColor: "#008000"}} title={'CADASTRAR'}/>
+        <SubmitButton onClick={() => handleDelete(identifier)} style={{backgroundColor: "#FF0000"}} title={'DELETAR'}/>
       </ButtonContainer>
     </>
   );

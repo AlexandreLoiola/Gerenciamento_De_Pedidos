@@ -5,7 +5,7 @@ import com.alexandreloiola.salesmanagement.repository.CustomerRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.CustomerDto;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerForm;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerUpdateForm;
-import com.alexandreloiola.salesmanagement.rest.form.RegisterCustomerForm;
+import com.alexandreloiola.salesmanagement.rest.form.CustomerRegisterForm;
 import com.alexandreloiola.salesmanagement.rest.form.UserForm;
 import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
@@ -29,7 +29,7 @@ public class CustomerService {
     private UserService userService;
 
     @Transactional
-    public CustomerDto registerCustomer(RegisterCustomerForm registerCustomerForm) {
+    public CustomerDto registerCustomer(CustomerRegisterForm registerCustomerForm) {
         try {
             CustomerForm customerForm = new CustomerForm();
             customerForm.setName(registerCustomerForm.getName());

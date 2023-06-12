@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import java.time.LocalDate;
 
 @Data
-public class RegisterCustomerForm {
+public class CustomerRegisterForm {
 
     @NotEmpty
     @NotBlank(message = "O campo nome não pode ficar em branco.")

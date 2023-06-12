@@ -16,6 +16,11 @@ public class SellerForm {
     @Size(max = 256)
     private String name;
 
+    @NotEmpty
+    @NotBlank(message = "O campo email não pode ficar em branco.")
+    @Size(max = 256)
+    private String email;
+
     @NotNull(message = "O campo data não pode ficar em branco.")
     @Past(message = "A data de nascimento informada deve ser anterior a data de hoje.")
     @JsonFormat(pattern = "dd/MM/yyyy")

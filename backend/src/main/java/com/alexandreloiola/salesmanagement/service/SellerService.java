@@ -3,8 +3,7 @@ package com.alexandreloiola.salesmanagement.service;
 import com.alexandreloiola.salesmanagement.model.SellerModel;
 import com.alexandreloiola.salesmanagement.repository.SellerRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.SellerDto;
-import com.alexandreloiola.salesmanagement.rest.form.SellerForm;
-import com.alexandreloiola.salesmanagement.rest.form.SellerUpdateForm;
+import com.alexandreloiola.salesmanagement.rest.form.*;
 import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
 import javax.transaction.Transactional;
@@ -22,6 +21,31 @@ public class SellerService {
 
     @Autowired
     private SellerRepository sellerRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @Transactional
+    public SellerDto registerSeller(SellerRegisterForm registerSellerForm) {
+        try {
+            SellerForm sellerForm = new SellerForm();
+            sellerForm.setName(registerSellerForm.getName());
+            sellerForm.setEmail(registerSellerForm.getEmail());
+            sellerForm.setBirthDate(registerSellerForm.getBirthDate());
+            sellerForm.setCpf(registerSellerForm.getCpf());
+
+            UserForm userForm = new UserForm();
+            userForm.setEmail(registerSellerForm.getEmail());
+            userForm.setPassword(registerSellerForm.getPassword());
+
+            SellerDto sellerDto = this.insertSeller(sellerForm);
+            userService.insertUser(userForm);
+
+            return sellerDto;
+        } catch (DataIntegrityViolationException err) {
+            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do Cadastro do cliente não foi(foram) devidamente preenchido(s).");
+        }
+    }
 
     public List<SellerDto> getAllSellers() {
         List<SellerModel> sellerList = sellerRepository.findAll();
@@ -92,6 +116,7 @@ public class SellerService {
         SellerModel sellerModel = new SellerModel();
 
         sellerModel.setName(sellerForm.getName());
+        sellerModel.setEmail(sellerForm.getEmail());
         sellerModel.setBirthDate(sellerForm.getBirthDate());
         sellerModel.setCpf(sellerForm.getCpf());
 
@@ -102,6 +127,7 @@ public class SellerService {
         SellerDto sellerDto = new SellerDto();
 
         sellerDto.setName(sellerModel.getName());
+        sellerDto.setEmail(sellerModel.getEmail());
         sellerDto.setBirthDate(sellerModel.getBirthDate());
         sellerDto.setCpf(sellerModel.getCpf());
         sellerDto.setIsActive(sellerModel.getIsActive());

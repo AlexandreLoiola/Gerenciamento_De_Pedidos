@@ -1,14 +1,14 @@
 package com.alexandreloiola.salesmanagement.rest.form;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import javax.validation.constraints.*;
-import jdk.jfr.BooleanFlag;
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Data
-public class SellerUpdateForm {
+public class SellerRegisterForm {
 
     @NotEmpty
     @NotBlank(message = "O campo nome não pode ficar em branco.")
@@ -25,8 +25,14 @@ public class SellerUpdateForm {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
 
-    @NotNull
-    @BooleanFlag
-    private Boolean isActive;
+    @NotEmpty
+    @NotBlank(message = "O campo CPF não pode ficar em branco")
+    @CPF(message = "O CPF informado é inválido")
+    @Size(min = 11, max = 11)
+    private String cpf;
 
+    @NotEmpty
+    @NotBlank(message = "O campo senha não pode ficar vazio")
+    @Size(min = 8, max = 50, message = "Senha do Pessoa deve ter entre 8 e 50 caracteres.")
+    private String password;
 }

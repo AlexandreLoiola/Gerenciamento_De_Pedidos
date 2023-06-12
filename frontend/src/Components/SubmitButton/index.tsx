@@ -4,11 +4,12 @@ import { Button } from './styles';
 interface Iprops {
   title: String;
   style?: React.CSSProperties;
+  onClick?: () => void;
 }
 
 const SubmitButton: React.FC<Iprops> = (props) => {
     return (
-        <Button style={props.style} type="submit">{props.title}</Button>
+        <Button onClick={props.onClick} style={props.style} type="submit">{props.title}</Button>
     )
   };
 

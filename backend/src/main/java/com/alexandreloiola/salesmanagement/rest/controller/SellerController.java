@@ -2,6 +2,7 @@ package com.alexandreloiola.salesmanagement.rest.controller;
 
 import com.alexandreloiola.salesmanagement.rest.dto.SellerDto;
 import com.alexandreloiola.salesmanagement.rest.form.SellerForm;
+import com.alexandreloiola.salesmanagement.rest.form.SellerRegisterForm;
 import com.alexandreloiola.salesmanagement.rest.form.SellerUpdateForm;
 import com.alexandreloiola.salesmanagement.service.SellerService;
 import javax.validation.Valid;
@@ -17,6 +18,14 @@ public class SellerController {
 
     @Autowired
     private SellerService sellerService;
+
+    @PostMapping("/register")
+    public ResponseEntity<SellerDto> registerSeller(
+            @Valid @RequestBody SellerRegisterForm sellerRegisterForm
+    ) {
+        SellerDto sellerDto = sellerService.registerSeller(sellerRegisterForm);
+        return ResponseEntity.ok().body(sellerDto);
+    }
 
     @GetMapping
     public ResponseEntity<List<SellerDto>> getAllSellers() {
