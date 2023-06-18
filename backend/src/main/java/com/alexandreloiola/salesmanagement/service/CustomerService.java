@@ -2,6 +2,7 @@ package com.alexandreloiola.salesmanagement.service;
 
 import com.alexandreloiola.salesmanagement.model.CustomerModel;
 import com.alexandreloiola.salesmanagement.repository.CustomerRepository;
+import com.alexandreloiola.salesmanagement.repository.UserRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.CustomerDto;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerForm;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerUpdateForm;
@@ -109,6 +110,7 @@ public class CustomerService {
         try {
             if(customerRepository.existsById(id)) {
                 customerRepository.deleteById(id);
+                userService.deleteUser(id);
             } else {
                 throw new DataIntegrityViolationException("O cliente não pode ser deletado");
             }
