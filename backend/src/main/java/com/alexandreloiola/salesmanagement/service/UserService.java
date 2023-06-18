@@ -68,7 +68,6 @@ public class UserService {
         } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do usuário não foi(foram) devidamente preenchido(s).");
         }
-
     }
 
     @Transactional

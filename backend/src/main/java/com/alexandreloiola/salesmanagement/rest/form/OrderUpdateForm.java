@@ -1,6 +1,6 @@
 package com.alexandreloiola.salesmanagement.rest.form;
 
-import javax.validation.constraints.*;;
+import javax.validation.constraints.*;
 import lombok.Data;
 
 import java.math.BigDecimal;

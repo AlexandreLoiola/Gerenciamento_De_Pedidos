@@ -14,7 +14,7 @@ public class OrderModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code_order", nullable = false, unique = false)
+    @Column(name = "code_order", nullable = false, unique = true)
     private Long orderNumber;
 
     @Column(name = "price", nullable = false)

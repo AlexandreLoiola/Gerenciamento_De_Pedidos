@@ -46,7 +46,9 @@ public class CustomerService {
 
             return customerDto;
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do Cadastro do cliente não foi(foram) devidamente preenchido(s).");
+            throw new DataIntegrityViolationException(
+                    "Campo(s) obrigatório(s) do Cadastro do cliente não foi(foram) devidamente preenchido(s)."
+            );
         }
     }
 

@@ -1,14 +1,49 @@
-import React from 'react'
+import React from "react";
 
-import { ProductCardContainer, LeftSide, Title, Price, BuyButton, Description, RightSide } from './styles';
+import { useNavigate } from "react-router-dom";
+
+import {
+  ProductCardContainer,
+  LeftSide,
+  Title,
+  Price,
+  Description,
+  RightSide,
+} from "./styles";
+import SubmitButton from "../SubmitButton";
 
 interface IProps {
   title: string;
   description: string;
   price: number;
-};
+  addToCart: (item: ICartItem) => void;
+}
 
-const ProductCard: React.FC<IProps> = ({ title, description, price }) => {
+interface ICartItem {
+  nameProduct: string;
+  unitPrice: number;
+  quantity: number;
+}
+
+const ProductCard: React.FC<IProps> = ({
+  title,
+  description,
+  price,
+}) => {
+  const handleBuy = () => {
+    const newItem: ICartItem = {
+      nameProduct: title,
+      unitPrice: price,
+      quantity: 1,
+    };
+  };
+
+  const navigate = useNavigate();
+
+  const handleGoToCart = () => {
+    navigate("/cart", { state: { cartItems } });
+  };
+
   return (
     <ProductCardContainer>
       <LeftSide>
@@ -17,7 +52,7 @@ const ProductCard: React.FC<IProps> = ({ title, description, price }) => {
       </LeftSide>
       <RightSide>
         <Price>${price}</Price>
-        <BuyButton>COMPRAR</BuyButton>
+        <SubmitButton onClick={handleBuy} title={"Adicionar ao carrinho"} />
       </RightSide>
     </ProductCardContainer>
   );

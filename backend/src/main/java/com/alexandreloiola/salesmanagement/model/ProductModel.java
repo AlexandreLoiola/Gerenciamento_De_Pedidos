@@ -12,7 +12,7 @@ public class ProductModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 128, nullable = false)
+    @Column(name = "name", length = 128, nullable = false, unique = true)
     private String name;
 
     @Column(name = "description", length = 256, nullable = false)

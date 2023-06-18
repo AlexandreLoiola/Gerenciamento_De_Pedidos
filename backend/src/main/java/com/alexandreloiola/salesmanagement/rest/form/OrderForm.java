@@ -8,13 +8,6 @@ import java.math.BigDecimal;
 @Data
 public class OrderForm {
 
-    @NotNull
-    private Long orderNumber;
-
-    @NotNull(message = "Insira o preço do pedido")
-    @DecimalMin(value = "0.00", message = "O preço do produto não pode ser negativo")
-    private BigDecimal price;
-
     @NotNull(message = "Insira o status do produto")
     private String status;
 

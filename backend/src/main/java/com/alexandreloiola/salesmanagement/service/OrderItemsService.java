@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -42,17 +44,38 @@ public class OrderItemsService {
         }
     }
 
+    @Transactional
     public OrderItemsDto insertOrderItems(OrderItemsForm orderItemsForm) {
         try {
-            OrderItemsModel newOrderItemsModel = convertFormToModel(orderItemsForm);
-            newOrderItemsModel = orderItemsRepository.save(newOrderItemsModel);
+            long orderId = orderRepository
+                    .findByOrderNumber(orderItemsForm.getOrderNumber()).get().getId();
+            long productId = productRepository
+                    .findByName(orderItemsForm.getProductName()).get().getId();
 
-            return convertModelToDto(newOrderItemsModel);
+            if (orderItemsRepository.findByOrderIdAndProductId(orderId, productId).isPresent()) {
+                OrderItemsModel orderItemsModel = orderItemsRepository.findByOrderIdAndProductId(orderId, productId).get();
+
+                orderItemsModel.setQuantity(
+                        orderItemsModel.getQuantity() + orderItemsForm.getQuantity()
+                );
+
+                orderItemsModel = orderItemsRepository.save(orderItemsModel);
+                return convertModelToDto(orderItemsModel);
+
+            } else {
+                OrderItemsModel newOrderItemsModel = convertFormToModel(orderItemsForm);
+
+                newOrderItemsModel = orderItemsRepository.save(newOrderItemsModel);
+                return convertModelToDto(newOrderItemsModel);
+            }
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do(s) item(ns) do pedido não foi(foram) devidamente preenchido(s).");
+            throw new DataIntegrityViolationException(
+                    "Campo(s) obrigatório(s) do(s) item(ns) do pedido não foi(foram) devidamente preenchido(s)."
+            );
         }
-    }
+    };
 
+    @Transactional
     public OrderItemsDto updateOrderDto(Long id, OrderItemsUpdateForm orderItemsUpdateForm) {
         try {
             Optional<OrderItemsModel> orderItemsModel = orderItemsRepository.findById(id);
@@ -66,10 +89,13 @@ public class OrderItemsService {
                 throw new DataIntegrityViolationException("O(s) item(ns) do pedido não pode(podem) ser atualizado(s)");
             }
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do(s) item(ns) do pedido não foi(foram) devidamente preenchido(s).");
+            throw new DataIntegrityViolationException(
+                    "Campo(s) obrigatório(s) do(s) item(ns) do pedido não foi(foram) devidamente preenchido(s)."
+            );
         }
-    }
+    };
 
+    @Transactional
     public void deleteOrderItems(Long id) {
         try {
             if (orderItemsRepository.existsById(id)) {

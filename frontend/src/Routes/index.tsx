@@ -10,6 +10,7 @@ import MyOrders from '../Pages/MyOrders';
 import ManagementSeller from '../Pages/ManagementSeller';
 import ManagementCustomer from '../Pages/ManagementCustomer';
 import ManagementProduct from '../Pages/ManagementProduct';
+import Cart from '../Pages/Cart'
 
 const router = createBrowserRouter([
     {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
             {
               path: "/gerenciar-produtos",
               element: <ManagementProduct />
+            },
+            {
+              path: "/carrinho",
+              element: <Cart />
             }
         ]
     },

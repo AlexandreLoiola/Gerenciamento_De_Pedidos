@@ -9,10 +9,15 @@ import java.time.LocalDateTime;
 public class OrderDto {
 
     private Long orderNumber;
+
     private BigDecimal price;
+
     private LocalDateTime dateTime;
+
     private String status;
+
     private String customer;
+
     private String seller;
 
 }
