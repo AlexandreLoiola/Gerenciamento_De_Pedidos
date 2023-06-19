@@ -1,14 +1,14 @@
 package com.alexandreloiola.salesmanagement.model;
 
-import javax.persistence.*;
 import lombok.Data;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Data
-@DiscriminatorValue("Seller")
-public class SellerModel{
+@Table(name = "TB_PROFILE")
+public class ProfileModel {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

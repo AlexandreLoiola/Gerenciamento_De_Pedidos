@@ -41,7 +41,7 @@ const ProductCard: React.FC<IProps> = ({
   const navigate = useNavigate();
 
   const handleGoToCart = () => {
-    navigate("/cart", { state: { cartItems } });
+
   };
 
   return (

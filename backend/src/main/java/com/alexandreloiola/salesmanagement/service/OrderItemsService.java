@@ -53,7 +53,8 @@ public class OrderItemsService {
                     .findByName(orderItemsForm.getProductName()).get().getId();
 
             if (orderItemsRepository.findByOrderIdAndProductId(orderId, productId).isPresent()) {
-                OrderItemsModel orderItemsModel = orderItemsRepository.findByOrderIdAndProductId(orderId, productId).get();
+                OrderItemsModel orderItemsModel = orderItemsRepository
+                        .findByOrderIdAndProductId(orderId, productId).get();
 
                 orderItemsModel.setQuantity(
                         orderItemsModel.getQuantity() + orderItemsForm.getQuantity()

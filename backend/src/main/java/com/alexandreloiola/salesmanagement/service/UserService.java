@@ -41,9 +41,9 @@ public class UserService {
         }
     }
 
-    public UserDto login(String name, String password) {
+    public UserDto login(String email, String password) {
         try {
-            UserModel userModel = userRepository.findByEmail(name).orElseThrow(
+            UserModel userModel = userRepository.findByEmail(email).orElseThrow(
                     () -> new ObjectNotFoundException("Credenciais de login inválidas")
             );
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -52,7 +52,7 @@ public class UserService {
             }
             return convertModelToDto(userModel);
         } catch (ObjectNotFoundException err) {
-            throw err;
+            throw new ObjectNotFoundException("Credenciais de login inválidas");
         }
     }
 
@@ -104,9 +104,9 @@ public class UserService {
 
         try {
             CustomerModel customerModel = customerRepository.findByEmail(userform.getEmail()).get();
-            userModel.setCustomerModel(customerModel);
+            //userModel.setCustomerModel(customerModel);
         } catch (NoSuchElementException err) {
-            throw new ObjectNotFoundException("O usuário não foi encontrado");
+            throw new ObjectNotFoundException("O cliente não foi encontrado");
         }
         userModel.setEmail(userform.getEmail());
         userModel.setPassword(new BCryptPasswordEncoder().encode(userform.getPassword()));

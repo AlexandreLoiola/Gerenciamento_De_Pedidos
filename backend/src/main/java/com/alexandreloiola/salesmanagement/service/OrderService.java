@@ -184,8 +184,8 @@ public class OrderService {
         orderDto.setPrice(orderModel.getPrice());
         orderDto.setDateTime(orderModel.getDataTime());
         orderDto.setStatus(orderModel.getStatus());
-        orderDto.setCustomer(orderModel.getCustomer().getName());
-        orderDto.setSeller(orderModel.getSeller().getName());
+        //orderDto.setCustomer(orderModel.getCustomer().getName());
+       // orderDto.setSeller(orderModel.getSeller().getName());
 
         return orderDto;
     }

@@ -42,7 +42,7 @@ public class CustomerService {
             userForm.setEmail(registerCustomerForm.getEmail());
             userForm.setPassword(registerCustomerForm.getPassword());
 
-            CustomerDto customerDto = this.insertCustomer(customerForm);
+            CustomerDto customerDto = insertCustomer(customerForm);
             userService.insertUser(userForm);
 
             return customerDto;
@@ -51,7 +51,7 @@ public class CustomerService {
                     "Campo(s) obrigatório(s) do Cadastro do cliente não foi(foram) devidamente preenchido(s)."
             );
         }
-    }
+    };
 
     public List<CustomerDto> getAllCustomers() {
         List<CustomerModel> customerList = customerRepository.findAll();
@@ -98,7 +98,7 @@ public class CustomerService {
 
                 return convertModelToDto(customerUpdated);
             } else {
-                throw new DataIntegrityViolationException("O cliente não pode ser atualizado");
+                throw new DataIntegrityViolationException("O cliente não existe");
             }
         } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do cliente não foi(foram) devidamente preenchido(s).");
@@ -112,7 +112,7 @@ public class CustomerService {
                 customerRepository.deleteById(id);
                 userService.deleteUser(id);
             } else {
-                throw new DataIntegrityViolationException("O cliente não pode ser deletado");
+                throw new DataIntegrityViolationException("Este cliente não existe");
             }
         } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Não foi possível deletar o cliente");
