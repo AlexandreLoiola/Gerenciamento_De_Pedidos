@@ -1,5 +1,5 @@
 import React from "react";
-import { HeaderContainer, TitleContainer, TitleText, LogoutIcon, UserIcon } from "./styles";
+import { HeaderContainer, TitleContainer, TitleText, UserIcon } from "./styles";
 import DividerLine from "../Divisor";
 
 interface IProps {
@@ -14,7 +14,6 @@ const MainHeader: React.FC<IProps> = ({ title }) => {
         <TitleText>{title}</TitleText>
         <DividerLine />
       </TitleContainer>
-      <LogoutIcon />
     </HeaderContainer>
   );
 };

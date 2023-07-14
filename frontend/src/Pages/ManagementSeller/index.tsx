@@ -98,7 +98,7 @@ const ManagementSeller = () => {
   }
 
   return (
-    <>
+    <div>
         <MainHeader title={"Gerenciador de Vendedores"} />
           <FormContainer>
             <form>
@@ -174,7 +174,7 @@ const ManagementSeller = () => {
         <SubmitButton onClick={handleCreate} style={{backgroundColor: "#008000"}} title={'CADASTRAR'}/>
         <SubmitButton onClick={() => handleDelete(identifier)} style={{backgroundColor: "#FF0000"}} title={'DELETAR'}/>
       </ButtonContainer>
-    </>
+    </div>
   );
 };
 

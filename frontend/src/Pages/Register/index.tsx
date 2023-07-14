@@ -1,12 +1,20 @@
 import React from "react";
-import PageTitle from "../../Components/HeaderTitle";
 import RegistrationForm from "../../Components/RegisterForm";
-import MainHeader from "../../Components/Header";
+import { HeaderContainer, TitleContainer, TitleText, UserIcon } from "../../Components/Header/styles";
+import DividerLine from "../../Components/Divisor";
+import Logout from "../../Components/Logout";
 
 const Register: React.FC = () => {
     return(
         <>
-            <MainHeader title={'Preencha o formulário'}/>
+            <HeaderContainer>
+                <div style={{width: "30%"}}></div>
+                <TitleContainer>
+                    <TitleText>Página de Cadastro</TitleText>
+                    <DividerLine />
+                </TitleContainer>
+                <Logout redirectTo={"/login"}/>
+            </HeaderContainer>
             <RegistrationForm/>
         </>
     )

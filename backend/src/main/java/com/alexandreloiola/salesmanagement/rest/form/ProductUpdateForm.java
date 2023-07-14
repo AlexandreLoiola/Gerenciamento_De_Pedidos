@@ -25,6 +25,11 @@ public class ProductUpdateForm {
     @DecimalMin(value = "0.00")
     private BigDecimal unitPrice;
 
+    @NotNull(message ="O campo de quantidade não pode ficar vazio")
+    @DecimalMax(value = "99999")
+    @DecimalMin(value = "-99999")
+    private Integer stockQuantity;
+
     @NotNull
     @BooleanFlag
     private Boolean isActive;

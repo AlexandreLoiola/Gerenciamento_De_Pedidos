@@ -27,10 +27,9 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
     @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private SellerRepository sellerRepository;
+    private ProfileRepository profileRepository;
 
     @Autowired
     private OrderItemsRepository orderItemsRepository;
@@ -160,14 +159,14 @@ public class OrderService {
         OrderModel orderModel = new OrderModel();
 
         try {
-            SellerModel sellerModel = sellerRepository.findByName(orderForm.getSeller()).get();
-            orderModel.setSeller(sellerModel);
+            ProfileModel profileSellerModel = profileRepository.findByName(orderForm.getSeller()).get();
+            orderModel.setSeller(profileSellerModel);
         } catch (NoSuchElementException err) {
             throw new ObjectNotFoundException("O vendedor não foi encontrado");
         }
         try {
-            CustomerModel customerModel = customerRepository.findByName(orderForm.getCustomer()).get();
-            orderModel.setCustomer(customerModel);
+            ProfileModel profileCustomerModel = profileRepository.findByName(orderForm.getCustomer()).get();
+            orderModel.setCustomer(profileCustomerModel);
         } catch (NoSuchElementException err) {
             throw new ObjectNotFoundException("O cliente não foi encontrado");
         }
@@ -184,8 +183,8 @@ public class OrderService {
         orderDto.setPrice(orderModel.getPrice());
         orderDto.setDateTime(orderModel.getDataTime());
         orderDto.setStatus(orderModel.getStatus());
-        //orderDto.setCustomer(orderModel.getCustomer().getName());
-       // orderDto.setSeller(orderModel.getSeller().getName());
+        orderDto.setCustomer(orderModel.getCustomer().getName());
+        orderDto.setSeller(orderModel.getSeller().getName());
 
         return orderDto;
     }

@@ -39,7 +39,6 @@ const ManagementCustomer = () => {
       })
       .catch((error) => {
         alert("Não foi possível cadastrar o cliente");
-        console.error(error);
       })
     } catch(error) {
       console.error(error);

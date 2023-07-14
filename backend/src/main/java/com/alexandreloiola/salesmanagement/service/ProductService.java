@@ -1,10 +1,12 @@
 package com.alexandreloiola.salesmanagement.service;
 
+import com.alexandreloiola.salesmanagement.model.CustomerModel;
 import com.alexandreloiola.salesmanagement.model.ProductModel;
 import com.alexandreloiola.salesmanagement.repository.ProductRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.ProductDto;
 import com.alexandreloiola.salesmanagement.rest.form.ProductForm;
 import com.alexandreloiola.salesmanagement.rest.form.ProductUpdateForm;
+import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,6 +39,11 @@ public class ProductService {
 
     public ProductDto insertProduct(ProductForm productForm) {
         try {
+            Optional<ProductModel> byName = productRepository.findByName(productForm.getName());
+            if (byName.isPresent()) {
+                throw new DataIntegrityException("Esse nome já foi cadastrado em um produto");
+            }
+
             ProductModel newProduct = convertFormToModel(productForm);
             newProduct = productRepository.save(newProduct);
 
@@ -54,6 +61,7 @@ public class ProductService {
                 productUpdated.setName(productUpdateForm.getName());
                 productUpdated.setDescription(productUpdated.getDescription());
                 productUpdated.setUnitPrice(productUpdateForm.getUnitPrice());
+                productUpdated.setStockQuantity(productUpdateForm.getStockQuantity());
                 productUpdated.setIsActive(productUpdateForm.getIsActive());
 
                 productRepository.save(productUpdated);
@@ -82,6 +90,7 @@ public class ProductService {
         productModel.setName(productForm.getName());
         productModel.setDescription(productForm.getDescription());
         productModel.setUnitPrice(productForm.getUnitPrice());
+        productModel.setStockQuantity(productForm.getStockQuantity());
         productModel.setIsActive(productForm.getIsActive());
 
         return productModel;
@@ -93,6 +102,7 @@ public class ProductService {
         productDto.setName(productModel.getName());
         productDto.setDescription(productModel.getDescription());
         productDto.setUnitPrice(productModel.getUnitPrice());
+        productDto.setStockQuantity(productModel.getStockQuantity());
         productDto.setIsActive(productModel.getIsActive());
 
         return productDto;

@@ -12,4 +12,7 @@ public interface ProfileRepository extends JpaRepository<ProfileModel, Long> {
     Optional<ProfileModel> findByCpf(String cpf);
 
     Optional<ProfileModel> findByEmail(String email);
+
+    Optional<ProfileModel> findByName(String name);
+
 }

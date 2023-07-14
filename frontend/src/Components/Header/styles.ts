@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { HiOutlineLogout, HiUser } from "react-icons/hi";
+import { HiUser } from "react-icons/hi";
 
 export const HeaderContainer = styled.div`
   display: flex;
@@ -18,14 +18,6 @@ export const TitleContainer = styled.div`
 export const TitleText = styled.h1`
   color: #fff;
   font-size: 32px;
-`;
-
-export const LogoutIcon = styled(HiOutlineLogout)`
-  color: #fff;
-  font-size: 60px;
-  margin-right: 5px;
-  width: 20%;
-  cursor: pointer;
 `;
 
 export const UserIcon = styled(HiUser)`

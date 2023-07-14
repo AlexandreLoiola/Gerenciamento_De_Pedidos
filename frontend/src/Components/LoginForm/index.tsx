@@ -21,11 +21,14 @@ const LoginForm: React.FC = () => {
       axios.post('http://localhost:8080/api/management/users/login', {
           email: email,
           password: password
-      }).then(function (response) {
+      })
+      .then((response) => {
           navigate('/')
-      }).catch(function (error) {
-          window.alert(error);
-      });
+      })
+      .catch((error) => {
+        
+        console.error("/////////////////",error);
+      })
     } catch (error) {
       console.error(error);
     }

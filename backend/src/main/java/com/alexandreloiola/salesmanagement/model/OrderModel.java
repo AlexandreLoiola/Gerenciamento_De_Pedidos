@@ -28,10 +28,10 @@ public class OrderModel {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private CustomerModel customer;
+    private ProfileModel customer;
 
     @ManyToOne
     @JoinColumn(name = "seller_id", referencedColumnName = "id")
-    private SellerModel seller;
+    private ProfileModel seller;
 
 }

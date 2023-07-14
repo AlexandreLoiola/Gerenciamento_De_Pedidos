@@ -17,5 +17,7 @@ public class ProductDto {
 
     private BigDecimal unitPrice;
 
+    private Integer stockQuantity;
+
     private Boolean isActive;
 }

@@ -22,6 +22,10 @@ public class ProductModel {
     @Column(name = "precoUnitario", nullable = false, precision = 18, scale = 2)
     private BigDecimal unitPrice;
 
+    @Column(name = "stockQuantity", length = 6, nullable = false)
+    private Integer stockQuantity;
+
     @Column(name = "isActive", nullable = false)
     private Boolean isActive;
+
 }
