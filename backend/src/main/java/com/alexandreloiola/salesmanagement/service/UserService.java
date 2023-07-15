@@ -1,12 +1,6 @@
 package com.alexandreloiola.salesmanagement.service;
 
-import com.alexandreloiola.salesmanagement.model.CustomerModel;
-import com.alexandreloiola.salesmanagement.model.ProfileModel;
-import com.alexandreloiola.salesmanagement.model.ProfileUserModel;
 import com.alexandreloiola.salesmanagement.model.UserModel;
-import com.alexandreloiola.salesmanagement.repository.CustomerRepository;
-import com.alexandreloiola.salesmanagement.repository.ProfileRepository;
-import com.alexandreloiola.salesmanagement.repository.ProfileUserRepository;
 import com.alexandreloiola.salesmanagement.repository.UserRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.UserDto;
 import com.alexandreloiola.salesmanagement.rest.form.UserForm;
@@ -130,5 +124,4 @@ public class UserService {
         }
         return userDtoList;
     }
-
 }
