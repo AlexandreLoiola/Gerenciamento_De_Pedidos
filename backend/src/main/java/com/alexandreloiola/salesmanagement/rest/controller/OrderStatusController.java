@@ -53,7 +53,7 @@ public class OrderStatusController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<OrderStatusDto> deleteOrderStatusDto(
+    public ResponseEntity<OrderStatusDto> deleteOrderStatus(
             @PathVariable("id") Long id
     ) {
         orderStatusService.deleteOrderStatus(id);
