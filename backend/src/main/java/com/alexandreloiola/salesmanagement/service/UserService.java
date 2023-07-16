@@ -1,6 +1,7 @@
 package com.alexandreloiola.salesmanagement.service;
 
 import com.alexandreloiola.salesmanagement.model.UserModel;
+import com.alexandreloiola.salesmanagement.repository.PersonRepository;
 import com.alexandreloiola.salesmanagement.repository.UserRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.UserDto;
 import com.alexandreloiola.salesmanagement.rest.form.UserForm;
@@ -23,10 +24,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ProfileRepository profileRepository;
-
-    @Autowired
-    private ProfileUserRepository profileUserRepository;
+    private PersonRepository personRepository;
 
     public List<UserDto> getAllUsers() {
         List<UserModel> userDtoList = userRepository.findAll();

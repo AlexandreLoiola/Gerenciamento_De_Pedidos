@@ -29,4 +29,8 @@ public class UserModel {
             inverseJoinColumns = @JoinColumn(name = "id_role")
     )
     private Set<RoleModel> roles = new HashSet<>();
+
+    @OneToOne
+    @JoinColumn(name = "id_person")
+    private PersonModel person;
 }

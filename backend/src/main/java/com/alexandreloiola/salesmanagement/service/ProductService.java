@@ -64,13 +64,13 @@ public class ProductService {
                 productUpdated.setStockQuantity(productUpdateForm.getStockQuantity());
                 productUpdated.setIsActive(productUpdateForm.getIsActive());
 
-                productRepository.save(productUpdated);
+                productUpdated = productRepository.save(productUpdated);
                 return convertModelToDto(productUpdated);
             } else {
-                throw new DataIntegrityViolationException("O vendedor não pode ser atualizado");
+                throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do produto não foi(foram) devidamente preenchido(s).");
             }
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do produto não foi(foram) devidamente preenchido(s).");
+            throw new DataIntegrityViolationException("Esse produto não está cadastrado");
         }
     }
 
@@ -116,4 +116,5 @@ public class ProductService {
         }
         return productDtoList;
     }
+
 }

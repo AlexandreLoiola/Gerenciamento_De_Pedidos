@@ -14,17 +14,18 @@ public class OrderModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code_order", nullable = false, unique = true)
+    @Column(name = "code_order", length = 10, nullable = false, unique = true)
     private Long orderNumber;
 
-    @Column(name = "price", nullable = false)
-    private BigDecimal price;
+    @Column(name = "total_price", precision = 10, scale = 2 , nullable = false)
+    private BigDecimal totalPrice;
 
     @Column(name = "data_time", nullable = false)
     private LocalDateTime dataTime;
 
-    @Column(name = "status", nullable = false)
-    private String status;
+    @OneToOne
+    @JoinColumn(name = "status_id", referencedColumnName = "id")
+    private OrderStatusModel status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
@@ -32,6 +33,6 @@ public class OrderModel {
 
     @ManyToOne
     @JoinColumn(name = "seller_id", referencedColumnName = "id")
-    private SellerModel seller;
+    private EmployeeModel seller;
 
 }
