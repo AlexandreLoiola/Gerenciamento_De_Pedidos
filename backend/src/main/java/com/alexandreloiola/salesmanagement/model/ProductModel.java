@@ -19,7 +19,7 @@ public class ProductModel {
     @Column(name = "description", length = 200, nullable = false)
     private String description;
 
-    @Column(name = "precoUnitario", nullable = false, precision = 10, scale = 2)
+    @Column(name = "unitPrice", nullable = false, precision = 10, scale = 2)
     private BigDecimal unitPrice;
 
     @Column(name = "stockQuantity", length = 6, nullable = false)

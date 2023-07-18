@@ -22,6 +22,6 @@ public class OrderDto {
 
     private String customer;
 
-    private String seller;
+    private String employee;
 
 }

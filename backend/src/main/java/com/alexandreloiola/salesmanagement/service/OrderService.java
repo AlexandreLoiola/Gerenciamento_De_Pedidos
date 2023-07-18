@@ -60,6 +60,7 @@ public class OrderService {
 //            newOrder.setTotalPrice(new BigDecimal(0.00));
 //            newOrder.setOrderNumber(generateOrderNumber());
 //            newOrder.setDataTime(LocalDateTime.now());
+//            newOrder.setStatus("Em processamento");
 //            newOrder = orderRepository.save(newOrder);
 //
 //            return convertModelToDto(newOrder);
@@ -77,7 +78,6 @@ public class OrderService {
 //            Optional<OrderModel> orderModel = orderRepository.findById(id);
 //            if (orderModel.isPresent()) {
 //                OrderModel orderUpdated = orderModel.get();
-//                orderUpdated.setStatus(orderUpdateForm.getStatus());
 //
 //                orderRepository.save(orderUpdated);
 //                return convertModelToDto(orderUpdated);
@@ -158,20 +158,20 @@ public class OrderService {
 //    private OrderModel convertFormToModel(OrderForm orderForm) {
 //        OrderModel orderModel = new OrderModel();
 //
-////        try {
-////            CustomerModel profileSellerModel = personRepository.findByName(orderForm.getSeller()).get();
-////            orderModel.setSeller(Model);
-////        } catch (NoSuchElementException err) {
-////            throw new ObjectNotFoundException("O vendedor não foi encontrado");
-////        }
-////        try {
-////            PersonModel customerModel = personRepository.findByName(orderForm.getCustomer()).get();
-////            orderModel.setCustomer(customerModel);
-////        } catch (NoSuchElementException err) {
-////            throw new ObjectNotFoundException("O cliente não foi encontrado");
-////        }
-////
-////        orderModel.setStatus(orderForm.getStatus());
+//        try {
+//            CustomerModel profileemployeeModel = personRepository.findByName(orderForm.getemployee()).get();
+//            orderModel.setemployee(Model);
+//        } catch (NoSuchElementException err) {
+//            throw new ObjectNotFoundException("O vendedor não foi encontrado");
+//        }
+//        try {
+//            PersonModel customerModel = personRepository.findByName(orderForm.getCustomer()).get();
+//            orderModel.setCustomer(customerModel);
+//        } catch (NoSuchElementException err) {
+//            throw new ObjectNotFoundException("O cliente não foi encontrado");
+//        }
+//
+//        orderModel.setStatus(orderForm.getStatus());
 //
 //        return orderModel;
 //    }
@@ -183,8 +183,8 @@ public class OrderService {
 //        orderDto.setPrice(orderModel.getTotalPrice());
 //        orderDto.setDateTime(orderModel.getDataTime());
 //        orderDto.setStatus(orderModel.getStatus());
-//        orderDto.setCustomer(orderModel.getCustomer().getName());
-//        orderDto.setSeller(orderModel.getSeller().getName());
+//        orderDto.setCustomer(orderModel.getCustomer());
+//        orderDto.setemployee(orderModel.getemployee().getName());
 //
 //        return orderDto;
 //    }

@@ -15,6 +15,6 @@ public class OrderForm {
     private String customer;
 
     @NotNull(message = "Insira o identificador do vendedor")
-    private String seller;
+    private String employee;
 
 }

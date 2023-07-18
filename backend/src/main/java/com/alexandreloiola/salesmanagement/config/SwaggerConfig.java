@@ -41,3 +41,5 @@ public class SwaggerConfig {
                 "alexandre.loiola.741@gmail.com");
     }
 }
+
+// http://localhost:8080/api/management/swagger-ui/index.html#/

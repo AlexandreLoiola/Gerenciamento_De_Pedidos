@@ -15,7 +15,7 @@ public class EmployeePositionModel {
     @Column(name = "description", length = 100, nullable = false, unique = true)
     private String description;
 
-    @Column(name = "isActive", nullable = false)
+    @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
 }

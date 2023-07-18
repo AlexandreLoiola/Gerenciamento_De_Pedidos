@@ -12,12 +12,12 @@ public class ProductForm {
 
     @NotEmpty
     @NotBlank(message = "O campo nome não pode ficar em branco.")
-    @Size(max = 128)
+    @Size(max = 100)
     private String name;
 
     @NotEmpty
     @NotBlank(message = "O campo descrição não pode ficar em branco.")
-    @Size(max = 256)
+    @Size(max = 200)
     private String description;
 
     @NotNull

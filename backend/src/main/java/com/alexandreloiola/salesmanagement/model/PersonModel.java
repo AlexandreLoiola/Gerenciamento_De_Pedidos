@@ -31,10 +31,8 @@ public class PersonModel {
     @OneToOne(mappedBy = "person")
     private UserModel user;
 
-    @OneToOne(mappedBy = "person")
+    @OneToOne
+    @PrimaryKeyJoinColumn
     private CustomerModel customer;
-
-    @OneToOne(mappedBy = "person")
-    private EmployeeModel employee;
 
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -14,9 +15,6 @@ public class CustomerModel{
     @Id
     private Long id;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private PersonModel person;
-
+    @Column(name = "resignation_date", nullable = false)
+    private LocalDate resignationDate;
 }

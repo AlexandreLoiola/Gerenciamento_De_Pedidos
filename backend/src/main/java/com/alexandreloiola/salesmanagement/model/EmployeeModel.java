@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@DiscriminatorValue("TB_EMPLOYEE")
+@Table(name = "TB_EMPLOYEE")
 public class EmployeeModel {
 
     @Id
@@ -24,8 +24,8 @@ public class EmployeeModel {
     private BigDecimal salary;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private PersonModel person;
+    @JoinColumn(name = "id_position", referencedColumnName = "id")
+    private EmployeePositionModel employeePosition;
 
 }
+

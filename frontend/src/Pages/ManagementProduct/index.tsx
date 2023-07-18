@@ -26,6 +26,7 @@ const ManagementProduct = () => {
           description: description,
           unitPrice: unitPrice,
           isActive: status,
+          stockQuantity: 100
         })
         .then((response) => {
           alert("Produto Cadastrado!");
@@ -39,11 +40,13 @@ const ManagementProduct = () => {
     }
   };
 
-  const handleFetch = async () => {
+  const handleFetch = async (id: string) => {
     try {
       await axios
-        .get("http://localhost:8080/api/management/products")
-        .then((response) => {})
+        .get(`http://localhost:8080/api/management/products/${id}`)
+        .then((response) => {
+          alert(JSON.stringify(response.data))
+        })
         .catch((error) => {
           console.error(error);
         });
@@ -66,6 +69,7 @@ const ManagementProduct = () => {
           description: desciption,
           unitPrice: unitPrice,
           isActive: status,
+          stockQuantity: 100
         })
         .then((response) => {
           alert("Produto Atualizado");
@@ -110,7 +114,7 @@ const ManagementProduct = () => {
               placeholder="Identificador"
             />
             <SubmitButton
-              onClick={handleFetch}
+              onClick={() => handleFetch(identifier)}
               style={{ backgroundColor: "#4169E1" }}
               title={"BUSCAR"}
             />
@@ -130,7 +134,7 @@ const ManagementProduct = () => {
               type="number"
               id="quantity"
               name="quantity"
-              min="1"
+              min="0"
               max="99999"
               value={unitPrice}
               onChange={(event: ChangeEvent<HTMLInputElement>) =>

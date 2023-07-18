@@ -23,16 +23,15 @@ public class OrderModel {
     @Column(name = "data_time", nullable = false)
     private LocalDateTime dataTime;
 
-    @OneToOne
-    @JoinColumn(name = "status_id", referencedColumnName = "id")
-    private OrderStatusModel status;
+    @Column(name = "status", nullable = false)
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private CustomerModel customer;
 
     @ManyToOne
-    @JoinColumn(name = "seller_id", referencedColumnName = "id")
-    private EmployeeModel seller;
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private EmployeeModel employee;
 
 }

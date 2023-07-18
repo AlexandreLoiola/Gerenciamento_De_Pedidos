@@ -33,13 +33,13 @@ const RegistrationForm: React.FC = () => {
 
   async function registerUser(registUser: IRegisterUser): Promise<void> {
     try {
-      await axios.post("http://localhost:8080/api/management/profiles/register", {
+      await axios.post("http://localhost:8080/api/management/customers/register", {
         name: registUser.name,
         email: registUser.email,
         birthDate: registUser.birthDate,
         cpf: registUser.cpf,
         password: registUser.password,
-        profileType: "CUSTOMER"
+        resignationDate: "10/04/2002"
       }
       ).then(function (response) {
         alert("Usuário cadastrado com sucesso!");

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -36,6 +37,7 @@ public class RoleService {
         }
     }
 
+    @Transactional
     public RoleDto insertRole(RoleForm roleForm) {
         try {
             Optional<RoleModel> byDescription = roleRepository.findByDescription(roleForm.getDescription());
@@ -52,6 +54,7 @@ public class RoleService {
         }
     }
 
+    @Transactional
     public RoleDto updateRole(Long id, RoleUpdateForm roleUpdateForm) {
         try {
             Optional<RoleModel> roleModel = roleRepository.findById(id);
@@ -69,6 +72,7 @@ public class RoleService {
         }
     }
 
+    @Transactional
     public void deleteRole(Long id) {
         try {
             if (roleRepository.existsById(id)) {

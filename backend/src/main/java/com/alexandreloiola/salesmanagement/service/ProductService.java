@@ -28,12 +28,12 @@ public class ProductService {
         return convertListToDto(productModelList);
     }
 
-    public ProductDto getProductById(Long id) {
+    public ProductDto getProductById(String name) {
         try {
-            ProductModel productModel = productRepository.findById(id).get();
+            ProductModel productModel = productRepository.findByName(name).get();
             return convertModelToDto(productModel);
         } catch(NoSuchElementException err) {
-            throw new ObjectNotFoundException("Cliente não encontrado!");
+            throw new ObjectNotFoundException("Produto não encontrado!");
         }
     }
 
@@ -53,9 +53,9 @@ public class ProductService {
         }
     }
 
-    public ProductDto updateProduct(Long id, ProductUpdateForm productUpdateForm) {
+    public ProductDto updateProduct(String id, ProductUpdateForm productUpdateForm) {
         try {
-            Optional<ProductModel> productModel = productRepository.findById(id);
+            Optional<ProductModel> productModel = productRepository.findByName(id);
             if (productModel.isPresent()) {
                 ProductModel productUpdated = productModel.get();
                 productUpdated.setName(productUpdateForm.getName());
@@ -74,10 +74,11 @@ public class ProductService {
         }
     }
 
-    public void deleteProduct(Long id) {
+    public void deleteProduct(String id) {
         try {
-            if (productRepository.existsById(id)) {
-                productRepository.deleteById(id);
+            Long byId = productRepository.findByName(id).get().getId();
+            if (productRepository.existsById(byId)) {
+                productRepository.deleteById(byId);
             }
         } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Não foi possível deletar o produto");
