@@ -8,13 +8,10 @@ import java.math.BigDecimal;
 @Data
 public class OrderForm {
 
-    @NotNull(message = "Insira o status do produto")
-    private String status;
+    @NotNull(message = "Insira o cpf do cliente")
+    private String cpfCustomer;
 
-    @NotNull(message = "Insira o identificador do cliente")
-    private String customer;
-
-    @NotNull(message = "Insira o identificador do vendedor")
-    private String employee;
+    @NotNull(message = "Insira o cpf do vendedor")
+    private String cpfSeller;
 
 }
