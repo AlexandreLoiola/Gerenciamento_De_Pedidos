@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import {
   FormContainer,
   FormInput,
@@ -16,6 +16,7 @@ const ManagementProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
+  const [stockQuantity, setStockQuantity] = useState(0);
   const [unitPrice, setUnitPrice] = useState(0);
 
   const handleCreate = async () => {
@@ -32,8 +33,7 @@ const ManagementProduct = () => {
           alert("Produto Cadastrado!");
         })
         .catch((error) => {
-          alert("Não foi possível cadastrar o produto");
-          console.error(error);
+          alert(error.response.data.message)
         });
     } catch (error) {
       console.error(error);
@@ -44,11 +44,17 @@ const ManagementProduct = () => {
     try {
       await axios
         .get(`http://localhost:8080/api/management/products/${id}`)
-        .then((response) => {
-          alert(JSON.stringify(response.data))
+        .then((response) => {  
+          setName(response.data.name);
+          setDescription(response.data.description);
+          setStatus(response.data.isActive);
+          setStockQuantity(response.data.unitPrice)
+          setUnitPrice(response.data.unitPrice)
+
+          setIdentifier('')
         })
         .catch((error) => {
-          console.error(error);
+          alert(error.response.data.message);
         });
     } catch (error) {
       console.error(error);
@@ -73,6 +79,13 @@ const ManagementProduct = () => {
         })
         .then((response) => {
           alert("Produto Atualizado");
+          setName(response.data.name);
+          setDescription(response.data.description);
+          setStatus(response.data.isActive);
+          setStockQuantity(response.data.unitPrice)
+          setUnitPrice(response.data.unitPrice)
+
+          setIdentifier('')
         })
         .catch((error) => {
           alert("O Produto não foi Atualizado");
@@ -90,20 +103,30 @@ const ManagementProduct = () => {
         .delete(`http://localhost:8080/api/management/products/${id}`)
         .then(() => {
           alert("Produto Deletado!");
+          setName('');
+          setDescription('');
+          setStatus('');
+          setUnitPrice(0)
+          setIdentifier('')
         })
         .catch((error) => {
-          alert("Não foi possível deletar o Produto");
+          alert(error.response.data.message);
         });
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <>
       <MainHeader title={"Gerenciador de Produtos"} />
       <FormContainer>
-        <form>
+        <form onSubmit={handleSubmit}>
+          
           <SearchFormInput>
             <FormInput
               type="text"
