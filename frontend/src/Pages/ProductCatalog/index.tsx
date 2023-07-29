@@ -1,22 +1,16 @@
 import React, { ChangeEvent, useState, FormEvent } from "react";
-
 import MainHeader from "../../Components/Header";
 import ProductCard from "../../Components/ProductCard";
 import axios from "axios";
-
 import { FormInput, SearchFormInput } from "./styles";
 import SubmitButton from "../../Components/SubmitButton";
+
+import Table from "../../Components/Table";
 
 interface IProduct {
   name: string;
   description: string;
   unitPrice: number;
-}
-
-export interface ICartItem {
-  nameProduct: string;
-  unitPrice: number;
-  quantity: number;
 }
 
 const ProductCatalog: React.FC = () => {
@@ -50,6 +44,8 @@ const ProductCatalog: React.FC = () => {
   return (
     <>
       <MainHeader title={"Catálogo de Produtos"} />
+
+      <Table data={products} ></Table>
 
       <form onSubmit={handleSubmit}>
         <SearchFormInput>

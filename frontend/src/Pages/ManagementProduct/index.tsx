@@ -11,6 +11,16 @@ import MainHeader from "../../Components/Header";
 
 import axios from "axios";
 
+import Table from "../../Components/Table";
+
+interface IProduct {
+  name: string;
+  description: string;
+  isActive: boolean;
+  unitPrice: number;
+  stockQuantity: number;
+}
+
 const ManagementProduct = () => {
   const [identifier, setIdentifier] = useState("");
   const [name, setName] = useState("");
@@ -18,6 +28,7 @@ const ManagementProduct = () => {
   const [status, setStatus] = useState("");
   const [stockQuantity, setStockQuantity] = useState(0);
   const [unitPrice, setUnitPrice] = useState(0);
+  const [products, setProducts] = useState<IProduct[]>([]);
 
   const handleCreate = async () => {
     try {
@@ -27,13 +38,13 @@ const ManagementProduct = () => {
           description: description,
           unitPrice: unitPrice,
           isActive: status,
-          stockQuantity: 100
+          stockQuantity: 100,
         })
         .then((response) => {
           alert("Produto Cadastrado!");
         })
         .catch((error) => {
-          alert(error.response.data.message)
+          alert(error.response.data.message);
         });
     } catch (error) {
       console.error(error);
@@ -44,14 +55,21 @@ const ManagementProduct = () => {
     try {
       await axios
         .get(`http://localhost:8080/api/management/products/${id}`)
-        .then((response) => {  
+        .then((response) => {
+
+          Array.isArray(response.data)
+            ? setProducts(response.data)
+            : setProducts([response.data]);
+
+          console.log(products);
+
           setName(response.data.name);
           setDescription(response.data.description);
           setStatus(response.data.isActive);
-          setStockQuantity(response.data.unitPrice)
-          setUnitPrice(response.data.unitPrice)
+          setStockQuantity(response.data.unitPrice);
+          setUnitPrice(response.data.unitPrice);
 
-          setIdentifier('')
+          setIdentifier("");
         })
         .catch((error) => {
           alert(error.response.data.message);
@@ -75,17 +93,16 @@ const ManagementProduct = () => {
           description: desciption,
           unitPrice: unitPrice,
           isActive: status,
-          stockQuantity: 100
+          stockQuantity: 100,
         })
         .then((response) => {
           alert("Produto Atualizado");
           setName(response.data.name);
           setDescription(response.data.description);
           setStatus(response.data.isActive);
-          setStockQuantity(response.data.unitPrice)
-          setUnitPrice(response.data.unitPrice)
-
-          setIdentifier('')
+          setStockQuantity(response.data.unitPrice);
+          setUnitPrice(response.data.unitPrice);
+          setIdentifier("");
         })
         .catch((error) => {
           alert("O Produto não foi Atualizado");
@@ -103,11 +120,11 @@ const ManagementProduct = () => {
         .delete(`http://localhost:8080/api/management/products/${id}`)
         .then(() => {
           alert("Produto Deletado!");
-          setName('');
-          setDescription('');
-          setStatus('');
-          setUnitPrice(0)
-          setIdentifier('')
+          setName("");
+          setDescription("");
+          setStatus("");
+          setUnitPrice(0);
+          setIdentifier("");
         })
         .catch((error) => {
           alert(error.response.data.message);
@@ -124,9 +141,11 @@ const ManagementProduct = () => {
   return (
     <>
       <MainHeader title={"Gerenciador de Produtos"} />
+
+      <Table data={products} />
+
       <FormContainer>
         <form onSubmit={handleSubmit}>
-          
           <SearchFormInput>
             <FormInput
               type="text"

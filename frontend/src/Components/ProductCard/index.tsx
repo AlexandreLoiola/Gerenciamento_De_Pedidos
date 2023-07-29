@@ -53,6 +53,7 @@ const ProductCard: React.FC<IProps> = ({
       <RightSide>
         <Price>${price}</Price>
         <SubmitButton onClick={handleBuy} title={"Adicionar ao carrinho"} />
+        {/* <input value={stock}} type="number" id="price" name="price" step="0.01" /> */}
       </RightSide>
     </ProductCardContainer>
   );
