@@ -1,44 +1,46 @@
 import React from "react";
-import {
-  StyledTable,
-  StyledTh,
-  StyledTd,
-  StyledTr,
-  StyledAlterButton,
-  StyledDeleteButton
-} from "./styles";
+import { Table } from "react-bootstrap";
+import TableToggle from "./TableToggle";
 
-interface IProps {
-  data: any[];
+interface DataType {
+  [key: string]: any;
 }
 
-const Table: React.FC<IProps> = ({ data }) => {
-  const columns = Object.keys(data[0] || "");
+interface IProps {
+  columnTitles: string[];
+  data: DataType[];
+  objectKeys: string[];
+}
+
+const ManagementTable: React.FC<IProps> = ({columnTitles, data, objectKeys}) => {
 
   return (
-    <StyledTable>
+    <Table striped bordered hover>
       <thead>
         <tr>
-          {columns.map((column) => (
-            <StyledTh key={column}>{column}</StyledTh>
+          {columnTitles.map((column) => (
+            <th key={column}>{column}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {data.map((row: any, index: any) => (
-          <StyledTr key={index}>
-            {columns.map((column) => (
-              <StyledTd key={column}>{row[column]}</StyledTd>
+        {data.map((data, index) => (
+          <tr key={index}>
+            <td>{index + 1}</td>
+            {objectKeys.map((key) => (
+              <td key={key}>
+                {typeof data[key] === 'boolean' ? (
+                  <TableToggle onToggle={() => true} initialValue={data[key]}/>
+                ) : (
+                  data[key]
+                )}
+              </td>
             ))}
-            <StyledTd>
-              <StyledAlterButton>Alterar</StyledAlterButton>
-              <StyledDeleteButton>Deletar</StyledDeleteButton>
-            </StyledTd>
-          </StyledTr>
+          </tr>
         ))}
       </tbody>
-    </StyledTable>
+    </Table>
   );
 };
 
-export default Table;
+export default ManagementTable;

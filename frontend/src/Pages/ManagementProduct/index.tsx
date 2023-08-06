@@ -11,7 +11,7 @@ import MainHeader from "../../Components/Header";
 
 import axios from "axios";
 
-import Table from "../../Components/Table";
+import ManagementTable from "../../Components/Table";
 
 interface IProduct {
   name: string;
@@ -141,8 +141,6 @@ const ManagementProduct = () => {
   return (
     <>
       <MainHeader title={"Gerenciador de Produtos"} />
-
-      <Table data={products} />
 
       <FormContainer>
         <form onSubmit={handleSubmit}>

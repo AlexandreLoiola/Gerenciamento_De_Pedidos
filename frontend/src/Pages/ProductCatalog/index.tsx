@@ -5,8 +5,6 @@ import axios from "axios";
 import { FormInput, SearchFormInput } from "./styles";
 import SubmitButton from "../../Components/SubmitButton";
 
-import Table from "../../Components/Table";
-
 interface IProduct {
   name: string;
   description: string;
@@ -44,8 +42,6 @@ const ProductCatalog: React.FC = () => {
   return (
     <>
       <MainHeader title={"Catálogo de Produtos"} />
-
-      <Table data={products} ></Table>
 
       <form onSubmit={handleSubmit}>
         <SearchFormInput>

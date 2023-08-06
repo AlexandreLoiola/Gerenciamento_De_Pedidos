@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import HeaderTitle from '../../Components/HeaderTitle';
 
 const ErrorPage: React.FC = () => {
-    return (
-        <HeaderTitle title={'ERRO 404!'}/>
-    )
-}
+  return (
+    <>
+      <h1>Página 404</h1>
+    </>
+  );
+};
 
 export default ErrorPage;
