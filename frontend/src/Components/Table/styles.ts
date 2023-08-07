@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { HiOutlineTrash } from "react-icons/hi";
+import {HiPencilSquare} from "react-icons/hi2"
 
 export const ToggleContainer = styled.div<{ isOn: boolean }>`
   width: 60px;
@@ -22,4 +24,18 @@ export const ToggleCircleOff = styled.div`
 
 export const ToggleCircleOn = styled(ToggleCircleOff)`
     left: calc(100% - 30px);
+`;
+
+export const ThrashIcon = styled(HiOutlineTrash)`
+  color: #fff;
+  font-size: 22px;
+  margin-top: -5px;
+  cursor: pointer;
+`;
+
+export const PencilIcon = styled(HiPencilSquare)`
+  color: #fff;
+  font-size: 22px;
+  margin-top: -5px;
+  cursor: pointer;
 `;
