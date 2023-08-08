@@ -11,7 +11,7 @@ import MainHeader from "../../Components/Header";
 
 import axios from "axios";
 
-import ManagementTable from "../../Components/Table";
+import ManagementTable from "../../Components/ManagementTable";
 
 interface IProduct {
   name: string;
@@ -56,7 +56,6 @@ const ManagementProduct = () => {
       await axios
         .get(`http://localhost:8080/api/management/products/${id}`)
         .then((response) => {
-
           Array.isArray(response.data)
             ? setProducts(response.data)
             : setProducts([response.data]);

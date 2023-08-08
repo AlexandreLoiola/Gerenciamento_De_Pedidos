@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import { ToggleContainer, ToggleCircleOn, ToggleCircleOff } from "./styles";
 
-interface Props {
+interface IProps {
   onToggle: (value: boolean) => void;
   initialValue: boolean;
 }
 
-const TableToggle: React.FC<Props> = ({ onToggle, initialValue }) => {
+const TableToggle: React.FC<IProps> = ({ onToggle ,initialValue }) => {
   const [isOn, setIsOn] = useState(initialValue);
 
   const handleToggle = () => {
-    setIsOn(!isOn);
-    onToggle(!isOn);
+    const newValue = !isOn;
+    setIsOn(newValue);
+    onToggle(newValue);
   };
 
   return (
-    <ToggleContainer onClick={handleToggle} isOn={isOn}>
+    <ToggleContainer isOn={isOn} onClick={handleToggle} >
       {isOn ? <ToggleCircleOn /> : <ToggleCircleOff />}
     </ToggleContainer>
   );
