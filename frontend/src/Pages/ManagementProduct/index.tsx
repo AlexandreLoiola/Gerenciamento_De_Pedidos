@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import {
   FormContainer,
   FormInput,
@@ -12,6 +12,7 @@ import MainHeader from "../../Components/Header";
 import axios from "axios";
 
 import ManagementTable from "../../Components/ManagementTable";
+import { Button } from "react-bootstrap";
 
 interface IProduct {
   name: string;
@@ -23,23 +24,30 @@ interface IProduct {
 
 const ManagementProduct = () => {
   const [identifier, setIdentifier] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("");
-  const [stockQuantity, setStockQuantity] = useState(0);
-  const [unitPrice, setUnitPrice] = useState(0);
   const [products, setProducts] = useState<IProduct[]>([]);
 
-  const handleCreate = async () => {
+  const columnTitles = [
+    "#",
+    "Nome",
+    "Descrição",
+    "Preço",
+    "Estoque",
+    "Status",
+    "Ações",
+  ];
+  
+  const objectKeys = [
+    "name",
+    "description",
+    "unitPrice",
+    "stockQuantity",
+    "isActive",
+  ];
+
+  const handleCreate = async (data: any) => {
     try {
       await axios
-        .post("http://localhost:8080/api/management/products", {
-          name: name,
-          description: description,
-          unitPrice: unitPrice,
-          isActive: status,
-          stockQuantity: 100,
-        })
+        .post("http://localhost:8080/api/management/products", data)
         .then((response) => {
           alert("Produto Cadastrado!");
         })
@@ -51,22 +59,14 @@ const ManagementProduct = () => {
     }
   };
 
-  const handleFetch = async (id: string) => {
+  const handleFetch = async () => {
     try {
       await axios
-        .get(`http://localhost:8080/api/management/products/${id}`)
+        .get(`http://localhost:8080/api/management/products/`)
         .then((response) => {
           Array.isArray(response.data)
             ? setProducts(response.data)
             : setProducts([response.data]);
-
-          console.log(products);
-
-          setName(response.data.name);
-          setDescription(response.data.description);
-          setStatus(response.data.isActive);
-          setStockQuantity(response.data.unitPrice);
-          setUnitPrice(response.data.unitPrice);
 
           setIdentifier("");
         })
@@ -78,30 +78,12 @@ const ManagementProduct = () => {
     }
   };
 
-  const handleUpdate = async (
-    id: string,
-    name: string,
-    desciption: string,
-    unitPrice: number,
-    status: string
-  ) => {
+  const handleUpdate = async (data: any) => {
     try {
       await axios
-        .put(`http://localhost:8080/api/management/products/${id}`, {
-          name: name,
-          description: desciption,
-          unitPrice: unitPrice,
-          isActive: status,
-          stockQuantity: 100,
-        })
+        .put(`http://localhost:8080/api/management/products/${data.name}`, data)
         .then((response) => {
           alert("Produto Atualizado");
-          setName(response.data.name);
-          setDescription(response.data.description);
-          setStatus(response.data.isActive);
-          setStockQuantity(response.data.unitPrice);
-          setUnitPrice(response.data.unitPrice);
-          setIdentifier("");
         })
         .catch((error) => {
           alert("O Produto não foi Atualizado");
@@ -113,17 +95,13 @@ const ManagementProduct = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (name: string) => {
     try {
       await axios
-        .delete(`http://localhost:8080/api/management/products/${id}`)
+        .delete(`http://localhost:8080/api/management/products/${name}`)
         .then(() => {
           alert("Produto Deletado!");
-          setName("");
-          setDescription("");
-          setStatus("");
-          setUnitPrice(0);
-          setIdentifier("");
+          handleFetch();
         })
         .catch((error) => {
           alert(error.response.data.message);
@@ -137,11 +115,26 @@ const ManagementProduct = () => {
     event.preventDefault();
   };
 
+  useEffect(() => {
+    handleFetch();
+  }, []);
+
+
   return (
-    <>
+    <div style={{padding: "0 150px"}}>
       <MainHeader title={"Gerenciador de Produtos"} />
 
-      <FormContainer>
+      <Button style={{backgroundColor: "green", marginBottom: "20px" }} variant="success">Novo Produto</Button>
+      <ManagementTable
+        columnTitles={columnTitles}
+        data={products}
+        objectKeys={objectKeys}
+        handleDelete={(index) => handleDelete(products[index].name)}
+        redirectToUpdateForm={"/"}
+        handleSatusUpdate={(data) => handleUpdate(data)}
+      />
+
+      {/* <FormContainer>
         <form onSubmit={handleSubmit}>
           <SearchFormInput>
             <FormInput
@@ -204,9 +197,9 @@ const ManagementProduct = () => {
             />
           </FormRow>
         </form>
-      </FormContainer>
+      </FormContainer> */}
 
-      <ButtonContainer>
+      {/* <ButtonContainer>
         <SubmitButton
           onClick={() =>
             handleUpdate(identifier, name, description, unitPrice, status)
@@ -224,8 +217,8 @@ const ManagementProduct = () => {
           style={{ backgroundColor: "#FF0000" }}
           title={"DELETAR"}
         />
-      </ButtonContainer>
-    </>
+      </ButtonContainer> */}
+    </div>
   );
 };
 

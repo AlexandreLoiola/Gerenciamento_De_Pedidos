@@ -16,12 +16,10 @@ export const TitleContainer = styled.div`
 `;
 
 export const TitleText = styled.h1`
-  color: #fff;
   font-size: 32px;
 `;
 
 export const UserIcon = styled(HiUser)`
-  color: #fff;
   font-size: 60px;
   margin-left: 5px;
   width: 20%;
