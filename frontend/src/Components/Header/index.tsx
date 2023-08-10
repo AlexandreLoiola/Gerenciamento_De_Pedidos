@@ -1,6 +1,6 @@
 import React from "react";
 import { HeaderContainer, TitleContainer, TitleText, UserIcon } from "./styles";
-import DividerLine from "../Divisor";
+import DividerLine from "./HeaderDivisor";
 
 interface IProps {
   title: string;

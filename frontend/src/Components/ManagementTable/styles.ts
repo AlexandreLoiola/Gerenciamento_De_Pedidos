@@ -6,7 +6,7 @@ export const ToggleContainer = styled.div<{ isOn: boolean }>`
   width: 60px;
   height: 28px;
   border-radius: 17px;
-  background-color: ${(props) => (props.isOn ? 'limegreen' : '#ccc')} !important;
+  background-color: ${(props) => (props.isOn ? 'green' : '#ccc')} !important;
   position: relative;
   cursor: pointer;
 `;
@@ -19,7 +19,7 @@ export const ToggleCircleOff = styled.div`
   position: absolute;
   top: calc(50% - 11px);
   left: 4px;
-  transition: left 0.8s ease;
+  transition: .4s;
 `;
 
 export const ToggleCircleOn = styled(ToggleCircleOff)`

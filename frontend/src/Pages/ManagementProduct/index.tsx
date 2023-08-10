@@ -1,18 +1,14 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import {
-  FormContainer,
-  FormInput,
-  FormRow,
-  ButtonContainer,
-  SearchFormInput,
-} from "./styles";
-import SubmitButton from "../../Components/SubmitButton";
+import React, { useEffect, useState } from "react";
 import MainHeader from "../../Components/Header";
 
 import axios from "axios";
 
 import ManagementTable from "../../Components/ManagementTable";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
+import InputForm from "../../Components/Forms";
+import { HiMagnifyingGlass } from "react-icons/hi2";
+import { FaPlus } from "react-icons/fa";
+import MyPagination from "../../Components/Pagination";
 
 interface IProduct {
   name: string;
@@ -25,6 +21,8 @@ interface IProduct {
 const ManagementProduct = () => {
   const [identifier, setIdentifier] = useState("");
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const columnTitles = [
     "#",
@@ -35,7 +33,6 @@ const ManagementProduct = () => {
     "Status",
     "Ações",
   ];
-  
   const objectKeys = [
     "name",
     "description",
@@ -44,12 +41,17 @@ const ManagementProduct = () => {
     "isActive",
   ];
 
+  const handleInputChange = (value: string) => {
+    setIdentifier(value);
+  };
+
   const handleCreate = async (data: any) => {
     try {
       await axios
         .post("http://localhost:8080/api/management/products", data)
         .then((response) => {
           alert("Produto Cadastrado!");
+          handleFetch();
         })
         .catch((error) => {
           alert(error.response.data.message);
@@ -62,13 +64,11 @@ const ManagementProduct = () => {
   const handleFetch = async () => {
     try {
       await axios
-        .get(`http://localhost:8080/api/management/products/`)
+        .get(`http://localhost:8080/api/management/products/${identifier}`)
         .then((response) => {
           Array.isArray(response.data)
             ? setProducts(response.data)
             : setProducts([response.data]);
-
-          setIdentifier("");
         })
         .catch((error) => {
           alert(error.response.data.message);
@@ -84,6 +84,7 @@ const ManagementProduct = () => {
         .put(`http://localhost:8080/api/management/products/${data.name}`, data)
         .then((response) => {
           alert("Produto Atualizado");
+          handleFetch();
         })
         .catch((error) => {
           alert("O Produto não foi Atualizado");
@@ -111,20 +112,72 @@ const ManagementProduct = () => {
     }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
-
   useEffect(() => {
     handleFetch();
   }, []);
 
-
   return (
-    <div style={{padding: "0 150px"}}>
+    <div style={{ padding: "0 80px" }}>
       <MainHeader title={"Gerenciador de Produtos"} />
 
-      <Button style={{backgroundColor: "green", marginBottom: "20px" }} variant="success">Novo Produto</Button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          style={{
+            backgroundColor: "green",
+            margin: " 20px 0",
+            fontSize: "18px",
+            fontWeight: "600",
+          }}
+          variant="success"
+          onClick={() =>
+            handleCreate({
+              name: "produto 18",
+              description: "Descrição do produto 8",
+              unitPrice: "15.99",
+              stockQuantity: 100,
+              isActive: true,
+            })
+          }
+        >
+          Novo Produto <FaPlus />
+        </Button>
+        <Form
+          onSubmit={(event) => {
+            event.preventDefault();
+            handleFetch();
+          }}
+          style={{ display: "flex", alignItems: "center", width: "88%" }}
+        >
+          <span
+            style={{
+              margin: "0 20px",
+              marginLeft: "180px",
+              fontWeight: "600",
+              fontSize: "18px",
+            }}
+          >
+            Procurar:
+          </span>
+          <InputForm
+            label=""
+            placeHolder="Nome do Produto"
+            type="input"
+            message=""
+            onInputChange={handleInputChange}
+          />
+          <Button variant="info" type="submit" onClick={handleFetch}>
+            <HiMagnifyingGlass
+              style={{ color: "white", fontSize: "26px", fontWeight: "700" }}
+            />
+          </Button>
+        </Form>
+      </div>
       <ManagementTable
         columnTitles={columnTitles}
         data={products}
@@ -133,91 +186,13 @@ const ManagementProduct = () => {
         redirectToUpdateForm={"/"}
         handleSatusUpdate={(data) => handleUpdate(data)}
       />
-
-      {/* <FormContainer>
-        <form onSubmit={handleSubmit}>
-          <SearchFormInput>
-            <FormInput
-              type="text"
-              value={identifier}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setIdentifier(event.target.value)
-              }
-              placeholder="Identificador"
-            />
-            <SubmitButton
-              onClick={() => handleFetch(identifier)}
-              style={{ backgroundColor: "#4169E1" }}
-              title={"BUSCAR"}
-            />
-          </SearchFormInput>
-          <FormRow>
-            <FormInput
-              type="text"
-              id="ProductName"
-              name="ProductName"
-              value={name}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setName(event.target.value)
-              }
-              placeholder="Nome do produto"
-            />
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              min="0"
-              max="99999"
-              value={unitPrice}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setUnitPrice(parseFloat(event.target.value))
-              }
-            ></input>
-          </FormRow>
-          <FormRow>
-            <FormInput
-              type="text"
-              id="description"
-              name="description"
-              value={description}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setDescription(event.target.value)
-              }
-              placeholder="Descrição do produto"
-            />
-            <FormInput
-              type="text"
-              id="status"
-              name="status"
-              value={status}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setStatus(event.target.value)
-              }
-              placeholder="Status"
-            />
-          </FormRow>
-        </form>
-      </FormContainer> */}
-
-      {/* <ButtonContainer>
-        <SubmitButton
-          onClick={() =>
-            handleUpdate(identifier, name, description, unitPrice, status)
-          }
-          style={{ backgroundColor: "#FF8C00" }}
-          title={"ALTERAR"}
-        />
-        <SubmitButton
-          onClick={handleCreate}
-          style={{ backgroundColor: "#008000" }}
-          title={"CADASTRAR"}
-        />
-        <SubmitButton
-          onClick={() => handleDelete(identifier)}
-          style={{ backgroundColor: "#FF0000" }}
-          title={"DELETAR"}
-        />
-      </ButtonContainer> */}
+      <MyPagination
+        currentPage={currentPage}
+        totalPages={10}
+        onPageChange={function (pageNumber: number): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
     </div>
   );
 };

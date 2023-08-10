@@ -28,7 +28,7 @@ const ManagementTable: React.FC<IProps> = ({
 }) => {
 
   const navigate = useNavigate();
-
+  // .slice(1, 6)
   return (
     <Table striped bordered hover>
       <thead>
