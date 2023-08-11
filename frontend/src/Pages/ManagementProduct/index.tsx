@@ -69,6 +69,8 @@ const ManagementProduct = () => {
           Array.isArray(response.data)
             ? setProducts(response.data)
             : setProducts([response.data]);
+
+          setTotalPages(Math.ceil(response.data.length/5));
         })
         .catch((error) => {
           alert(error.response.data.message);
@@ -110,6 +112,10 @@ const ManagementProduct = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
   };
 
   useEffect(() => {
@@ -184,14 +190,13 @@ const ManagementProduct = () => {
         objectKeys={objectKeys}
         handleDelete={(index) => handleDelete(products[index].name)}
         redirectToUpdateForm={"/"}
-        handleSatusUpdate={(data) => handleUpdate(data)}
-      />
+        handleSatusUpdate={(data) => handleUpdate(data)} 
+        changePageToPagination={currentPage}      
+        />
       <MyPagination
         currentPage={currentPage}
-        totalPages={10}
-        onPageChange={function (pageNumber: number): void {
-          throw new Error("Function not implemented.");
-        }}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
       />
     </div>
   );

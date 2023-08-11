@@ -13,6 +13,7 @@ interface IProps {
   data: IDataType[];
   objectKeys: string[];
   redirectToUpdateForm: string;
+  changePageToPagination: number;
 
   handleDelete: (index: number) => void;
   handleSatusUpdate: (data: any) => void;
@@ -23,12 +24,13 @@ const ManagementTable: React.FC<IProps> = ({
   data,
   objectKeys,
   redirectToUpdateForm,
+  changePageToPagination,
   handleDelete,
   handleSatusUpdate,
 }) => {
 
   const navigate = useNavigate();
-  // .slice(1, 6)
+
   return (
     <Table striped bordered hover>
       <thead>
@@ -39,9 +41,9 @@ const ManagementTable: React.FC<IProps> = ({
         </tr>
       </thead>
       <tbody>
-        {data.map((data, index) => (
+        {data.slice((changePageToPagination-1)*5, changePageToPagination*5).map((data, index) => (
           <tr key={index}>
-            <td>{index + 1}</td>
+            <td>{((changePageToPagination-1)*5) + index + 1}</td>
             {objectKeys.map((key) => (
               <td key={key}>
                 {typeof data[key] === "boolean" ? (
