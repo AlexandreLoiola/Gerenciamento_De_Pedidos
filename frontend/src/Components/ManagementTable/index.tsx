@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Table } from "react-bootstrap";
 import TableToggle from "./TableToggle";
 import { PencilIcon, ThrashIcon } from "./styles";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 interface IDataType {
   [key: string]: any;
@@ -16,7 +16,7 @@ interface IProps {
   changePageToPagination: number;
 
   handleDelete: (index: number) => void;
-  handleSatusUpdate: (data: any) => void;
+  handleStatusUpdate: (data: any) => void;
 }
 
 const ManagementTable: React.FC<IProps> = ({
@@ -26,9 +26,8 @@ const ManagementTable: React.FC<IProps> = ({
   redirectToUpdateForm,
   changePageToPagination,
   handleDelete,
-  handleSatusUpdate,
+  handleStatusUpdate,
 }) => {
-
   const navigate = useNavigate();
 
   return (
@@ -41,42 +40,46 @@ const ManagementTable: React.FC<IProps> = ({
         </tr>
       </thead>
       <tbody>
-        {data.slice((changePageToPagination-1)*5, changePageToPagination*5).map((data, index) => (
-          <tr key={index}>
-            <td>{((changePageToPagination-1)*5) + index + 1}</td>
-            {objectKeys.map((key) => (
-              <td key={key}>
-                {typeof data[key] === "boolean" ? (
-                  <TableToggle
-                    onToggle={() => {
-                      const updatedData = { ...data, [key]: !data[key] };
-                      handleSatusUpdate(updatedData);
-                    }}
-                    initialValue={data[key]}
-                  />
-                ) : (
-                  data[key]
-                )}
+        {data
+          .slice((changePageToPagination - 1) * 5, changePageToPagination * 5)
+          .map((data, index) => (
+            <tr key={index}>
+              <td>{(changePageToPagination - 1) * 5 + index + 1}</td>
+              {objectKeys.map((key) => (
+                <td key={key}>
+                  {typeof data[key] === "boolean" ? (
+                    <TableToggle
+                      onToggle={() => {
+                        const updatedData = { ...data, [key]: !data[key] };
+                        handleStatusUpdate(updatedData);
+                      }}
+                      initialValue={data[key]}
+                    />
+                  ) : (
+                    data[key]
+                  )}
+                </td>
+              ))}
+              <td>
+                <Button
+                  variant="warning"
+                  style={{ margin: "0 6px" }}
+                  onClick={() => {
+                    navigate(redirectToUpdateForm, { state: data });
+                  }}
+                >
+                  <PencilIcon />
+                </Button>
+                <Button
+                  variant="danger"
+                  style={{ margin: "0 6px" }}
+                  onClick={() => handleDelete(index)}
+                >
+                  <ThrashIcon />
+                </Button>
               </td>
-            ))}
-            <td>
-              <Button
-                variant="warning"
-                style={{ margin: "0 6px" }}
-                onClick={() => navigate(redirectToUpdateForm)}
-              >
-                <PencilIcon />
-              </Button>
-              <Button
-                variant="danger"
-                style={{ margin: "0 6px" }}
-                onClick={() => handleDelete(index)}
-              >
-                <ThrashIcon />
-              </Button>
-            </td>
-          </tr>
-        ))}
+            </tr>
+          ))}
       </tbody>
     </Table>
   );

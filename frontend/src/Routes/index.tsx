@@ -10,7 +10,8 @@ import MyOrders from '../Pages/MyOrders';
 import ManagementSeller from '../Pages/ManagementSeller';
 import ManagementCustomer from '../Pages/ManagementCustomer';
 import ManagementProduct from '../Pages/ManagementProduct';
-import Cart from '../Pages/Cart'
+import ManagementProductUpdateForm from '../Pages/ManagementProduct/ManagementProductUpdateForm';
+import ManagementProductCreateForm from '../Pages/ManagementProduct/ManagementProductCreateForm';
 
 const router = createBrowserRouter([
     {
@@ -50,9 +51,13 @@ const router = createBrowserRouter([
               path: "/gerenciar-produtos",
               element: <ManagementProduct />
             },
-            {
-              path: "/carrinho",
-              element: <Cart />
+            { 
+              path: "/gerenciar-produtos/editar-produto",
+              element: <ManagementProductUpdateForm />
+            },
+            { 
+              path: "/gerenciar-produtos/criar-produto",
+              element: <ManagementProductCreateForm />
             }
         ]
     },

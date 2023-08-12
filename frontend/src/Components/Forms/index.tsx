@@ -9,17 +9,17 @@ import {
 interface IProps {
   label: string;
   placeHolder: string;
-  type: string;
   message: string;
+  value?: any;
   style?: React.CSSProperties;
   onInputChange: (value: string) => void;
 }
 
 const InputForm: React.FC<IProps> = ({
   label,
-  type,
   placeHolder,
   message,
+  value,
   onInputChange,
 }) => {
 
@@ -31,10 +31,10 @@ const InputForm: React.FC<IProps> = ({
     <StyledFormGroup controlId="formBasicEmail">
       <StyledFormLabel>{label}</StyledFormLabel>
       <StyledFormControl
-        type={type}
+        type="input"
         placeholder={placeHolder}
+        value={value}
         onChange={handleInputChange}
-        style={{width: "500px"}}
       />
       <StyledFormText className="text-muted">{message}</StyledFormText>
     </StyledFormGroup>

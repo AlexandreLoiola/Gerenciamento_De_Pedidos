@@ -9,6 +9,7 @@ import InputForm from "../../Components/Forms";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { FaPlus } from "react-icons/fa";
 import MyPagination from "../../Components/Pagination";
+import { useNavigate } from "react-router-dom";
 
 interface IProduct {
   name: string;
@@ -18,11 +19,13 @@ interface IProduct {
   stockQuantity: number;
 }
 
-const ManagementProduct = () => {
+const ManagementProduct: React.FC = () => {
   const [identifier, setIdentifier] = useState("");
   const [products, setProducts] = useState<IProduct[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const navigate = useNavigate();
 
   const columnTitles = [
     "#",
@@ -43,22 +46,6 @@ const ManagementProduct = () => {
 
   const handleInputChange = (value: string) => {
     setIdentifier(value);
-  };
-
-  const handleCreate = async (data: any) => {
-    try {
-      await axios
-        .post("http://localhost:8080/api/management/products", data)
-        .then((response) => {
-          alert("Produto Cadastrado!");
-          handleFetch();
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   const handleFetch = async () => {
@@ -141,15 +128,7 @@ const ManagementProduct = () => {
             fontWeight: "600",
           }}
           variant="success"
-          onClick={() =>
-            handleCreate({
-              name: "produto 18",
-              description: "Descrição do produto 8",
-              unitPrice: "15.99",
-              stockQuantity: 100,
-              isActive: true,
-            })
-          }
+          onClick={() => navigate("/gerenciar-produtos/criar-produto")}
         >
           Novo Produto <FaPlus />
         </Button>
@@ -173,7 +152,6 @@ const ManagementProduct = () => {
           <InputForm
             label=""
             placeHolder="Nome do Produto"
-            type="input"
             message=""
             onInputChange={handleInputChange}
           />
@@ -189,9 +167,9 @@ const ManagementProduct = () => {
         data={products}
         objectKeys={objectKeys}
         handleDelete={(index) => handleDelete(products[index].name)}
-        redirectToUpdateForm={"/"}
-        handleSatusUpdate={(data) => handleUpdate(data)} 
-        changePageToPagination={currentPage}      
+        redirectToUpdateForm={"/gerenciar-produtos/editar-produto"}
+        handleStatusUpdate={(data) => handleUpdate(data)} 
+        changePageToPagination={currentPage}
         />
       <MyPagination
         currentPage={currentPage}

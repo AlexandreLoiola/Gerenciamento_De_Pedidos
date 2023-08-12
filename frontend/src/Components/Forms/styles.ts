@@ -15,6 +15,7 @@ export const StyledFormControl = styled(Form.Control)`
   background-color: white;
   padding: 0.5rem 1rem;
   border: 1px solid lightgray;
+  width: 500px;
 `;
 
 export const StyledFormText = styled(Form.Text)`

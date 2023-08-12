@@ -6,7 +6,7 @@ interface IProps {
   initialValue: boolean;
 }
 
-const TableToggle: React.FC<IProps> = ({ onToggle ,initialValue }) => {
+const TableToggle: React.FC<IProps> = ({ onToggle, initialValue }) => {
   const [isOn, setIsOn] = useState(initialValue);
 
   const handleToggle = () => {
