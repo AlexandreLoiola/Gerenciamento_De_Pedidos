@@ -24,11 +24,11 @@ public class PersonController {
         return ResponseEntity.ok().body(personDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PersonDto> getPersonById (
-            @PathVariable("id") Long id
+    @GetMapping("/{cpf}")
+    public ResponseEntity<PersonDto> getPersonByCpf (
+            @PathVariable("cpf") String cpf
     ) {
-        PersonDto personDto = personService.getPersonById(id);
+        PersonDto personDto = personService.getPersonByCpf(cpf);
         return ResponseEntity.ok().body(personDto);
     }
 
@@ -40,20 +40,20 @@ public class PersonController {
         return ResponseEntity.ok().body(personDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{cpf}")
     public ResponseEntity<PersonDto> updatePerson (
-            @PathVariable("id") Long id,
+            @PathVariable("cpf") String cpf,
             @Valid @RequestBody PersonUpdateForm personUpdateForm
     ) {
-        PersonDto personDto = personService.updatePerson(id, personUpdateForm);
+        PersonDto personDto = personService.updatePerson(cpf, personUpdateForm);
         return  ResponseEntity.ok().body(personDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{cpf}")
     public  ResponseEntity<Void> deletePerson (
-            @PathVariable("id") Long id
+            @PathVariable("cpf") String cpf
     ) {
-        personService.deletePerson(id);
+        personService.deletePerson(cpf);
         return ResponseEntity.noContent().build();
     }
 }

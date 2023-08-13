@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,11 +27,11 @@ public class PersonService {
         return convertListToDto(personModelList);
     }
 
-    public PersonDto getPersonById(Long id) {
+    public PersonDto getPersonByCpf(String cpf) {
         try {
-            PersonModel personModel = personRepository.findById(id).get();
+            PersonModel personModel = personRepository.findByCpf(cpf).get();
             return convertModelToDto(personModel);
-        }  catch(NoSuchElementException err) {
+        } catch (NoSuchElementException err) {
             throw new ObjectNotFoundException("Pessoa não encontrada!");
         }
     }
@@ -46,23 +47,22 @@ public class PersonService {
             personModel = personRepository.save(personModel);
 
             return convertModelToDto(personModel);
-        }   catch (DataIntegrityViolationException err) {
+        } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do Authorização não foi(foram) devidamente preenchido(s).");
         }
     }
 
-    public PersonDto updatePerson(Long id, PersonUpdateForm personUpdateForm) {
+    public PersonDto updatePerson(String cpf, PersonUpdateForm personUpdateForm) {
         try {
-            Optional<PersonModel> personModel = personRepository.findById(id);
+            Optional<PersonModel> personModel = personRepository.findByCpf(cpf);
             if (personModel.isPresent()) {
                 PersonModel personUpdate = personModel.get();
                 personUpdate.setName(personUpdateForm.getName());
-                personUpdate.setEmail(personUpdateForm.getEmail());
                 personUpdate.setBirthDate(personUpdateForm.getBirthDate());
                 personUpdate.setIsActive(personUpdateForm.getIsActive());
                 personUpdate = personRepository.save(personUpdate);
                 return convertModelToDto(personUpdate);
-            }  else {
+            } else {
                 throw new DataIntegrityViolationException("Campo(s) obrigatório(s) da autorização não foi(foram) devidamente preenchido(s).");
             }
         } catch (DataIntegrityViolationException err) {
@@ -70,13 +70,17 @@ public class PersonService {
         }
     }
 
-    public void deletePerson(Long id) {
+    public void deletePerson(String cpf) {
         try {
-            if (personRepository.existsById(id)) {
+            Optional<PersonModel> personModel = personRepository.findByCpf(cpf);
+            if (personModel.isPresent()) {
+                long id = personModel.get().getId();
                 personRepository.deleteById(id);
+            } else {
+                throw new DataIntegrityViolationException("Pessoa não encontrada!");
             }
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("Não foi possível deletar a authorização");
+            throw new DataIntegrityViolationException("Não foi possível deletar a pessoa");
         }
     }
 

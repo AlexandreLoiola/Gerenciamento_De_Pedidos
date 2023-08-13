@@ -9,8 +9,8 @@ import java.time.LocalDate;
 @Data
 public class CustomerUpdateForm {
 
-    @NotNull(message = "O campo data de cadastro não pode ficar em branco.")
+    @NotNull(message = "O campo data não pode ficar em branco.")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate resignationDate;
+    private LocalDate registrationDate;
 
 }

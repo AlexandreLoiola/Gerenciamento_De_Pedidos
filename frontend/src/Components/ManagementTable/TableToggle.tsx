@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToggleContainer, ToggleCircleOn, ToggleCircleOff } from "./styles";
 
 interface IProps {
@@ -8,6 +8,9 @@ interface IProps {
 
 const TableToggle: React.FC<IProps> = ({ onToggle, initialValue }) => {
   const [isOn, setIsOn] = useState(initialValue);
+  useEffect(() => {
+    setIsOn(initialValue);
+  }, [initialValue]);
 
   const handleToggle = () => {
     const newValue = !isOn;

@@ -31,9 +31,9 @@ public class UserService {
         return convertListToDto(userDtoList);
     }
 
-    public UserDto getUserByName(String name) {
+    public UserDto getUserByName(String email) {
         try {
-            UserModel userModel = userRepository.findByEmail(name).get();
+            UserModel userModel = userRepository.findByEmail(email).get();
             return convertModelToDto(userModel);
         } catch(NoSuchElementException err) {
             throw new ObjectNotFoundException("Usuário não encontrado!");
@@ -74,7 +74,6 @@ public class UserService {
             Optional<UserModel> userModel = userRepository.findByEmail(name);
             if (userModel.isPresent()) {
                 UserModel userUpdated = userModel.get();
-                userUpdated.setPassword(userUpdateForm.getPassword());
                 userUpdated.setIsActive(userUpdateForm.getIsActive());
 
                 userRepository.save(userUpdated);
@@ -87,10 +86,15 @@ public class UserService {
         }
     }
 
-    public void deleteUser(long id) {
+    @Transactional
+    public void deleteUser(String email) {
         try {
-            if (userRepository.existsById(id)) {
+            Optional<UserModel> userModel = userRepository.findByEmail(email);
+            if (userModel.isPresent()) {
+                long id = userModel.get().getId();
                 userRepository.deleteById(id);
+            } else {
+               throw new ObjectNotFoundException("Usuário não encontrado");
             }
         } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Não é possível deletar um usuário");

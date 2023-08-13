@@ -16,6 +16,6 @@ public class CustomerForm {
 
     @NotNull(message = "O campo data não pode ficar em branco.")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate resignationDate;
+    private LocalDate registrationDate;
 
 }

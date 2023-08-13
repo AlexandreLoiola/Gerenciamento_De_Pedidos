@@ -85,7 +85,7 @@ public class ProductService {
         }
     }
 
-    private ProductModel convertFormToModel(ProductForm productForm) {
+    public ProductModel convertFormToModel(ProductForm productForm) {
         ProductModel productModel = new ProductModel();
 
         productModel.setName(productForm.getName());
@@ -117,5 +117,4 @@ public class ProductService {
         }
         return productDtoList;
     }
-
 }

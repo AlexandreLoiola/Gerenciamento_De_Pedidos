@@ -15,6 +15,7 @@ public class CustomerDto {
 
     private PersonDto personDto;
 
-    private LocalDate resignationDate;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate registrationDate;
 
 }

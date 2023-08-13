@@ -15,6 +15,6 @@ public class CustomerModel{
     @Id
     private Long id;
 
-    @Column(name = "resignation_date", nullable = false)
-    private LocalDate resignationDate;
+    @Column(name = "registration_date", nullable = false)
+    private LocalDate registrationDate;
 }

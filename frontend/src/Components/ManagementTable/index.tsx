@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Table } from "react-bootstrap";
 import TableToggle from "./TableToggle";
 import { PencilIcon, ThrashIcon } from "./styles";
@@ -15,7 +15,7 @@ interface IProps {
   redirectToUpdateForm: string;
   changePageToPagination: number;
 
-  handleDelete: (index: number) => void;
+  handleDelete: (index: any) => void;
   handleStatusUpdate: (data: any) => void;
 }
 
@@ -30,8 +30,12 @@ const ManagementTable: React.FC<IProps> = ({
 }) => {
   const navigate = useNavigate();
 
+  const getNestedValue = (obj: any, path: string) => {
+    return path.split('.').reduce((acc, key) => acc && acc[key], obj);
+  }
+
   return (
-    <Table striped bordered hover>
+    <Table responsive striped bordered hover>
       <thead>
         <tr>
           {columnTitles.map((column) => (
@@ -47,17 +51,17 @@ const ManagementTable: React.FC<IProps> = ({
               <td>{(changePageToPagination - 1) * 5 + index + 1}</td>
               {objectKeys.map((key) => (
                 <td key={key}>
-                  {typeof data[key] === "boolean" ? (
+                  {typeof getNestedValue(data, key) === "boolean" ? (
                     <TableToggle
+                      initialValue={getNestedValue(data, key)}
                       onToggle={() => {
-                        const updatedData = { ...data, [key]: !data[key] };
-                        handleStatusUpdate(updatedData);
+                        handleStatusUpdate({ ...data, [key]: !getNestedValue(data, key) });
                       }}
-                      initialValue={data[key]}
                     />
                   ) : (
-                    data[key]
+                    getNestedValue(data, key)
                   )}
+                  
                 </td>
               ))}
               <td>

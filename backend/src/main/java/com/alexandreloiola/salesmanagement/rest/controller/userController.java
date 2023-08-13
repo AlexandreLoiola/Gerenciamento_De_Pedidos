@@ -57,11 +57,11 @@ public class userController {
         return ResponseEntity.ok().body(userDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{email}")
     public ResponseEntity<Void> deleteUser(
-            @PathVariable("id") long id
+            @PathVariable("email") String email
     ) {
-        userService.deleteUser(id);
+        userService.deleteUser(email);
         return ResponseEntity.noContent().build();
     }
 }

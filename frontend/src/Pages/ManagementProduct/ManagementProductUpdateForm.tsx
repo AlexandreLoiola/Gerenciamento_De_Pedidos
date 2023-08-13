@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import InputForm from "../../Components/Forms";
+import InputForm from "../../Components/Forms/InputForm";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
@@ -27,7 +27,6 @@ const ManagementProductUpdateForm: React.FC = () => {
   const [isActive, setIsActive] = useState(data.isActive);
 
   const handleUpdate = async (index: string, data: any) => {
-    console.log(data);
     try {
       await axios
         .put(`http://localhost:8080/api/management/products/${index}`, data)

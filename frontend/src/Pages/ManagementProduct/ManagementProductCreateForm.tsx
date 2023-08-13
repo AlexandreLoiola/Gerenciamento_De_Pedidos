@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import InputForm from "../../Components/Forms";
+import InputForm from "../../Components/Forms/InputForm";
 import { Button, Form, Tab } from "react-bootstrap";
 import axios from "axios";
 import NumberForm from "../../Components/Forms/NumberForm";

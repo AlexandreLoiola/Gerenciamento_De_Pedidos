@@ -5,7 +5,7 @@ import axios from "axios";
 
 import ManagementTable from "../../Components/ManagementTable";
 import { Button, Form } from "react-bootstrap";
-import InputForm from "../../Components/Forms";
+import InputForm from "../../Components/Forms/InputForm";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { FaPlus } from "react-icons/fa";
 import MyPagination from "../../Components/Pagination";
@@ -56,8 +56,8 @@ const ManagementProduct: React.FC = () => {
           Array.isArray(response.data)
             ? setProducts(response.data)
             : setProducts([response.data]);
-
-          setTotalPages(Math.ceil(response.data.length/5));
+          
+          setTotalPages(Math.ceil(response.data.length / 5));
         })
         .catch((error) => {
           alert(error.response.data.message);
@@ -67,7 +67,7 @@ const ManagementProduct: React.FC = () => {
     }
   };
 
-  const handleUpdate = async (data: any) => {
+  const handleUpdate = async (data: IProduct) => {
     try {
       await axios
         .put(`http://localhost:8080/api/management/products/${data.name}`, data)
@@ -168,9 +168,9 @@ const ManagementProduct: React.FC = () => {
         objectKeys={objectKeys}
         handleDelete={(index) => handleDelete(products[index].name)}
         redirectToUpdateForm={"/gerenciar-produtos/editar-produto"}
-        handleStatusUpdate={(data) => handleUpdate(data)} 
+        handleStatusUpdate={(data) => handleUpdate(data)}
         changePageToPagination={currentPage}
-        />
+      />
       <MyPagination
         currentPage={currentPage}
         totalPages={totalPages}

@@ -6,12 +6,14 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register';
 import ProductCatalog from '../Pages/ProductCatalog';
-import MyOrders from '../Pages/MyOrders';
+import MyOrders from '../Pages/Orders';
 import ManagementSeller from '../Pages/ManagementSeller';
 import ManagementCustomer from '../Pages/ManagementCustomer';
 import ManagementProduct from '../Pages/ManagementProduct';
-import ManagementProductUpdateForm from '../Pages/ManagementProduct/ManagementProductUpdateForm';
+import ManagementProductUpdateForm from '../Pages/ManagementCustomer/ManagementCustomerUpdateForm';
 import ManagementProductCreateForm from '../Pages/ManagementProduct/ManagementProductCreateForm';
+import ManagementCustomerCreateForm from '../Pages/ManagementCustomer/ManagementCustomerCreateForm';
+import ManagementCustomerUpdateForm from '../Pages/ManagementCustomer/ManagementCustomerUpdateForm';
 
 const router = createBrowserRouter([
     {
@@ -46,6 +48,14 @@ const router = createBrowserRouter([
             {
               path: "/gerenciar-clientes",
               element: <ManagementCustomer />
+            },
+            {
+              path: "/gerenciar-clientes/cadastrar-cliente",
+              element: <ManagementCustomerCreateForm />
+            },
+            {
+              path: "/gerenciar-clientes/atualizar-cliente",
+              element: <ManagementCustomerUpdateForm />
             },
             {
               path: "/gerenciar-produtos",

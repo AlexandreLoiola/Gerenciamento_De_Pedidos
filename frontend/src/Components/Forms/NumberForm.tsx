@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { StyledFormGroup } from "./styles";
+import React from "react";
 import { Form } from "react-bootstrap";
 
 interface IProps {

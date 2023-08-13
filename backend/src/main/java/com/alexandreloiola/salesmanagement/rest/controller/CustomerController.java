@@ -4,8 +4,10 @@ import com.alexandreloiola.salesmanagement.rest.form.CustomerRegisterForm;
 import com.alexandreloiola.salesmanagement.service.CustomerService;
 import com.alexandreloiola.salesmanagement.rest.dto.CustomerDto;
 import com.alexandreloiola.salesmanagement.rest.form.CustomerForm;
-import com.alexandreloiola.salesmanagement.rest.form.CustomerUpdateForm;
+import com.alexandreloiola.salesmanagement.rest.form.CustomerUpdateRegisterForm;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,30 +34,36 @@ public class CustomerController {
         return ResponseEntity.ok().body(customerDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerDto> getCustomerById(@PathVariable("id") long id){
-        CustomerDto customerDto = customerService.getCustomerById(id);
+    @GetMapping("/{cpf}")
+    public ResponseEntity<CustomerDto> getCustomerById(
+            @PathVariable("cpf") String cpf
+    ) {
+        CustomerDto customerDto = customerService.getCustomerByCpf(cpf);
         return ResponseEntity.ok().body(customerDto);
     }
 
     @PostMapping
-    public ResponseEntity<CustomerDto> insertCustomer(@Valid @RequestBody CustomerForm customerForm) {
+    public ResponseEntity<CustomerDto> insertCustomer(
+            @Valid @RequestBody CustomerForm customerForm
+    ) {
         CustomerDto customerDto = customerService.insertCustomer(customerForm);
         return ResponseEntity.ok().body(customerDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{cpf}")
     public ResponseEntity<CustomerDto> updateCustomer(
-            @Valid @RequestBody CustomerUpdateForm customerUpdateForm,
-            @PathVariable("id") long id
+            @Valid @RequestBody CustomerUpdateRegisterForm customerUpdateForm,
+            @PathVariable("cpf") String cpf
     ) {
-        CustomerDto customerDto = customerService.updateCustomer(id, customerUpdateForm);
+        CustomerDto customerDto = customerService.updateRegisterCustomer(cpf, customerUpdateForm);
         return ResponseEntity.ok().body(customerDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable("id") long id) {
-        customerService.deleteCustomer(id);
+    @DeleteMapping("/{cpf}")
+    public ResponseEntity<Void> deleteCustomer(
+            @PathVariable("cpf") String cpf
+    ) {
+        customerService.deleteCustomer(cpf);
         return ResponseEntity.noContent().build();
     }
 }
