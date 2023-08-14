@@ -37,9 +37,8 @@ public class EmployeeRegistrationForm {
     @Size(min = 8, max = 50, message = "Senha do Pessoa deve ter entre 8 e 50 caracteres.")
     private String password;
 
-    @NotNull(message = "O campo data de contratação não pode ficar em branco.")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate hire_date;
+    private LocalDate hireDate;
 
     @NotNull(message ="O campo de salário não pode ficar vazio")
     @DecimalMax(value = "99999")

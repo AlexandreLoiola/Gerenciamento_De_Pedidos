@@ -55,6 +55,7 @@ const ManagementTable: React.FC<IProps> = ({
                     <TableToggle
                       initialValue={getNestedValue(data, key)}
                       onToggle={() => {
+                        console.log({ ...data, [key]: !getNestedValue(data, key) });
                         handleStatusUpdate({ ...data, [key]: !getNestedValue(data, key) });
                       }}
                     />

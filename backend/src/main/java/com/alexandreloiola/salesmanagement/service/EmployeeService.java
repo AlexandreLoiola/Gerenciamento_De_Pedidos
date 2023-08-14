@@ -80,7 +80,7 @@ public class EmployeeService {
 
         EmployeeForm employeeForm = new EmployeeForm();
         employeeForm.setId(personRepository.findByCpf(employeeRegistrationForm.getCpf()).get().getId());
-        employeeForm.setHireDate(employeeRegistrationForm.getHire_date());
+        employeeForm.setHireDate(employeeRegistrationForm.getHireDate());
         employeeForm.setSalary(employeeRegistrationForm.getSalary());
         employeeForm.setPosition(employeePositionModel.get().getDescription());
 

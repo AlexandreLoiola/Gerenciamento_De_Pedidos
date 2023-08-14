@@ -10,7 +10,7 @@ import InputForm from "../../Components/Forms/InputForm";
 import ManagementTable from "../../Components/ManagementTable";
 import MyPagination from "../../Components/Pagination";
 
-interface ICustomer {
+interface IEmployee {
   personDto: {
     name: string;
     cpf: string;
@@ -20,12 +20,15 @@ interface ICustomer {
     isActive?: string;
     email: string;
   };
-  registrationDate: string;
+  hireDate: string;
+  resignationDate: string;
+  salary: number;
+  position: string;
 }
 
 const ManagementEmployee: React.FC = () => {
   const [identifier, setIdentifier] = useState("");
-  const [customers, setCustomers] = useState<ICustomer[]>([]);
+  const [customers, setCustomers] = useState<IEmployee[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -37,7 +40,10 @@ const ManagementEmployee: React.FC = () => {
     "Email",
     "CPF",
     "Data de Nasimento",
-    "Data de Cadastro",
+    "Cargo",
+    "Salário",
+    "Data de Admissão",
+    "Data de Demissão",
     "Status",
     "Ações",
   ];
@@ -46,7 +52,10 @@ const ManagementEmployee: React.FC = () => {
     "personDto.email",
     "personDto.cpf",
     "personDto.birthDate",
-    "registrationDate",
+    "position",
+    "salary",
+    "hireDate",
+    "resignationDate",
     "personDto.isActive",
   ];
 
@@ -57,12 +66,12 @@ const ManagementEmployee: React.FC = () => {
   const handleFetch = async () => {
     try {
       await axios
-        .get(`http://localhost:8080/api/management/customers${identifier}`)
+        .get(`http://localhost:8080/api/management/employees${identifier}`)
         .then((response) => {
           Array.isArray(response.data)
             ? setCustomers(response.data)
             : setCustomers([response.data]);
-  
+
           setTotalPages(Math.ceil(response.data.length / 5));
         })
         .catch((error) => {
@@ -73,25 +82,31 @@ const ManagementEmployee: React.FC = () => {
     }
   };
 
-  const handleUpdate = async (data: ICustomer) => {
+  const handleUpdate = async (data: IEmployee) => {
     const formattedData = {
       name: data.personDto.name,
       birthDate: data.personDto.birthDate,
       isActive: data.personDto.isActive,
-      registrationDate: data.registrationDate,
+      salary: data.salary,
+      position: data.position,
+      hireDate: data.hireDate,
+      resignationDate: data.resignationDate
     };
     try {
       await axios
-        .put(`http://localhost:8080/api/management/customers/${data.personDto.cpf}`, formattedData)
+        .put(
+          `http://localhost:8080/api/management/employees/${data.personDto.cpf}`,
+          formattedData
+        )
         .then((response) => {
-          alert("Cliente Atualizado");
+          alert("Funcionário Atualizado");
           handleFetch();
         })
         .catch((error) => {
           console.error(error);
         });
     } catch (error) {
-      alert("O Cliente não foi Atualizado");
+      alert("O funcionario não foi Atualizado");
       console.error(error);
     }
   };
@@ -99,16 +114,16 @@ const ManagementEmployee: React.FC = () => {
   const handleDelete = async (cpf: string) => {
     try {
       await axios
-        .delete(`http://localhost:8080/api/management/customers/${cpf}`)
+        .delete(`http://localhost:8080/api/management/employees/${cpf}`)
         .then(() => {
-          alert("Cliente Deletado!");
+          alert("Funcionário Deletado!");
           handleFetch();
         })
         .catch((error) => {
           alert(error.response.data.message);
         });
     } catch (error) {
-      alert("O Cliente não foi deletado");
+      alert("O Funcionário não foi deletado");
     }
   };
 
@@ -133,14 +148,14 @@ const ManagementEmployee: React.FC = () => {
         <Button
           style={{
             backgroundColor: "green",
-            margin: " 20px 0",
+            margin: "20px 0",
             fontSize: "18px",
             fontWeight: "600",
           }}
           variant="success"
-          onClick={() => navigate("/gerenciar-clientes/cadastrar-cliente")}
+          onClick={() => navigate("/gerenciar-funcionarios/cadastrar-funcionario")}
         >
-          Novo Produto <FaPlus />
+          Novo Funcionário <FaPlus />
         </Button>
         <Form
           onSubmit={(event) => {
@@ -177,7 +192,7 @@ const ManagementEmployee: React.FC = () => {
         data={customers}
         objectKeys={objectKeys}
         handleDelete={(index) => handleDelete(customers[index].personDto.cpf)}
-        redirectToUpdateForm={"/gerenciar-clientes/atualizar-cliente"}
+        redirectToUpdateForm={"/gerenciar-funcionarios/atualizar-funcionario"}
         handleStatusUpdate={(data) => handleUpdate(data)}
         changePageToPagination={currentPage}
       />

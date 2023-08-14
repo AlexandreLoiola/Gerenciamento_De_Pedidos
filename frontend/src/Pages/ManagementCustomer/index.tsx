@@ -140,7 +140,7 @@ const ManagementCustomer: React.FC = () => {
           variant="success"
           onClick={() => navigate("/gerenciar-clientes/cadastrar-cliente")}
         >
-          Novo Produto <FaPlus />
+          Novo Cliente <FaPlus />
         </Button>
         <Form
           onSubmit={(event) => {
@@ -178,7 +178,7 @@ const ManagementCustomer: React.FC = () => {
         objectKeys={objectKeys}
         handleDelete={(index) => handleDelete(customers[index].personDto.cpf)}
         redirectToUpdateForm={"/gerenciar-clientes/atualizar-cliente"}
-        handleStatusUpdate={(data) => handleUpdate(data)}
+        handleStatusUpdate={(data) => {console.log(data); handleUpdate(data)}}
         changePageToPagination={currentPage}
       />
       <MyPagination

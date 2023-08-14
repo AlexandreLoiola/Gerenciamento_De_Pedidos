@@ -49,11 +49,11 @@ const router = createBrowserRouter([
               element: <ManagementEmployee />
             },
             {
-              path: "/gerenciar-funcionarios/criar-funcionario",
+              path: "/gerenciar-funcionarios/cadastrar-funcionario",
               element: <ManagementEmployeeCreateForm />
             },
             {
-              path: "/gerenciar-funcionarios/editar-funcionario",
+              path: "/gerenciar-funcionarios/atualizar-funcionario",
               element: <ManagementEmployeeUpdateForm/>
             },
             {

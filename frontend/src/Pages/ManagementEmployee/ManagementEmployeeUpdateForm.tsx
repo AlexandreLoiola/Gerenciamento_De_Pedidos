@@ -5,7 +5,7 @@ import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import TableToggle from "../../Components/ManagementTable/TableToggle";
 import ReadonlyForm from "../../Components/Forms/ReadonlyForm";
-
+import NumberForm from "../../Components/Forms/NumberForm";
 
 const ManagementEmployeeUpdateForm: React.FC = () => {
   const location = useLocation();
@@ -18,21 +18,25 @@ const ManagementEmployeeUpdateForm: React.FC = () => {
   const [birthDate, setBirthDate] = useState<string>(data.personDto.birthDate);
   const [cpf, setCpf] = useState<string>(data.personDto.cpf);
   const [isActive, setIsActive] = useState<boolean>(data.personDto.isActive);
-  const [registrationDate, setRegistrationDate] = useState<string>(data.registrationDate);
+  const [hireDate, setHireDate] = useState<string>(data.hireDate);
+  const [resignationDate, setResignationDate] = useState<string>(data.resignationDate);
+  const [salary, setSalary] = useState<number>(data.salary);
+  const [position, setPosition] = useState<string>(data.position);
 
   const handleUpdate = async (index: string, data: any) => {
+    console.log(data);
     try {
       await axios
-        .put(`http://localhost:8080/api/management/customers/${index}`, data)
+        .put(`http://localhost:8080/api/management/employees/${index}`, data)
         .then((response) => {
-          alert("Cliente Atualizado");
-          navigate("/gerenciar-clientes/")
+          alert("Funcionário Atualizado");
+          navigate("/gerenciar-funcionarios/");
         })
         .catch((error) => {
           console.error(error);
         });
     } catch (error) {
-      alert("O Cliente não foi Atualizado");
+      alert("O funcionário não foi Atualizado");
       console.error(error);
     }
   };
@@ -60,13 +64,36 @@ const ManagementEmployeeUpdateForm: React.FC = () => {
           message={""}
           onInputChange={(value) => setBirthDate(value)}
         />
-        
         <InputForm
-          label={"Data de registro"}
+          label={"Data de demissão"}
           placeHolder={"dd/mm//yy"}
-          value={registrationDate}
+          value={resignationDate}
           message={""}
-          onInputChange={(value) => setRegistrationDate(value)}
+          onInputChange={(value) => setResignationDate(value)}
+        />
+        <InputForm
+          label={"Data de admissão"}
+          placeHolder={"dd/mm//yy"}
+          value={hireDate}
+          message={""}
+          onInputChange={(value) => setHireDate(value)}
+        />
+        <NumberForm
+          label={"Salário"}
+          placeholder={"Salário"}
+          value={salary}
+          max={9999}
+          min={0}
+          onChange={(value) => {
+            setSalary(value);
+          }}
+        />
+        <InputForm
+          label={"Cargo"}
+          placeHolder={"cargo"}
+          value={position}
+          message={""}
+          onInputChange={(value) => setPosition(value)}
         />
         <span>Status</span>
         <TableToggle
@@ -79,8 +106,11 @@ const ManagementEmployeeUpdateForm: React.FC = () => {
             handleUpdate(data.personDto.cpf, {
               name: name,
               birthDate: birthDate,
-              registrationDate: registrationDate,
+              resignationDate: resignationDate,
               isActive: isActive,
+              hireDate: hireDate,
+              salary: salary,
+              position: position,
             })
           }
         >

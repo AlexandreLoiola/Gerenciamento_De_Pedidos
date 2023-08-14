@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
+
 public class EmployeeUpdateForm {
 
     @NotNull(message = "O campo data de contratação não pode ficar em branco.")
