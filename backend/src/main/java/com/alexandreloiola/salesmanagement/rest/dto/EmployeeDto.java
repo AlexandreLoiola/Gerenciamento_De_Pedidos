@@ -16,11 +16,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EmployeeDto {
 
-    private Long id;
+    private PersonDto personDto;
 
-    private LocalDate hire_date;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate hireDate;
 
-    private LocalDate resignation_date;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate resignationDate;
 
     private BigDecimal salary;
 

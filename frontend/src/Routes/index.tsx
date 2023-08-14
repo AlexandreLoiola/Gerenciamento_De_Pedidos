@@ -7,13 +7,16 @@ import Login from '../Pages/Login';
 import Register from '../Pages/Register';
 import ProductCatalog from '../Pages/ProductCatalog';
 import MyOrders from '../Pages/Orders';
-import ManagementSeller from '../Pages/ManagementSeller';
+import ManagementSeller from '../Pages/ManagementEmployee';
 import ManagementCustomer from '../Pages/ManagementCustomer';
 import ManagementProduct from '../Pages/ManagementProduct';
 import ManagementProductUpdateForm from '../Pages/ManagementCustomer/ManagementCustomerUpdateForm';
 import ManagementProductCreateForm from '../Pages/ManagementProduct/ManagementProductCreateForm';
 import ManagementCustomerCreateForm from '../Pages/ManagementCustomer/ManagementCustomerCreateForm';
 import ManagementCustomerUpdateForm from '../Pages/ManagementCustomer/ManagementCustomerUpdateForm';
+import ManagementEmployee from '../Pages/ManagementEmployee';
+import ManagementEmployeeCreateForm from '../Pages/ManagementEmployee/ManagementEmployeeCreateForm';
+import ManagementEmployeeUpdateForm from '../Pages/ManagementEmployee/ManagementEmployeeUpdateForm';
 
 const router = createBrowserRouter([
     {
@@ -42,8 +45,16 @@ const router = createBrowserRouter([
               element: <MyOrders />
             },
             {
-              path: "/gerenciar-vendedores",
-              element: <ManagementSeller />
+              path: "/gerenciar-funcionarios",
+              element: <ManagementEmployee />
+            },
+            {
+              path: "/gerenciar-funcionarios/criar-funcionario",
+              element: <ManagementEmployeeCreateForm />
+            },
+            {
+              path: "/gerenciar-funcionarios/editar-funcionario",
+              element: <ManagementEmployeeUpdateForm/>
             },
             {
               path: "/gerenciar-clientes",

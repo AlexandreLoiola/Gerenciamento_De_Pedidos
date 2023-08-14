@@ -131,7 +131,7 @@ public class CustomerService {
             customerRepository.save(customerUpdated);
 
             return convertModelToDto(customerUpdated);
-        } catch (DataIntegrityViolationException err) { 
+        } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("1Campo(s) obrigatório(s) do cliente não foi(foram) devidamente preenchido(s).");
         }
     }

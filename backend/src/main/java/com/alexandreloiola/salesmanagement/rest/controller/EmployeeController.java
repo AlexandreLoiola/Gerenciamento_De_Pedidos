@@ -3,6 +3,8 @@ package com.alexandreloiola.salesmanagement.rest.controller;
 import com.alexandreloiola.salesmanagement.rest.dto.EmployeeDto;
 import com.alexandreloiola.salesmanagement.rest.form.EmployeeForm;
 import com.alexandreloiola.salesmanagement.rest.form.EmployeeUpdateForm;
+import com.alexandreloiola.salesmanagement.rest.form.EmployeeRegistrationForm;
+import com.alexandreloiola.salesmanagement.rest.form.EmployeeUpdateRegisterForm;
 import com.alexandreloiola.salesmanagement.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,30 +26,30 @@ public class EmployeeController {
         return ResponseEntity.ok().body(employeeDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDto> getEmployeEById(@PathVariable("id") long id) {
-        EmployeeDto employeeDto = employeeService.getEmployeeById(id);
+    @GetMapping("/{cpf}")
+    public ResponseEntity<EmployeeDto> getEmployeeByCpf(@PathVariable("cpf") String cpf) {
+        EmployeeDto employeeDto = employeeService.getEmployeeByCpf(cpf);
         return ResponseEntity.ok().body(employeeDto);
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDto> insertEmployee(@Valid @RequestBody EmployeeForm employeeForm) {
-        EmployeeDto employeeDto = employeeService.insertEmployee(employeeForm);
+    public ResponseEntity<EmployeeDto> insertEmployee(@Valid @RequestBody EmployeeRegistrationForm employeeRegistrationForm) {
+        EmployeeDto employeeDto = employeeService.registerEmployee(employeeRegistrationForm);
         return ResponseEntity.ok().body(employeeDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDto> updateEmployee(
-            @PathVariable("id") long id,
-            @Valid @RequestBody EmployeeUpdateForm employeeUpdateForm
+    @PutMapping("/{cpf}")
+    public ResponseEntity<EmployeeDto> updateRegisterEmployee(
+            @PathVariable("cpf") String cpf,
+            @Valid @RequestBody EmployeeUpdateRegisterForm employeeUpdateRegisterForm
     ) {
-        EmployeeDto employeeDto = employeeService.updateEmployee(id, employeeUpdateForm);
+        EmployeeDto employeeDto = employeeService.updateRegisterEmployee(cpf, employeeUpdateRegisterForm);
         return ResponseEntity.ok().body(employeeDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable("id") long id) {
-        employeeService.deleteEmployee(id);
+    @DeleteMapping("/{cpf}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable("cpf") String cpf) {
+        employeeService.deleteEmployee(cpf);
         return ResponseEntity.noContent().build();
     }
 }

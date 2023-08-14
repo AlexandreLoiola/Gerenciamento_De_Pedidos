@@ -7,9 +7,8 @@ import com.alexandreloiola.salesmanagement.repository.EmployeePositionRepository
 import com.alexandreloiola.salesmanagement.repository.EmployeeRepository;
 import com.alexandreloiola.salesmanagement.repository.PersonRepository;
 import com.alexandreloiola.salesmanagement.rest.dto.EmployeeDto;
-import com.alexandreloiola.salesmanagement.rest.dto.EmployeePositionDto;
-import com.alexandreloiola.salesmanagement.rest.form.EmployeeForm;
-import com.alexandreloiola.salesmanagement.rest.form.EmployeeUpdateForm;
+import com.alexandreloiola.salesmanagement.rest.dto.PersonDto;
+import com.alexandreloiola.salesmanagement.rest.form.*;
 import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityViolationException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,12 @@ public class EmployeeService {
     private PersonRepository personRepository;
 
     @Autowired
+    private PersonService personService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
     private EmployeePositionRepository employeePositionRepository;
 
     public List<EmployeeDto> getAllEmployees() {
@@ -38,25 +43,106 @@ public class EmployeeService {
         return convertListToDto(employeeList);
     }
 
-    public EmployeeDto getEmployeeById(long id) {
+    public EmployeeDto getEmployeeByCpf(String cpf) {
         try {
-            EmployeeModel employeeModel = employeeRepository.findById(id).get();
-            return convertModelToDto(employeeModel);
-        } catch(NoSuchElementException err) {
+            Optional<PersonModel> personModel = personRepository.findByCpf(cpf);
+            if (personModel.isPresent()) {
+                long id = personModel.get().getId();
+                EmployeeModel employeeModel = employeeRepository.findById(id).get();
+                return convertModelToDto(employeeModel);
+            } else {
+                throw new ObjectNotFoundException("Funcionário não encontrado!");
+            }
+        } catch (NoSuchElementException err) {
             throw new ObjectNotFoundException("Funcionário não encontrado!");
         }
     }
 
     @Transactional
+    public EmployeeDto registerEmployee(EmployeeRegistrationForm employeeRegistrationForm) {
+        Optional<EmployeePositionModel> employeePositionModel
+                = employeePositionRepository.findByDescription(employeeRegistrationForm.getPosition());
+        if (!employeePositionModel.isPresent()) {
+            throw new ObjectNotFoundException("O cargo informado não foi encontrado");
+        }
+
+        PersonForm personForm = new PersonForm();
+        personForm.setName(employeeRegistrationForm.getName());
+        personForm.setEmail(employeeRegistrationForm.getEmail());
+        personForm.setBirthDate(employeeRegistrationForm.getBirthDate());
+        personForm.setCpf(employeeRegistrationForm.getCpf());
+        personService.insertPerson(personForm);
+
+        UserForm userForm = new UserForm();
+        userForm.setEmail(employeeRegistrationForm.getEmail());
+        userForm.setPassword(employeeRegistrationForm.getPassword());
+        userService.insertUser(userForm);
+
+        EmployeeForm employeeForm = new EmployeeForm();
+        employeeForm.setId(personRepository.findByCpf(employeeRegistrationForm.getCpf()).get().getId());
+        employeeForm.setHireDate(employeeRegistrationForm.getHire_date());
+        employeeForm.setSalary(employeeRegistrationForm.getSalary());
+        employeeForm.setPosition(employeePositionModel.get().getDescription());
+
+        System.out.println("|||||||1" + employeeForm);
+
+        EmployeeDto employeeDto = insertEmployee(employeeForm);
+
+        System.out.println("|||||||2" + employeeDto);
+
+        return employeeDto;
+    }
+
+    @Transactional
     public EmployeeDto insertEmployee(EmployeeForm employeeForm) {
         try {
-            EmployeeModel newemployee = convertFormToModel(employeeForm);
-
-            newemployee = employeeRepository.save(newemployee);
-            return convertModelToDto(newemployee);
+            Optional<EmployeePositionModel> employeePositionModel
+                    = employeePositionRepository.findByDescription(employeeForm.getPosition());
+            if (!employeePositionModel.isPresent()) {
+                throw new ObjectNotFoundException("O funcionário não existe");
+            }
+            EmployeeModel newEmployee = convertFormToModel(employeeForm);
+            newEmployee.setId(employeeForm.getId());
+            newEmployee.setSalary(employeeForm.getSalary());
+            newEmployee.setHireDate(employeeForm.getHireDate());
+            newEmployee.setEmployeePosition(employeePositionModel.get());
+            newEmployee = employeeRepository.save(newEmployee);
+            return convertModelToDto(newEmployee);
         } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do funcionário não foi(foram) devidamente preenchido(s).");
         }
+    }
+
+    @Transactional
+    public EmployeeDto updateRegisterEmployee(String cpf, EmployeeUpdateRegisterForm employeeUpdateRegisterForm) {
+        Optional<PersonModel> personModel = personRepository.findByCpf(cpf);
+        if (!personModel.isPresent()) {
+            throw new ObjectNotFoundException("O funcionário não existe");
+        }
+        Optional<EmployeePositionModel> employeePositionModel
+                = employeePositionRepository.findByDescription(employeeUpdateRegisterForm.getPosition());
+        if (!employeePositionModel.isPresent()) {
+            throw new ObjectNotFoundException("O cargo informado não foi encontrado");
+        }
+
+        PersonUpdateForm personUpdateForm = new PersonUpdateForm();
+        personUpdateForm.setName(employeeUpdateRegisterForm.getName());
+        personUpdateForm.setBirthDate(employeeUpdateRegisterForm.getBirthDate());
+        personUpdateForm.setIsActive(employeeUpdateRegisterForm.getIsActive());
+        personService.updatePerson(cpf, personUpdateForm);
+
+        UserUpdateForm userUpdateForm = new UserUpdateForm();
+        userUpdateForm.setIsActive(employeeUpdateRegisterForm.getIsActive());
+        userService.updateUser(personModel.get().getEmail(), userUpdateForm);
+
+        EmployeeUpdateForm employeeUpdateForm = new EmployeeUpdateForm();
+        employeeUpdateForm.setHireDate(employeeUpdateRegisterForm.getHireDate());
+        employeeUpdateForm.setSalary(employeeUpdateRegisterForm.getSalary());
+        employeeUpdateForm.setResignationDate(employeeUpdateRegisterForm.getResignationDate());
+        employeeUpdateForm.setIdPosition(employeePositionModel.get().getId());
+        EmployeeDto employeeDto = updateEmployee(personModel.get().getId(), employeeUpdateForm);
+
+        return employeeDto;
     }
 
     @Transactional
@@ -67,12 +153,11 @@ public class EmployeeService {
             if (!employeePositionModel.isPresent()) {
                 throw new ObjectNotFoundException("O cargo informado não foi encontrado");
             }
-
             Optional<EmployeeModel> employeeModel = employeeRepository.findById(id);
             if (employeeModel.isPresent()) {
                 EmployeeModel employeeUpdated = employeeModel.get();
-                employeeUpdated.setHireDate(employeeUpdateForm.getHire_date());
-                employeeUpdated.setResignationDate(employeeUpdateForm.getResignation_date());
+                employeeUpdated.setHireDate(employeeUpdateForm.getHireDate());
+                employeeUpdated.setResignationDate(employeeUpdateForm.getResignationDate());
                 employeeUpdated.setSalary(employeeUpdateForm.getSalary());
 
                 employeeRepository.save(employeeUpdated);
@@ -86,9 +171,15 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void deleteEmployee(long id) {
+    public void deleteEmployee(String cpf) {
         try {
-            if (employeeRepository.existsById(id)) {
+            Optional<PersonModel> personModel = personRepository.findByCpf(cpf);
+            if (personModel.isPresent()) {
+                long id = personModel.get().getId();
+                String email = personModel.get().getEmail();
+
+                personService.deletePerson(cpf);
+                userService.deleteUser(email);
                 employeeRepository.deleteById(id);
             } else {
                 throw new DataIntegrityViolationException("O funcionário não pode ser deletado");
@@ -99,37 +190,38 @@ public class EmployeeService {
     }
 
     private EmployeeModel convertFormToModel(EmployeeForm employeeForm) {
-        EmployeeModel employeeModel = new EmployeeModel();
-
-        Optional<PersonModel> personModel
-                = personRepository.findById(employeeForm.getIdPerson());
-        if (personModel.isPresent()) {
-            employeeModel.setId(personModel.get().getId());
-        } else {
-            throw new ObjectNotFoundException("A pessoa informada não foi encontrado");
-        }
         Optional<EmployeePositionModel> employeePositionModel
-                = employeePositionRepository.findById(employeeForm.getIdPosition());
-        if (employeePositionModel.isPresent()) {
-            employeeModel.setEmployeePosition(employeePositionModel.get());
-        } else {
+                = employeePositionRepository.findByDescription(employeeForm.getPosition());
+        if (!employeePositionModel.isPresent()) {
             throw new ObjectNotFoundException("O cargo informado não foi encontrado");
         }
-
-        employeeModel.setHireDate(employeeForm.getHire_date());
-        employeeModel.setSalary(employeeForm.getSalary());
+        EmployeeModel employeeModel = new EmployeeModel();
+        employeeModel.setId(employeeModel.getId());
+        employeeModel.setHireDate(employeeForm.getHireDate());
+        employeeModel.setSalary(employeeModel.getSalary());
+        employeeModel.setEmployeePosition(employeePositionModel.get());
 
         return employeeModel;
     }
 
     private EmployeeDto convertModelToDto(EmployeeModel employeeModel) {
-        EmployeeDto employeeDto = new EmployeeDto();
+        Optional<PersonModel> personModel = personRepository.findById(employeeModel.getId());
+        if(!personModel.isPresent()) {
+            throw new org.springframework.dao.DataIntegrityViolationException("A pessoa não existe");
+        }
+        Optional<EmployeePositionModel> employeePositionModel
+                = employeePositionRepository.findByDescription(employeeModel.getEmployeePosition().getDescription());
+        if (!employeePositionModel.isPresent()) {
+            throw new ObjectNotFoundException("O cargo informado não foi encontrado");
+        }
+        PersonDto personDto = personService.getPersonByCpf(personModel.get().getCpf());
 
-        employeeDto.setId(employeeModel.getId());
-        employeeDto.setHire_date(employeeModel.getHireDate());
-        employeeDto.setResignation_date(employeeModel.getResignationDate());
+        EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setPersonDto(personDto);
+        employeeDto.setHireDate(employeeModel.getHireDate());
+        employeeDto.setResignationDate(employeeModel.getResignationDate());
         employeeDto.setSalary(employeeModel.getSalary());
-        employeeDto.setPosition(employeeModel.getEmployeePosition().getDescription());
+        employeeDto.setPosition(employeePositionModel.get().getDescription());
 
         return employeeDto;
     }

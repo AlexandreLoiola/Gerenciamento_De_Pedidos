@@ -14,10 +14,10 @@ public class EmployeeUpdateForm {
 
     @NotNull(message = "O campo data de contratação não pode ficar em branco.")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate hire_date;
+    private LocalDate hireDate;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate resignation_date;
+    private LocalDate resignationDate;
 
     @NotNull(message ="O campo de salário não pode ficar vazio")
     @DecimalMax(value = "99999")

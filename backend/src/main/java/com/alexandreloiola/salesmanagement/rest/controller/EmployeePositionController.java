@@ -24,11 +24,11 @@ public class EmployeePositionController {
         return ResponseEntity.ok().body(employeePositionDtoList);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{description}")
     public ResponseEntity<EmployeePositionDto> getEmployeePositionById(
-            @PathVariable("id") Long id
+            @PathVariable("description") String description
     ) {
-        EmployeePositionDto employeePositionDto = employeePositionService.getEmployeePositionById(id);
+        EmployeePositionDto employeePositionDto = employeePositionService.getEmployeePositionByDescription(description);
         return ResponseEntity.ok().body(employeePositionDto);
     }
 
@@ -40,20 +40,20 @@ public class EmployeePositionController {
         return ResponseEntity.ok().body(employeePositionDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{description}")
     public ResponseEntity<EmployeePositionDto> updateEmployeePosition(
-            @PathVariable("id") Long id,
+            @PathVariable("description") String description,
             @Valid @RequestBody EmployeePositionUpdateForm employeePositionUpdateForm
     ) {
-        EmployeePositionDto employeePositionDto = employeePositionService.updateEmployeePosition(id, employeePositionUpdateForm);
+        EmployeePositionDto employeePositionDto = employeePositionService.updateEmployeePosition(description, employeePositionUpdateForm);
         return ResponseEntity.ok().body(employeePositionDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{description}")
     public ResponseEntity<EmployeePositionDto> deleteEmployeePosition(
-            @PathVariable("id") Long id
+            @PathVariable("description") String description
     ) {
-        employeePositionService.deleteEmployeePosition(id);
+        employeePositionService.deleteEmployeePosition(description);
         return ResponseEntity.noContent().build();
     }
 }

@@ -27,12 +27,12 @@ public class EmployeePositionService {
         return convertListToDto(employeePositionModelList);
     }
 
-    public EmployeePositionDto getEmployeePositionById(Long id) {
+    public EmployeePositionDto getEmployeePositionByDescription(String description) {
         try {
-            EmployeePositionModel employeePositionModel = employeePositionRepository.findById(id).get();
+            EmployeePositionModel employeePositionModel = employeePositionRepository.findByDescription(description).get();
             return convertModelToDto(employeePositionModel);
         }  catch(NoSuchElementException err) {
-            throw new ObjectNotFoundException("Autorização não encontrado!");
+            throw new ObjectNotFoundException("Cargo não encontrado!");
         }
     }
 
@@ -40,7 +40,7 @@ public class EmployeePositionService {
         try {
             Optional<EmployeePositionModel> byDescription = employeePositionRepository.findByDescription(employeePositionForm.getDescription());
             if (byDescription.isPresent()) {
-                throw new DataIntegrityException("Essa autorização já foi cadastrado");
+                throw new DataIntegrityException("Este cargo já foi cadastrado");
             }
             EmployeePositionModel employeePositionModel = convertFormToModel(employeePositionForm);
             employeePositionModel.setIsActive(true);
@@ -48,13 +48,13 @@ public class EmployeePositionService {
 
             return convertModelToDto(employeePositionModel);
         }   catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do Authorização não foi(foram) devidamente preenchido(s).");
+            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do cargo não foi(foram) devidamente preenchido(s).");
         }
     }
 
-    public EmployeePositionDto updateEmployeePosition(Long id, EmployeePositionUpdateForm employeePositionUpdateForm) {
+    public EmployeePositionDto updateEmployeePosition(String description, EmployeePositionUpdateForm employeePositionUpdateForm) {
         try {
-            Optional<EmployeePositionModel> employeePositionModel = employeePositionRepository.findById(id);
+            Optional<EmployeePositionModel> employeePositionModel = employeePositionRepository.findByDescription(description);
             if (employeePositionModel.isPresent()) {
                 EmployeePositionModel employeePositionUpdate = employeePositionModel.get();
                 employeePositionUpdate.setDescription(employeePositionUpdateForm.getDescription());
@@ -62,18 +62,21 @@ public class EmployeePositionService {
                 employeePositionUpdate = employeePositionRepository.save(employeePositionUpdate);
                 return convertModelToDto(employeePositionUpdate);
             }  else {
-                throw new DataIntegrityViolationException("Campo(s) obrigatório(s) da autorização não foi(foram) devidamente preenchido(s).");
+                throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do cargo não foi(foram) devidamente preenchido(s).");
             }
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("Esse produto não está cadastrado");
+            throw new DataIntegrityViolationException("Cargo não está cadastrado");
         }
     }
 
-    public void deleteEmployeePosition(Long id) {
+    public void deleteEmployeePosition(String description) {
         try {
-            if (employeePositionRepository.existsById(id)) {
-                employeePositionRepository.deleteById(id);
+            Optional<EmployeePositionModel> employeePositionModel = employeePositionRepository.findByDescription(description);
+            if (!employeePositionModel.isPresent()) {
+                throw new DataIntegrityViolationException("Cargo não está cadastrado");
             }
+            long id = employeePositionModel.get().getId();
+            employeePositionRepository.deleteById(id);
         } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Não foi possível deletar a authorização");
         }
@@ -82,7 +85,6 @@ public class EmployeePositionService {
     public EmployeePositionDto convertModelToDto(EmployeePositionModel employeePositionModel) {
         EmployeePositionDto employeePositionDto = new EmployeePositionDto();
 
-        employeePositionDto.setId(employeePositionModel.getId());
         employeePositionDto.setDescription(employeePositionModel.getDescription());
         employeePositionDto.setIsActive(employeePositionModel.getIsActive());
 
