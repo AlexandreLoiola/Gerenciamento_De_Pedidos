@@ -15,7 +15,6 @@ interface IEmployee {
     name: string;
     cpf: string;
     birthDate: string;
-    status: string;
     password?: string;
     isActive?: string;
     email: string;
@@ -191,9 +190,11 @@ const ManagementEmployee: React.FC = () => {
         columnTitles={columnTitles}
         data={customers}
         objectKeys={objectKeys}
+        showEditButton={true}
+        showDeleteButton={true}
         handleDelete={(index) => handleDelete(customers[index].personDto.cpf)}
         redirectToUpdateForm={"/gerenciar-funcionarios/atualizar-funcionario"}
-        handleStatusUpdate={(data) => handleUpdate(data)}
+        handleStatusUpdate={(data) => {handleUpdate(data)}}
         changePageToPagination={currentPage}
       />
       <MyPagination

@@ -24,7 +24,6 @@ const ManagementEmployeeUpdateForm: React.FC = () => {
   const [position, setPosition] = useState<string>(data.position);
 
   const handleUpdate = async (index: string, data: any) => {
-    console.log(data);
     try {
       await axios
         .put(`http://localhost:8080/api/management/employees/${index}`, data)

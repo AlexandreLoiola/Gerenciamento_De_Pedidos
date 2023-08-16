@@ -18,7 +18,7 @@ public class EmployeeUpdateForm {
     private LocalDate hireDate;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate resignationDate;
+        private LocalDate resignationDate;
 
     @NotNull(message ="O campo de salário não pode ficar vazio")
     @DecimalMax(value = "99999")

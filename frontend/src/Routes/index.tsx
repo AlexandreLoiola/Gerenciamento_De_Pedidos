@@ -6,17 +6,18 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register';
 import ProductCatalog from '../Pages/ProductCatalog';
-import MyOrders from '../Pages/Orders';
-import ManagementSeller from '../Pages/ManagementEmployee';
+import GenerateOrder from '../Pages/Orders/GenerateOrder'
+import Orders from '../Pages/Orders/index'
 import ManagementCustomer from '../Pages/ManagementCustomer';
 import ManagementProduct from '../Pages/ManagementProduct';
-import ManagementProductUpdateForm from '../Pages/ManagementCustomer/ManagementCustomerUpdateForm';
+import ManagementProductUpdateForm from '../Pages/ManagementProduct/ManagementProductUpdateForm';
 import ManagementProductCreateForm from '../Pages/ManagementProduct/ManagementProductCreateForm';
 import ManagementCustomerCreateForm from '../Pages/ManagementCustomer/ManagementCustomerCreateForm';
 import ManagementCustomerUpdateForm from '../Pages/ManagementCustomer/ManagementCustomerUpdateForm';
 import ManagementEmployee from '../Pages/ManagementEmployee';
 import ManagementEmployeeCreateForm from '../Pages/ManagementEmployee/ManagementEmployeeCreateForm';
 import ManagementEmployeeUpdateForm from '../Pages/ManagementEmployee/ManagementEmployeeUpdateForm';
+import AddItemsToOrder from '../Pages/Orders/AddItemsToOrder';
 
 const router = createBrowserRouter([
     {
@@ -41,8 +42,16 @@ const router = createBrowserRouter([
               element: <ProductCatalog />
             },
             {
-              path: "/meus-pedidos",
-              element: <MyOrders />
+              path: "pedidos",
+              element: <Orders />
+            },
+            {
+              path: "pedidos/gerar-pedido",
+              element: <GenerateOrder />
+            },
+            {
+              path: "pedidos/adicionar-itens",
+              element: <AddItemsToOrder />
             },
             {
               path: "/gerenciar-funcionarios",
@@ -73,7 +82,7 @@ const router = createBrowserRouter([
               element: <ManagementProduct />
             },
             { 
-              path: "/gerenciar-produtos/editar-produto",
+              path: "/gerenciar-produtos/atualizar-produto",
               element: <ManagementProductUpdateForm />
             },
             { 

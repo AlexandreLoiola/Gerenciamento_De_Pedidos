@@ -1,7 +1,13 @@
-import React, { useEffect } from "react";
-import { Button, Table } from "react-bootstrap";
+import React from "react";
+import { Table } from "react-bootstrap";
 import TableToggle from "./TableToggle";
-import { PencilIcon, ThrashIcon } from "./styles";
+import {
+  PencilIcon,
+  ThrashIcon,
+  EyeIcon,
+  AddIcon,
+  StyledButton,
+} from "./styles";
 import { useNavigate } from "react-router-dom";
 
 interface IDataType {
@@ -14,9 +20,17 @@ interface IProps {
   objectKeys: string[];
   redirectToUpdateForm: string;
   changePageToPagination: number;
+  itemsPerPage?: number;
 
-  handleDelete: (index: any) => void;
-  handleStatusUpdate: (data: any) => void;
+  showEditButton?: boolean;
+  showDeleteButton?: boolean;
+  showViewButton?: boolean;
+  showAddButton?: boolean;
+
+  handleDelete?: (index: any) => void;
+  handleStatusUpdate?: (data: any) => void;
+  handleView?: (data: any) => void;
+  handleAdd?: () => void;
 }
 
 const ManagementTable: React.FC<IProps> = ({
@@ -25,14 +39,33 @@ const ManagementTable: React.FC<IProps> = ({
   objectKeys,
   redirectToUpdateForm,
   changePageToPagination,
-  handleDelete,
-  handleStatusUpdate,
+  itemsPerPage = 5,
+  showEditButton = false,
+  showDeleteButton = false,
+  showViewButton = false,
+  showAddButton = false,
+  handleDelete = () => {},
+  handleStatusUpdate = () => {},
+  handleView = () => {},
+  handleAdd = () => {},
 }) => {
   const navigate = useNavigate();
 
   const getNestedValue = (obj: any, path: string) => {
-    return path.split('.').reduce((acc, key) => acc && acc[key], obj);
-  }
+    return path.split(".").reduce((acc, key) => acc && acc[key], obj);
+  };
+
+  const updateNestedProperty = (obj: any, path: string[], value: any) => {
+    if (path.length === 1) {
+      obj[path[0]] = value;
+    } else {
+      updateNestedProperty(obj[path[0]], path.slice(1), value);
+    }
+  };
+
+  const startIndex = (changePageToPagination -1) * itemsPerPage;
+  
+  const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <Table responsive striped bordered hover>
@@ -44,44 +77,54 @@ const ManagementTable: React.FC<IProps> = ({
         </tr>
       </thead>
       <tbody>
-        {data
-          .slice((changePageToPagination - 1) * 5, changePageToPagination * 5)
-          .map((data, index) => (
+        {paginatedData.map((data, index) => (
             <tr key={index}>
-              <td>{(changePageToPagination - 1) * 5 + index + 1}</td>
+              <td>{startIndex + index +1}</td>
               {objectKeys.map((key) => (
                 <td key={key}>
                   {typeof getNestedValue(data, key) === "boolean" ? (
                     <TableToggle
                       initialValue={getNestedValue(data, key)}
                       onToggle={() => {
-                        console.log({ ...data, [key]: !getNestedValue(data, key) });
-                        handleStatusUpdate({ ...data, [key]: !getNestedValue(data, key) });
-                      }}
+                        const newData = { ...data };
+                        updateNestedProperty(newData, key.split('.'), !getNestedValue(data, key));
+                        handleStatusUpdate(newData);
+                    }}
                     />
                   ) : (
                     getNestedValue(data, key)
                   )}
-                  
                 </td>
               ))}
               <td>
-                <Button
-                  variant="warning"
-                  style={{ margin: "0 6px" }}
-                  onClick={() => {
-                    navigate(redirectToUpdateForm, { state: data });
-                  }}
-                >
-                  <PencilIcon />
-                </Button>
-                <Button
-                  variant="danger"
-                  style={{ margin: "0 6px" }}
-                  onClick={() => handleDelete(index)}
-                >
-                  <ThrashIcon />
-                </Button>
+                {showViewButton && (
+                  <StyledButton variant="success" onClick={handleView}>
+                    <EyeIcon />
+                  </StyledButton>
+                )}
+                {showEditButton && (
+                  <StyledButton
+                    variant="warning"
+                    onClick={() => {
+                      navigate(redirectToUpdateForm, { state: data });
+                    }}
+                  >
+                    <PencilIcon />
+                  </StyledButton>
+                )}
+                {showDeleteButton && (
+                  <StyledButton
+                    variant="danger"
+                    onClick={() => handleDelete(index)}
+                  >
+                    <ThrashIcon />
+                  </StyledButton>
+                )}
+                {showAddButton && (
+                  <StyledButton variant="success" onClick={handleAdd}>
+                    <AddIcon />
+                  </StyledButton>
+                )}
               </td>
             </tr>
           ))}

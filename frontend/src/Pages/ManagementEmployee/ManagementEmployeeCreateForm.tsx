@@ -18,7 +18,6 @@ const ManagementEmployeeCreateForm: React.FC = () => {
   const [hireDate, setHireDate] = useState<string>();
 
   const handleCreate = async (data: any) => {
-    console.log(data);
     try {
       await axios
         .post("http://localhost:8080/api/management/employees", data)

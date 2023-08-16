@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import InputForm from "../../Components/Forms/InputForm";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
 import TableToggle from "../../Components/ManagementTable/TableToggle";
 
 interface IProduct {

@@ -8,7 +8,7 @@ const Home: React.FC = () => {
         <>
             <MainHeader title={'Seja bem-vindo, Alexandre!'}/>
             <BigButton title={'VER PRODUTOS'} redirectTo={'/catalogo-de-produtos'}/>
-            <BigButton title={'PEDIDO'} redirectTo={'/meus-pedidos'}/>
+            <BigButton title={'PEDIDO'} redirectTo={'/gerar-pedido'}/>
         </>
     )
 }

@@ -167,8 +167,12 @@ const ManagementProduct: React.FC = () => {
         data={products}
         objectKeys={objectKeys}
         handleDelete={(index) => handleDelete(products[index].name)}
-        redirectToUpdateForm={"/gerenciar-produtos/editar-produto"}
-        handleStatusUpdate={(data) => handleUpdate(data)}
+        showDeleteButton={true}
+        showEditButton={true}
+        redirectToUpdateForm={"/gerenciar-produtos/atualizar-produto"}
+        handleStatusUpdate={(data) => {
+          handleUpdate(data)}
+        }
         changePageToPagination={currentPage}
       />
       <MyPagination

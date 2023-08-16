@@ -14,7 +14,6 @@ const ManagementCustomerCreateForm: React.FC = () => {
   const [birthDate, setBirthDate] = useState<string>();
 
   const handleCreate = async (data: any) => {
-    console.log(data);
     try {
       await axios
         .post("http://localhost:8080/api/management/customers/register", data)

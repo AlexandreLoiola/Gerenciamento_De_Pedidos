@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Orders: React.FC = () => {
+const AddItemsToOrder: React.FC = () => {
     return (
         <>
             <h1>Teste</h1>
         </>
-    )
+    );
 }
 
-export default Orders;
+export default AddItemsToOrder;

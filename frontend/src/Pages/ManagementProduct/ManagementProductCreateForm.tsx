@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputForm from "../../Components/Forms/InputForm";
-import { Button, Form, Tab } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import NumberForm from "../../Components/Forms/NumberForm";
 import TableToggle from "../../Components/ManagementTable/TableToggle";
@@ -16,7 +16,6 @@ const ManagementProductCreateForm: React.FC = () => {
   const [isActive, setIsActive] = useState<boolean>();
 
   const handleCreate = async (data: any) => {
-    console.log(data);
     try {
       await axios
         .post("http://localhost:8080/api/management/products", data)

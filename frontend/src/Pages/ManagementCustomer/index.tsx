@@ -15,7 +15,6 @@ interface ICustomer {
     name: string;
     cpf: string;
     birthDate: string;
-    status: string;
     password?: string;
     isActive?: string;
     email: string;
@@ -176,9 +175,11 @@ const ManagementCustomer: React.FC = () => {
         columnTitles={columnTitles}
         data={customers}
         objectKeys={objectKeys}
+        showEditButton={true}
+        showDeleteButton={true}
         handleDelete={(index) => handleDelete(customers[index].personDto.cpf)}
         redirectToUpdateForm={"/gerenciar-clientes/atualizar-cliente"}
-        handleStatusUpdate={(data) => {console.log(data); handleUpdate(data)}}
+        handleStatusUpdate={(data) => {handleUpdate(data)}}
         changePageToPagination={currentPage}
       />
       <MyPagination
