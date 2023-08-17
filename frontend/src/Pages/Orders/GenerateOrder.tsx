@@ -14,7 +14,7 @@ interface IProps {
 const GererateOrder: React.FC = () => {
   const [sellerCPF, setSellerCPF] = useState("");
   const [customerCPF, setCustomerCPF] = useState("");
-  const [cpfs, setCpfs] = useState<IProps>()
+  const [cpfs, setCpfs] = useState<IProps>();
 
   const navigate = useNavigate();
 
@@ -34,8 +34,7 @@ const GererateOrder: React.FC = () => {
             customerCpf: customerCPF,
             sellerCpf: sellerCPF,
           })
-          alert(response.data)
-          navigate('/', { state: cpfs })
+          navigate('/pedidos')
         })
         .catch((error) => {
           console.error(error.response.data.message);
