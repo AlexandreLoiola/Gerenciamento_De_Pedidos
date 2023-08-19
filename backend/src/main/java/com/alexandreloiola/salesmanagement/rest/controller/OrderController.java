@@ -24,9 +24,9 @@ public class OrderController {
         return ResponseEntity.ok().body(orderDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderDto> getOrderById(@PathVariable("id") long id){
-        OrderDto orderDto = orderService.getOrderById(id);
+    @GetMapping("/{orderNumber}")
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable("orderNumber") long orderNumber){
+        OrderDto orderDto = orderService.getOrderByOrderNumber(orderNumber);
         return ResponseEntity.ok().body(orderDto);
     }
 
@@ -36,18 +36,18 @@ public class OrderController {
         return ResponseEntity.ok().body(orderDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{orderNumber}")
     public ResponseEntity<OrderDto> updateOrder(
             @Valid @RequestBody OrderUpdateForm orderUpdateForm,
-            @PathVariable("id") long id
+            @PathVariable("orderNumber") long orderNumber
     ) {
-        OrderDto orderDto = orderService.updateOrder(id, orderUpdateForm);
+        OrderDto orderDto = orderService.updateOrder(orderNumber, orderUpdateForm);
         return ResponseEntity.ok().body(orderDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable("id") long id) {
-        orderService.deleteOrder(id);
+    @DeleteMapping("/{orderNumber}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable("orderNumber") long orderNumber) {
+        orderService.deleteOrder(orderNumber);
         return ResponseEntity.noContent().build();
     }
 }

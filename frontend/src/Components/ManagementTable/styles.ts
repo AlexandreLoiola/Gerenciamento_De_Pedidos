@@ -64,6 +64,34 @@ export const EyeIcon = styled(TfiEye)`
   cursor: pointer;
 `;
 
+export const StyledQuantityInput = styled.input`
+  margin: 0%;
+  height: 44px;
+  width: 66px;
+  padding: 6px;
+  padding-right: 2;
+`
+
+export const Container = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const StyledPlusButton = styled(Button)`
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-left: 10px;
+  margin: 0;
+  border-radius: 0 6px 6px 0;
+
+  &:hover {
+    background-color: #228B22 !important;
+    border-color: #228B22;
+  }
+`;
+
 export const AddIcon = styled(MdAdd)`
   color: #fff;
   font-size: 22px;

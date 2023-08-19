@@ -8,6 +8,7 @@ interface IProps {
   min?: number;
   max?: number;
   step?: number;
+  style?: React.CSSProperties;
   onChange: (value: number) => void;
 }
 
@@ -28,7 +29,7 @@ const NumberForm: React.FC<IProps> = ({
     <Form.Group controlId="formBasicNumber">
       <Form.Label>{label}</Form.Label>
       <Form.Control
-        type="text"
+        type="number"
         placeholder={placeholder}
         min={min}
         max={max}

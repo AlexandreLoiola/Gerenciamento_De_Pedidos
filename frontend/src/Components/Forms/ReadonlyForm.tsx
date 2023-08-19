@@ -4,6 +4,7 @@ import {StyledFormControlReadonly, StyledFormLabel} from './styles';
 interface IProps {
   label: string;
   readonlyText: string;
+  style?: React.CSSProperties;
 }
 
 const ReadonlyForm: React.FC<IProps> = ({ label, readonlyText }) => {

@@ -170,9 +170,7 @@ const ManagementProduct: React.FC = () => {
         showDeleteButton={true}
         showEditButton={true}
         redirectToUpdateForm={"/gerenciar-produtos/atualizar-produto"}
-        handleStatusUpdate={(data) => {
-          handleUpdate(data)}
-        }
+        handleStatusUpdate={(data) => { handleUpdate(data)}}
         changePageToPagination={currentPage}
       />
       <MyPagination

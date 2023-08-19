@@ -1,5 +1,6 @@
-import styled from 'styled-components';
-import { Form } from 'react-bootstrap';
+import styled from "styled-components";
+import { Form } from "react-bootstrap";
+import { HiMagnifyingGlass } from "react-icons/hi2";
 
 export const StyledFormGroup = styled(Form.Group)`
   margin-bottom: 1.5rem;
@@ -27,11 +28,17 @@ export const StyledFormControlReadonly = styled(Form.Control)`
   border: 1px solid #ccc;
   font-size: 1rem;
   background-color: #d3d3d3;
-  width: 500px;
+  width: 164px;
   padding: 0.5rem 1rem;
   cursor: not-allowed;
 
   &:hover {
     background-color: #a9a9a9;
   }
+`;
+
+export const MagnifyingGlassIcon = styled(HiMagnifyingGlass)`
+  color: white;
+  font-size: 26px;
+  font-weight: 700;
 `;

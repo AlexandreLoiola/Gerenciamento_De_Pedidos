@@ -5,9 +5,9 @@ import MyPagination from "../../Components/Pagination";
 import axios from "axios";
 import InputForm from "../../Components/Forms/InputForm";
 import { Button, Form } from "react-bootstrap";
-import { HiMagnifyingGlass } from "react-icons/hi2";
 import { FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { HiMagnifyingGlass } from "react-icons/hi2";
 
 interface IOrder {
   customer: string;
@@ -60,6 +60,22 @@ const Orders: React.FC = () => {
             : setOrders([response.data]);
           
           setTotalPages(Math.ceil(response.data.length / 5));
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async (orderNumber: number) => {
+    try {
+      await axios
+        .delete(`http://localhost:8080/api/management/orders/${orderNumber}`)
+        .then(() => {
+          alert("Pedido Deletado!");
+          handleFetch();
         })
         .catch((error) => {
           alert(error.response.data.message);
@@ -136,8 +152,9 @@ const Orders: React.FC = () => {
         showDeleteButton={true}
         showEditButton={true}
         showViewButton={true}
-        redirectToUpdateForm={"/gerenciar-produtos/atualizar-produto"}
+        redirectToUpdateForm={"/pedidos/adicionar-itens"}
         changePageToPagination={currentPage}
+        handleDelete={(index) => handleDelete(orders[index].orderNumber)}
       />
       <MyPagination
         currentPage={currentPage}

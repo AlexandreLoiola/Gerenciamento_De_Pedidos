@@ -48,9 +48,9 @@ public class OrderService {
         return convertListToDto(orderModelList);
     }
 
-    public OrderDto getOrderById(Long id) {
+    public OrderDto getOrderByOrderNumber(Long orderNumber) {
         try {
-            OrderModel orderModel = orderRepository.findById(id).get();
+            OrderModel orderModel = orderRepository.findByOrderNumber(orderNumber).get();
             return convertModelToDto(orderModel);
         } catch (NoSuchElementException err) {
             throw new ObjectNotFoundException("Pedido não encontrado!");
@@ -83,7 +83,7 @@ public class OrderService {
     @Transactional
     public OrderDto updateOrder(Long id, OrderUpdateForm orderUpdateForm) {
         try {
-            Optional<OrderStatusModel> status =  orderStatusRepository.findById(orderUpdateForm.getIdStatus());
+            Optional<OrderStatusModel> status = orderStatusRepository.findById(orderUpdateForm.getIdStatus());
             if(!status.isPresent()) {
                 throw new ObjectNotFoundException("O status não foi encontrado, reporte ao administrador");
             }
@@ -146,10 +146,13 @@ public class OrderService {
     }
 
     @Transactional
-    public void deleteOrder(Long id) {
+    public void deleteOrder(Long orderNumber) {
         try {
-            if (orderRepository.existsById(id)) {
-                orderRepository.deleteById(id);
+            Optional<OrderModel> orderModel = orderRepository.findByOrderNumber(orderNumber);
+            if (orderModel.isPresent()) {
+                orderRepository.deleteById(orderModel.get().getId());
+            } else {
+                throw new DataIntegrityViolationException("Este pedido não existe");
             }
         } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Não foi possível deletar o pedido");

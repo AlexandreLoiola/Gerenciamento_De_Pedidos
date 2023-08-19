@@ -5,7 +5,6 @@ import ErrorPage from '../Pages/ErrorPage';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register';
-import ProductCatalog from '../Pages/ProductCatalog';
 import GenerateOrder from '../Pages/Orders/GenerateOrder'
 import Orders from '../Pages/Orders/index'
 import ManagementCustomer from '../Pages/ManagementCustomer';
@@ -36,10 +35,6 @@ const router = createBrowserRouter([
             {
               path: "/cadastro",
               element: <Register />
-            },
-            {
-              path: "/catalogo-de-produtos",
-              element: <ProductCatalog />
             },
             {
               path: "pedidos",
