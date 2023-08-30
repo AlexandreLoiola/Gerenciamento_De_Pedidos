@@ -26,6 +26,7 @@ interface IProductItem {
 const AddItemnsToOrder: React.FC = () => {
   const [identifier, setIdentifier] = useState("");
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [productsQuantity, setProductsQuantity] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -58,6 +59,22 @@ const AddItemnsToOrder: React.FC = () => {
     }
   };
 
+  const handleFetchProductsQuantity = async () => {
+    try {
+      await axios
+        .get(`http://localhost:8080/api/management/orderItems/${data.orderNumber}`)
+        .then((response) => {
+          const array = new Array();
+          response.data.map((item: any) => array.push(item.quantity))
+
+          setProductsQuantity(array);
+          console.log(array);
+        })
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const handleCreate = async (quantity: number, productData: any) => {
     const formattedData = {
       orderNumber: data.orderNumber,
@@ -73,6 +90,7 @@ const AddItemnsToOrder: React.FC = () => {
       .catch((error) => {
         alert(error.response.data.message);
       });
+
     } catch (error) {
       console.error(error)
     }
@@ -84,6 +102,7 @@ const AddItemnsToOrder: React.FC = () => {
 
   useEffect(() => {
     handleFetch();
+    handleFetchProductsQuantity();
   }, []);
 
   return (
@@ -134,6 +153,7 @@ const AddItemnsToOrder: React.FC = () => {
         data={products}
         objectKeys={objectKeys}
         showAddButton={true}
+        quantityList={productsQuantity}
         handleAdd={(quantity, data) => handleCreate(quantity, data)}
         changePageToPagination={currentPage}
       />

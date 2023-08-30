@@ -8,7 +8,7 @@ export const Button = styled.button`
     margin-top: 30px;
     justify-content: center;
     padding: 15px 1px;
-    background-color: #317B22;
+    background-color: #31a17f;
     color: #fff;
     font-size: 16px;
     border: none;

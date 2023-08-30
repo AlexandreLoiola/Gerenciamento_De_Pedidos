@@ -25,12 +25,12 @@ public class OrderItemsController {
         return ResponseEntity.ok().body(orderItemsDtoList);
     };
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderItemsDto> getOrderItemsById (
-            @PathVariable ("id") Long id
+    @GetMapping("/{orderNumber}")
+    public ResponseEntity<List<OrderItemsDto>> getOrderItemsById (
+            @PathVariable ("orderNumber") Long orderNumber
     ) {
-        OrderItemsDto orderItemsDtoDto = orderItemsService.getOrderItems(id);
-        return ResponseEntity.ok().body(orderItemsDtoDto);
+        List<OrderItemsDto> orderItemsDtoList = orderItemsService.getOrderItems(orderNumber);
+        return ResponseEntity.ok().body(orderItemsDtoList);
     };
 
     @PostMapping

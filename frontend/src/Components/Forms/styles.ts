@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { HiMagnifyingGlass } from "react-icons/hi2";
+import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 
 export const StyledFormGroup = styled(Form.Group)`
   margin-bottom: 1.5rem;
@@ -37,8 +38,38 @@ export const StyledFormControlReadonly = styled(Form.Control)`
   }
 `;
 
+export const FormContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35vh;
+`;
+
 export const MagnifyingGlassIcon = styled(HiMagnifyingGlass)`
   color: white;
   font-size: 26px;
   font-weight: 700;
+`;
+
+export const EyeCloseIcon = styled(BsEyeFill)`
+  color: #777;
+  font-size: 20px;
+  font-weight: 700;
+`;
+export const EyeOpenIcon = styled(BsEyeSlashFill)`
+  color: #777;
+  font-size: 20px;
+  font-weight: 700;
+`;
+
+export const StyledButton = styled(Button)`
+  display: flex;
+  width: 280px;
+  height: 50px;
+  justify-content: center;
+  margin: auto;
+  padding: 12px 1px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 40px;
 `;

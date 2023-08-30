@@ -24,11 +24,11 @@ public class userController {
         return ResponseEntity.ok().body(userDtoList);
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<UserDto> getUserByName(
-            @PathVariable("name") String name
+    @GetMapping("/{email}")
+    public ResponseEntity<UserDto> getUserByEmail(
+            @PathVariable("email") String email
     ) {
-        UserDto userDto = userService.getUserByName(name);
+        UserDto userDto = userService.getUserByEmail(email);
         return ResponseEntity.ok().body(userDto);
     }
 

@@ -132,7 +132,7 @@ public class CustomerService {
 
             return convertModelToDto(customerUpdated);
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("1Campo(s) obrigatório(s) do cliente não foi(foram) devidamente preenchido(s).");
+            throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do cliente não foi(foram) devidamente preenchido(s).");
         }
     }
 

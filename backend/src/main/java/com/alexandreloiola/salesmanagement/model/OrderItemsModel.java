@@ -21,4 +21,5 @@ public class OrderItemsModel {
     @ManyToOne
     @JoinColumn(name = "id_product", referencedColumnName = "id")
     private ProductModel product;
+
 }

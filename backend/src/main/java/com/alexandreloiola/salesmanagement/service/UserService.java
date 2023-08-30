@@ -31,9 +31,11 @@ public class UserService {
         return convertListToDto(userDtoList);
     }
 
-    public UserDto getUserByName(String email) {
+    public UserDto getUserByEmail(String email) {
+        System.out.println("||||||||||||||||||||||||" + email);
         try {
             UserModel userModel = userRepository.findByEmail(email).get();
+            System.out.println("||||||||||||||||||||||||" + userModel);
             return convertModelToDto(userModel);
         } catch(NoSuchElementException err) {
             throw new ObjectNotFoundException("Usuário não encontrado!");
@@ -111,10 +113,8 @@ public class UserService {
 
     private UserDto convertModelToDto(UserModel userModel) {
         UserDto userDto = new UserDto();
-
         userDto.setEmail(userModel.getEmail());
         userDto.setIsActive(userModel.getIsActive());
-
         return userDto;
     }
 

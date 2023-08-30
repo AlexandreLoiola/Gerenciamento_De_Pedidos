@@ -35,10 +35,16 @@ public class OrderItemsService {
         return convertListModelToDto(orderItemsModelList);
     }
 
-    public OrderItemsDto getOrderItems(Long id) {
+    public List<OrderItemsDto> getOrderItems(Long orderNumber) {
         try {
-            OrderItemsModel orderItemsModel = orderItemsRepository.findById(id).get();
-            return convertModelToDto(orderItemsModel);
+            Optional<OrderModel> orderModel = orderRepository.findByOrderNumber(orderNumber);
+            if (!orderModel.isPresent()) {
+                throw new ObjectNotFoundException("O(s) item(ns) do pedido não foi(foram) encontrado(s)!");
+            }
+            Long id = orderModel.get().getId();
+            List<OrderItemsModel> orderItemsModelList = orderItemsRepository.findAllByOrderId(id).get();
+
+            return convertListModelToDto(orderItemsModelList);
         } catch(NoSuchElementException err) {
             throw new ObjectNotFoundException("O(s) item(ns) do pedido não foi(foram) encontrado(s)!");
         }
