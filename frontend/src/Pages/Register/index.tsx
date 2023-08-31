@@ -4,7 +4,6 @@ import {
   HeaderContainer,
   TitleContainer,
   TitleText,
-  UserIcon,
 } from "../../Components/Header/styles";
 import DividerLine from "../../Components/Header/HeaderDivisor";
 import Logout from "../../Components/Logout";

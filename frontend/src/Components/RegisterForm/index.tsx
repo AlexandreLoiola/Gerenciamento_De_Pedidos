@@ -1,15 +1,17 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
-import { FormContainer, FormInput, FormRow } from "./styles";
-import SubmitButton from "../SubmitButton";
-import { useNavigate } from 'react-router-dom';
+import { FormContainer, FormRow } from "./styles";
+import { useNavigate } from "react-router-dom";
+import InputForm from "../Forms/InputForm";
+import PasswordInput from "../Forms/PasswordForm";
+import { StyledButton } from "../Forms/styles";
 
 interface IRegisterUser {
-  name: String,
-  email: String,
-  cpf: String,
-  birthDate: String,
-  password: String,
+  name: String;
+  email: String;
+  cpf: String;
+  birthDate: String;
+  password: String;
 }
 
 const RegistrationForm: React.FC = () => {
@@ -22,8 +24,7 @@ const RegistrationForm: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (event: FormEvent, registUser: IRegisterUser) => {
-    event.preventDefault();
+  const handleSubmit = async ( registUser: IRegisterUser ) => {
     if (validatePassword()) {
       await registerUser(registUser);
     } else {
@@ -31,22 +32,23 @@ const RegistrationForm: React.FC = () => {
     }
   };
 
-  async function registerUser(registUser: IRegisterUser): Promise<void> {
+  const registerUser = async (registUser: IRegisterUser): Promise<void> => {
     try {
-      await axios.post("http://localhost:8080/api/management/customers/register", {
-        name: registUser.name,
-        email: registUser.email,
-        birthDate: registUser.birthDate,
-        cpf: registUser.cpf,
-        password: registUser.password,
-        resignationDate: "10/04/2002"
-      }
-      ).then(function (response) {
-        alert("Usuário cadastrado com sucesso!");
-        navigate("/login");
-      }).catch(function (error) {
-        console.log(error);
-      });
+      await axios
+        .post("http://localhost:8080/api/management/customers/register", {
+          name: registUser.name,
+          email: registUser.email,
+          birthDate: registUser.birthDate,
+          cpf: registUser.cpf,
+          password: registUser.password,
+        })
+        .then(function (response) {
+          alert("Usuário cadastrado com sucesso!");
+          navigate("/login");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     } catch (error) {
       console.error(error);
     }
@@ -58,57 +60,63 @@ const RegistrationForm: React.FC = () => {
 
   return (
     <FormContainer>
-      <form onSubmit={(event) => handleSubmit(event, 
-                                    {
-                                      name: name, email: email, 
-                                      cpf: cpf, birthDate: birthDate, 
-                                      password: password
-                                    })}
-                                    
-      >
+      <form onSubmit={ (event) => event.preventDefault() }>
         <FormRow>
-          <FormInput
-            type="text"
-            placeholder="Nome completo"
+          <InputForm
+            label={"Nome Completo"}
+            placeHolder={"Digite seu nome completo"}
             value={name}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
+            message={""}
+            onInputChange={(value) => setName(value)}
           />
-          <FormInput
-            type="email"
-            placeholder="E-mail"
-            value={email}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
-          />
-        </FormRow>
-        <FormRow>
-          <FormInput
-            type="text"
-            placeholder="CPF"
-            value={cpf}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => setCpf(event.target.value)}
-          />
-          <FormInput
-            type="text"
-            placeholder="Data de nascimento"
+          <InputForm
+            label={"Data de Nascimento"}
+            placeHolder={"Digite sua data de nascimento"}
             value={birthDate}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => setBirthDate(event.target.value)}
+            message={""}
+            onInputChange={(value) => setBirthDate(value)}
           />
         </FormRow>
         <FormRow>
-        <FormInput
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
+        <InputForm
+          label={"E-mail"}
+          placeHolder={"Digite seu email"}
+          value={email}
+          message={""}
+          onInputChange={(value) => setEmail(value)}
         />
-        <FormInput
-          type="password"
-          placeholder="Confirmar senha"
-          value={confirmPassword}
-          onChange={(event: ChangeEvent<HTMLInputElement>) => setConfirmPassword(event.target.value)}
+        <InputForm
+          label={"CPF"}
+          placeHolder={"Digite seu cpf"}
+          value={cpf}
+          message={""}
+          onInputChange={(value) => setCpf(value)}
         />
         </FormRow>
-        <SubmitButton title={'SALVAR'} />
+        <FormRow>
+          <PasswordInput
+            label={"Senha"}
+            placeHolder={"Digite sua senha"}
+            message={""}
+            value={password}
+            onInputChange={(value) => setPassword(value)}
+          />
+          <PasswordInput
+            label={"Confirmar senha"}
+            placeHolder={"Confirme a sua senha"}
+            message={""}
+            value={confirmPassword}
+            onInputChange={(value) => setConfirmPassword(value)}
+          />
+        </FormRow>
+        <StyledButton variant="success" onClick={
+          () => handleSubmit( {
+            name: name,
+            email: email,
+            cpf: cpf,
+            birthDate: birthDate,
+            password: password,
+          })}>SALVAR</StyledButton>
       </form>
     </FormContainer>
   );

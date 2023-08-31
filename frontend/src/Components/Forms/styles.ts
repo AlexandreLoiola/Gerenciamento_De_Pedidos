@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Form, Button } from "react-bootstrap";
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
+import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 
 export const StyledFormGroup = styled(Form.Group)`
   margin-bottom: 1.5rem;
@@ -72,4 +72,18 @@ export const StyledButton = styled(Button)`
   font-size: 16px;
   font-weight: 500;
   margin-top: 40px;
+  background-color: #31a17f;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 6px 6px 8px 2px rgba(0, 0, 0, 0.25);
+
+  &:hover {
+    background-color: #2c8a6c;
+    transition: font-size 3s;
+  }
+
+  &:active {
+    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+    transform: translateY(2px);
+  }
 `;
