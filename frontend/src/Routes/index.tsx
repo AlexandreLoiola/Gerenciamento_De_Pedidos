@@ -37,15 +37,15 @@ const router = createBrowserRouter([
               element: <Register />
             },
             {
-              path: "pedidos",
+              path: "gerenciar-pedidos",
               element: <Orders />
             },
             {
-              path: "pedidos/gerar-pedido",
+              path: "gerenciar-pedidos/gerar-pedido",
               element: <GenerateOrder />
             },
             {
-              path: "pedidos/adicionar-itens",
+              path: "gerenciar-pedidos/adicionar-itens",
               element: <AddItemsToOrder />
             },
             {
