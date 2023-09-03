@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { FormContainer, FormInput } from "./styles";
-import SubmitButton from "../SubmitButton";
 import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
@@ -48,7 +47,8 @@ const LoginForm: React.FC = () => {
           value={password}
           onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
         />
-        <SubmitButton title={'ENTRAR'}/>
+        {/* <SubmitButton title={'ENTRAR'}/> */}
+        
       </form>
     </FormContainer>
   );

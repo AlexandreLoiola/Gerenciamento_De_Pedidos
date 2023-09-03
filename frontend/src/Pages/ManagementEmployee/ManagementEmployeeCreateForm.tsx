@@ -4,6 +4,9 @@ import InputForm from "../../Components/Forms/InputForm";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import NumberForm from "../../Components/Forms/NumberForm";
+import { HeaderContainer, Container } from "../../Components/Header/styles";
+import Logout from "../../Components/Header/Logout";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
 
 const ManagementEmployeeCreateForm: React.FC = () => {
   const navigate = useNavigate();
@@ -35,6 +38,11 @@ const ManagementEmployeeCreateForm: React.FC = () => {
 
   return (
     <>
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Cadastrar Funcionário"} />
+        <Logout navigateTo="/gerenciar-funcionarios" message="Voltar" />
+      </HeaderContainer>
       <Form
         onSubmit={(event) => {
           event.preventDefault();
@@ -81,7 +89,9 @@ const ManagementEmployeeCreateForm: React.FC = () => {
           value={salary}
           max={9999}
           min={0}
-          onChange={(value) => {setSalary(value)}}
+          onChange={(value) => {
+            setSalary(value);
+          }}
         />
         <InputForm
           label={"Data de Admissão"}
@@ -108,7 +118,7 @@ const ManagementEmployeeCreateForm: React.FC = () => {
               hireDate: hireDate,
               birthDate: birthDate,
               position: position,
-              salary: salary
+              salary: salary,
             })
           }
         >

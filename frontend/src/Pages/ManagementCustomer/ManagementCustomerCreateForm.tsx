@@ -4,6 +4,10 @@ import InputForm from "../../Components/Forms/InputForm";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 
+import { HeaderContainer, Container } from "../../Components/Header/styles";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
+import Logout from "../../Components/Header/Logout";
+
 const ManagementCustomerCreateForm: React.FC = () => {
   const navigate = useNavigate();
 
@@ -22,7 +26,7 @@ const ManagementCustomerCreateForm: React.FC = () => {
           navigate("/gerenciar-clientes/");
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error);
         });
     } catch (error) {
       console.error(error);
@@ -31,6 +35,12 @@ const ManagementCustomerCreateForm: React.FC = () => {
 
   return (
     <>
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Cadastrar Cliente"} />
+        <Logout navigateTo="/gerenciar-clientes" message="Voltar" />
+      </HeaderContainer>
+
       <Form
         onSubmit={(event) => {
           event.preventDefault();
@@ -80,7 +90,7 @@ const ManagementCustomerCreateForm: React.FC = () => {
               password: password,
               cpf: cpf,
               birthDate: birthDate,
-            })  
+            })
           }
         >
           Salvar

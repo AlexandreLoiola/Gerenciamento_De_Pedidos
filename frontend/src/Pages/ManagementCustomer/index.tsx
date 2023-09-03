@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MainHeader from "../../Components/Header";
 
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
@@ -9,6 +8,9 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 import InputForm from "../../Components/Forms/InputForm";
 import ManagementTable from "../../Components/ManagementTable";
 import MyPagination from "../../Components/Pagination";
+import { HeaderContainer, Container } from "../../Components/Header/styles";
+import Logout from "../../Components/Header/Logout";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
 
 interface ICustomer {
   personDto: {
@@ -61,7 +63,7 @@ const ManagementCustomer: React.FC = () => {
           Array.isArray(response.data)
             ? setCustomers(response.data)
             : setCustomers([response.data]);
-  
+
           setTotalPages(Math.ceil(response.data.length / 5));
         })
         .catch((error) => {
@@ -81,7 +83,10 @@ const ManagementCustomer: React.FC = () => {
     };
     try {
       await axios
-        .put(`http://localhost:8080/api/management/customers/${data.personDto.cpf}`, formattedData)
+        .put(
+          `http://localhost:8080/api/management/customers/${data.personDto.cpf}`,
+          formattedData
+        )
         .then((response) => {
           alert("Cliente Atualizado");
           handleFetch();
@@ -120,74 +125,84 @@ const ManagementCustomer: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ padding: "0 80px" }}>
-      <MainHeader title={"Gerenciador de Clientes"} />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Button
+    <>
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Gerenciador de Clientes"} />
+        <Logout navigateTo="/" message="Voltar" />
+      </HeaderContainer>
+
+      <div style={{ padding: "0 80px" }}>
+        <div
           style={{
-            backgroundColor: "green",
-            margin: " 20px 0",
-            fontSize: "18px",
-            fontWeight: "600",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-          variant="success"
-          onClick={() => navigate("/gerenciar-clientes/cadastrar-cliente")}
         >
-          Novo Cliente <FaPlus />
-        </Button>
-        <Form
-          onSubmit={(event) => {
-            event.preventDefault();
-            handleFetch();
-          }}
-          style={{ display: "flex", alignItems: "center", width: "88%" }}
-        >
-          <span
+          <Button
             style={{
-              margin: "0 20px",
-              marginLeft: "180px",
-              fontWeight: "600",
+              backgroundColor: "green",
+              margin: " 20px 0",
               fontSize: "18px",
+              fontWeight: "600",
             }}
+            variant="success"
+            onClick={() => navigate("/gerenciar-clientes/cadastrar-cliente")}
           >
-            Procurar:
-          </span>
-          <InputForm
-            label=""
-            placeHolder="Nome do Produto"
-            message=""
-            onInputChange={handleInputChange}
-          />
-          <Button variant="info" type="submit" onClick={handleFetch}>
-            <HiMagnifyingGlass
-              style={{ color: "white", fontSize: "26px", fontWeight: "700" }}
-            />
+            Novo Cliente <FaPlus />
           </Button>
-        </Form>
+          
+          <Form
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleFetch();
+            }}
+            style={{ display: "flex", alignItems: "center", width: "88%" }}
+          >
+            <span
+              style={{
+                margin: "0 20px",
+                marginLeft: "180px",
+                fontWeight: "600",
+                fontSize: "18px",
+              }}
+            >
+              Procurar:
+            </span>
+            <InputForm
+              label=""
+              placeHolder="Nome do Produto"
+              message=""
+              onInputChange={handleInputChange}
+            />
+            <Button variant="info" type="submit" onClick={handleFetch}>
+              <HiMagnifyingGlass
+                style={{ color: "white", fontSize: "26px", fontWeight: "700" }}
+              />
+            </Button>
+          </Form>
+        </div>
+        <ManagementTable
+          columnTitles={columnTitles}
+          data={customers}
+          objectKeys={objectKeys}
+          showEditButton={true}
+          showDeleteButton={true}
+          handleDelete={(index) => handleDelete(customers[index].personDto.cpf)}
+          redirectToUpdateForm={"/gerenciar-clientes/atualizar-cliente"}
+          handleStatusUpdate={(data) => {
+            handleUpdate(data);
+          }}
+          changePageToPagination={currentPage}
+        />
+        <MyPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-      <ManagementTable
-        columnTitles={columnTitles}
-        data={customers}
-        objectKeys={objectKeys}
-        showEditButton={true}
-        showDeleteButton={true}
-        handleDelete={(index) => handleDelete(customers[index].personDto.cpf)}
-        redirectToUpdateForm={"/gerenciar-clientes/atualizar-cliente"}
-        handleStatusUpdate={(data) => {handleUpdate(data)}}
-        changePageToPagination={currentPage}
-      />
-      <MyPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
-    </div>
+    </>
   );
 };
 

@@ -6,6 +6,9 @@ import axios from "axios";
 import TableToggle from "../../Components/ManagementTable/TableToggle";
 import ReadonlyForm from "../../Components/Forms/ReadonlyForm";
 import NumberForm from "../../Components/Forms/NumberForm";
+import { HeaderContainer, Container } from "../../Components/Header/styles";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
+import Logout from "../../Components/Header/Logout";
 
 const ManagementEmployeeUpdateForm: React.FC = () => {
   const location = useLocation();
@@ -19,7 +22,9 @@ const ManagementEmployeeUpdateForm: React.FC = () => {
   const [cpf, setCpf] = useState<string>(data.personDto.cpf);
   const [isActive, setIsActive] = useState<boolean>(data.personDto.isActive);
   const [hireDate, setHireDate] = useState<string>(data.hireDate);
-  const [resignationDate, setResignationDate] = useState<string>(data.resignationDate);
+  const [resignationDate, setResignationDate] = useState<string>(
+    data.resignationDate
+  );
   const [salary, setSalary] = useState<number>(data.salary);
   const [position, setPosition] = useState<string>(data.position);
 
@@ -42,6 +47,11 @@ const ManagementEmployeeUpdateForm: React.FC = () => {
 
   return (
     <>
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Atualizar Funcionário"} />
+        <Logout navigateTo="/gerenciar-funcionarios" message="Voltar" />
+      </HeaderContainer>
       <Form
         onSubmit={(event) => {
           event.preventDefault();

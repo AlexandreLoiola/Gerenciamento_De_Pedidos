@@ -4,6 +4,9 @@ import InputForm from "../../Components/Forms/InputForm";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import TableToggle from "../../Components/ManagementTable/TableToggle";
+import { HeaderContainer, Container } from "../../Components/Header/styles";
+import Logout from "../../Components/Header/Logout";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
 
 interface IProduct {
   name: string;
@@ -45,6 +48,11 @@ const ManagementProductUpdateForm: React.FC = () => {
 
   return (
     <>
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Atualizar Produto"} />
+        <Logout navigateTo="/gerenciar-produtos" message="Voltar" />
+      </HeaderContainer>
       <Form
         onSubmit={(event) => {
           event.preventDefault();

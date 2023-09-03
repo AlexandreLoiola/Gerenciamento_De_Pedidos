@@ -1,10 +1,13 @@
 import React, { FormEvent, useState } from "react";
-import SubmitButton from "../../Components/SubmitButton";
-import MainHeader from "../../Components/Header";
 import { FormContainer } from "./styles";
 import axios from "axios";
 import InputForm from "../../Components/Forms/InputForm";
 import { useNavigate } from "react-router-dom";
+
+import { Container, HeaderContainer } from "../../Components/Header/styles";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
+import Logout from "../../Components/Header/Logout";
+import { StyledButton } from "../Home/styles";
 
 interface IProps {
   customerCpf: string;
@@ -33,8 +36,8 @@ const GererateOrder: React.FC = () => {
           setCpfs({
             customerCpf: customerCPF,
             sellerCpf: sellerCPF,
-          })
-          navigate('/pedidos')
+          });
+          navigate("/gerenciar-pedidos");
         })
         .catch((error) => {
           console.error(error.response.data.message);
@@ -47,7 +50,12 @@ const GererateOrder: React.FC = () => {
 
   return (
     <>
-      <MainHeader title={"Gerar Pedido"} />
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Gerar Pedido"} />
+        <Logout navigateTo="/gerenciar-pedidos" message="Voltar" />
+      </HeaderContainer>
+
       <FormContainer>
         <form onSubmit={handleSubmit}>
           <InputForm
@@ -64,7 +72,10 @@ const GererateOrder: React.FC = () => {
             value={sellerCPF}
             onInputChange={(value) => setSellerCPF(value)}
           />
-          <SubmitButton onClick={handleCreate} title="Gerar Pedido" />
+          {/* <SubmitButton onClick={handleCreate} title="Gerar Pedido" /> */}
+          <StyledButton variant="success" onClick={handleCreate}>
+            Gerar Pedido
+          </StyledButton>
         </form>
       </FormContainer>
     </>

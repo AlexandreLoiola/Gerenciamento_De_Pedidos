@@ -1,13 +1,18 @@
-import React from 'react';
+import React from "react";
+import { TitleContainer, TitleText } from "./styles";
+import DividerLine from "./HeaderDivisor";
 
 interface Iprops {
-  title: any;
+  title: string;
 }
 
-const HeaderTitle: React.FC<Iprops> = (props) => {
+const HeaderTitle: React.FC<Iprops> = ({title}) => {
   return (
-    <h1>{props.title}</h1>
+    <TitleContainer>
+      <TitleText>{title}</TitleText>
+      <DividerLine />
+    </TitleContainer>
   );
-}
+};
 
 export default HeaderTitle;

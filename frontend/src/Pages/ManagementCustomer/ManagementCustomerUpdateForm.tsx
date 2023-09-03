@@ -5,7 +5,9 @@ import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import TableToggle from "../../Components/ManagementTable/TableToggle";
 import ReadonlyForm from "../../Components/Forms/ReadonlyForm";
-
+import { HeaderContainer, Container } from "../../Components/Header/styles";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
+import Logout from "../../Components/Header/Logout";
 
 const ManagementCustomerUpdateForm: React.FC = () => {
   const location = useLocation();
@@ -18,7 +20,9 @@ const ManagementCustomerUpdateForm: React.FC = () => {
   const [birthDate, setBirthDate] = useState<string>(data.personDto.birthDate);
   const [cpf, setCpf] = useState<string>(data.personDto.cpf);
   const [isActive, setIsActive] = useState<boolean>(data.personDto.isActive);
-  const [registrationDate, setRegistrationDate] = useState<string>(data.registrationDate);
+  const [registrationDate, setRegistrationDate] = useState<string>(
+    data.registrationDate
+  );
 
   const handleUpdate = async (index: string, data: any) => {
     try {
@@ -26,7 +30,7 @@ const ManagementCustomerUpdateForm: React.FC = () => {
         .put(`http://localhost:8080/api/management/customers/${index}`, data)
         .then((response) => {
           alert("Cliente Atualizado");
-          navigate("/gerenciar-clientes/")
+          navigate("/gerenciar-clientes/");
         })
         .catch((error) => {
           console.error(error);
@@ -39,6 +43,11 @@ const ManagementCustomerUpdateForm: React.FC = () => {
 
   return (
     <>
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Atualizar Cliente"} />
+        <Logout navigateTo="/gerenciar-clientes" message="Voltar" />
+      </HeaderContainer>
       <Form
         onSubmit={(event) => {
           event.preventDefault();
@@ -60,7 +69,7 @@ const ManagementCustomerUpdateForm: React.FC = () => {
           message={""}
           onInputChange={(value) => setBirthDate(value)}
         />
-        
+
         <InputForm
           label={"Data de registro"}
           placeHolder={"dd/mm//yy"}

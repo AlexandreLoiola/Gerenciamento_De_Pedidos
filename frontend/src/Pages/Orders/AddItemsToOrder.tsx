@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MainHeader from "../../Components/Header";
 import axios from "axios";
 import ManagementTable from "../../Components/ManagementTable";
 import { Button, Form } from "react-bootstrap";
@@ -8,6 +7,10 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 import MyPagination from "../../Components/Pagination";
 import { useLocation } from "react-router-dom";
 import ReadonlyForm from "../../Components/Forms/ReadonlyForm";
+
+import { Container, HeaderContainer } from "../../Components/Header/styles";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
+import Logout from "../../Components/Header/Logout";
 
 interface IProduct {
   name: string;
@@ -18,9 +21,9 @@ interface IProduct {
 }
 
 interface IProductItem {
-  quantity: number,
-  orderNumber: number,
-  productName: string
+  quantity: number;
+  orderNumber: number;
+  productName: string;
 }
 
 const AddItemnsToOrder: React.FC = () => {
@@ -62,39 +65,43 @@ const AddItemnsToOrder: React.FC = () => {
   const handleFetchProductsQuantity = async () => {
     try {
       await axios
-        .get(`http://localhost:8080/api/management/orderItems/${data.orderNumber}`)
+        .get(
+          `http://localhost:8080/api/management/orderItems/${data.orderNumber}`
+        )
         .then((response) => {
           const array = new Array();
-          response.data.map((item: any) => array.push(item.quantity))
+          response.data.map((item: any) => array.push(item.quantity));
 
           setProductsQuantity(array);
           console.log(array);
-        })
+        });
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const handleCreate = async (quantity: number, productData: any) => {
     const formattedData = {
       orderNumber: data.orderNumber,
       quantity: quantity,
-      productName: productData.name
-    }
+      productName: productData.name,
+    };
     try {
       await axios
-      .post(`http://localhost:8080/api/management/orderItems/${identifier}`, formattedData)
-      .then((response) => {
-        alert("Adcionada!");
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
-
+        .post(
+          `http://localhost:8080/api/management/orderItems/${identifier}`,
+          formattedData
+        )
+        .then((response) => {
+          alert("Adcionada!");
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -106,63 +113,68 @@ const AddItemnsToOrder: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ padding: "0 80px" }}>
-      <MainHeader title={"Adicionar Itens"} />
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <ReadonlyForm label={"Nº. Pedido:"} readonlyText={data.orderNumber} />
-
-        <Form
-          onSubmit={(event) => {
-            event.preventDefault();
-            handleFetch();
+    <>
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Gerar Pedido"} />
+        <Logout navigateTo="/gerenciar-pedidos" message="Voltar" />
+      </HeaderContainer>
+      <div style={{ padding: "0 80px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-          style={{ display: "flex", alignItems: "center", width: "88%" }}
         >
-          <span
-            style={{
-              margin: "0 20px",
-              marginLeft: "180px",
-              fontWeight: "600",
-              fontSize: "18px",
+          <ReadonlyForm label={"Nº. Pedido:"} readonlyText={data.orderNumber} />
+
+          <Form
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleFetch();
             }}
+            style={{ display: "flex", alignItems: "center", width: "88%" }}
           >
-            Procurar:
-          </span>
-          <InputForm
-            label=""
-            placeHolder="Nome do Produto"
-            message=""
-            onInputChange={handleInputChange}
-          />
-          <Button variant="info" type="submit" onClick={handleFetch}>
-            <HiMagnifyingGlass
-              style={{ color: "white", fontSize: "26px", fontWeight: "700" }}
+            <span
+              style={{
+                margin: "0 20px",
+                marginLeft: "180px",
+                fontWeight: "600",
+                fontSize: "18px",
+              }}
+            >
+              Procurar:
+            </span>
+            <InputForm
+              label=""
+              placeHolder="Nome do Produto"
+              message=""
+              onInputChange={handleInputChange}
             />
-          </Button>
-        </Form>
+            <Button variant="info" type="submit" onClick={handleFetch}>
+              <HiMagnifyingGlass
+                style={{ color: "white", fontSize: "26px", fontWeight: "700" }}
+              />
+            </Button>
+          </Form>
+        </div>
+        <ManagementTable
+          columnTitles={columnTitles}
+          data={products}
+          objectKeys={objectKeys}
+          showAddButton={true}
+          quantityList={productsQuantity}
+          handleAdd={(quantity, data) => handleCreate(quantity, data)}
+          changePageToPagination={currentPage}
+        />
+        <MyPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-      <ManagementTable
-        columnTitles={columnTitles}
-        data={products}
-        objectKeys={objectKeys}
-        showAddButton={true}
-        quantityList={productsQuantity}
-        handleAdd={(quantity, data) => handleCreate(quantity, data)}
-        changePageToPagination={currentPage}
-      />
-      <MyPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
-    </div>
+    </>
   );
 };
 

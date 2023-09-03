@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+
 import ManagementTable from "../../Components/ManagementTable";
-import MainHeader from "../../Components/Header";
 import MyPagination from "../../Components/Pagination";
 import axios from "axios";
 import InputForm from "../../Components/Forms/InputForm";
@@ -8,6 +8,9 @@ import { Button, Form } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { HiMagnifyingGlass } from "react-icons/hi2";
+import { Container, HeaderContainer } from "../../Components/Header/styles";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
+import Logout from "../../Components/Header/Logout";
 
 interface IOrder {
   customer: string;
@@ -58,7 +61,7 @@ const Orders: React.FC = () => {
           Array.isArray(response.data)
             ? setOrders(response.data)
             : setOrders([response.data]);
-          
+
           setTotalPages(Math.ceil(response.data.length / 5));
         })
         .catch((error) => {
@@ -94,74 +97,81 @@ const Orders: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "0 80px" }}>
-      <MainHeader title={"Gerenciador de Pedidos"} />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Button
+    <>
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Gerenciador de Pedidos"} />
+        <Logout navigateTo="/" message="Voltar" />
+      </HeaderContainer>
+
+      <div style={{ padding: "0 80px" }}>
+        <div
           style={{
-            backgroundColor: "green",
-            margin: " 20px 0",
-            fontSize: "18px",
-            fontWeight: "600",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-          variant="success"
-          onClick={() => navigate("/pedidos/gerar-pedido")}
         >
-          Gerar Pedido <FaPlus />
-        </Button>
-        <Form
-          onSubmit={(event) => {
-            event.preventDefault();
-            handleFetch();
-          }}
-          style={{ display: "flex", alignItems: "center", width: "88%" }}
-        >
-          <span
+          <Button
             style={{
-              margin: "0 20px",
-              marginLeft: "180px",
-              fontWeight: "600",
+              backgroundColor: "green",
+              margin: " 20px 0",
               fontSize: "18px",
+              fontWeight: "600",
             }}
+            variant="success"
+            onClick={() => navigate("/gerenciar-pedidos/gerar-pedido")}
           >
-            Procurar:
-          </span>
-          <InputForm
-            label=""
-            placeHolder="Nome do Produto"
-            message=""
-            onInputChange={handleInputChange}
-          />
-          <Button variant="info" type="submit" onClick={handleFetch}>
-            <HiMagnifyingGlass
-              style={{ color: "white", fontSize: "26px", fontWeight: "700" }}
-            />
+            Gerar Pedido <FaPlus />
           </Button>
-        </Form>
+          <Form
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleFetch();
+            }}
+            style={{ display: "flex", alignItems: "center", width: "88%" }}
+          >
+            <span
+              style={{
+                margin: "0 20px",
+                marginLeft: "180px",
+                fontWeight: "600",
+                fontSize: "18px",
+              }}
+            >
+              Procurar:
+            </span>
+            <InputForm
+              label=""
+              placeHolder="Nome do Produto"
+              message=""
+              onInputChange={handleInputChange}
+            />
+            <Button variant="info" type="submit" onClick={handleFetch}>
+              <HiMagnifyingGlass
+                style={{ color: "white", fontSize: "26px", fontWeight: "700" }}
+              />
+            </Button>
+          </Form>
+        </div>
+        <ManagementTable
+          columnTitles={columnTitles}
+          data={orders}
+          objectKeys={objectKeys}
+          showDeleteButton={true}
+          showEditButton={true}
+          showViewButton={true}
+          redirectToUpdateForm={"/gerenciar-pedidos/adicionar-itens"}
+          changePageToPagination={currentPage}
+          handleDelete={(index) => handleDelete(orders[index].orderNumber)}
+        />
+        <MyPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-      <ManagementTable
-        columnTitles={columnTitles}
-        data={orders}
-        objectKeys={objectKeys}
-        showDeleteButton={true}
-        showEditButton={true}
-        showViewButton={true}
-        redirectToUpdateForm={"/pedidos/adicionar-itens"}
-        changePageToPagination={currentPage}
-        handleDelete={(index) => handleDelete(orders[index].orderNumber)}
-      />
-      <MyPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
-    </div>
+    </>
   );
 };
 

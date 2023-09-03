@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import MainHeader from "../../Components/Header";
 
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import ManagementTable from "../../Components/ManagementTable";
 import { Button, Form } from "react-bootstrap";
@@ -9,7 +9,9 @@ import InputForm from "../../Components/Forms/InputForm";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { FaPlus } from "react-icons/fa";
 import MyPagination from "../../Components/Pagination";
-import { useNavigate } from "react-router-dom";
+import { Container, HeaderContainer } from "../../Components/Header/styles";
+import Logout from "../../Components/Header/Logout";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
 
 interface IProduct {
   name: string;
@@ -56,7 +58,7 @@ const ManagementProduct: React.FC = () => {
           Array.isArray(response.data)
             ? setProducts(response.data)
             : setProducts([response.data]);
-          
+
           setTotalPages(Math.ceil(response.data.length / 5));
         })
         .catch((error) => {
@@ -110,75 +112,82 @@ const ManagementProduct: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ padding: "0 80px" }}>
-      <MainHeader title={"Gerenciador de Produtos"} />
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Button
+    <>
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Gerenciador de Produtos"} />
+        <Logout navigateTo="/" message="Voltar" />
+      </HeaderContainer>
+      <div style={{ padding: "0 80px" }}>
+        <div
           style={{
-            backgroundColor: "green",
-            margin: " 20px 0",
-            fontSize: "18px",
-            fontWeight: "600",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-          variant="success"
-          onClick={() => navigate("/gerenciar-produtos/criar-produto")}
         >
-          Novo Produto <FaPlus />
-        </Button>
-        <Form
-          onSubmit={(event) => {
-            event.preventDefault();
-            handleFetch();
-          }}
-          style={{ display: "flex", alignItems: "center", width: "88%" }}
-        >
-          <span
+          <Button
             style={{
-              margin: "0 20px",
-              marginLeft: "180px",
-              fontWeight: "600",
+              backgroundColor: "green",
+              margin: " 20px 0",
               fontSize: "18px",
+              fontWeight: "600",
             }}
+            variant="success"
+            onClick={() => navigate("/gerenciar-produtos/criar-produto")}
           >
-            Procurar:
-          </span>
-          <InputForm
-            label=""
-            placeHolder="Nome do Produto"
-            message=""
-            onInputChange={handleInputChange}
-          />
-          <Button variant="info" type="submit" onClick={handleFetch}>
-            <HiMagnifyingGlass
-              style={{ color: "white", fontSize: "26px", fontWeight: "700" }}
-            />
+            Novo Produto <FaPlus />
           </Button>
-        </Form>
+          <Form
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleFetch();
+            }}
+            style={{ display: "flex", alignItems: "center", width: "88%" }}
+          >
+            <span
+              style={{
+                margin: "0 20px",
+                marginLeft: "180px",
+                fontWeight: "600",
+                fontSize: "18px",
+              }}
+            >
+              Procurar:
+            </span>
+            <InputForm
+              label=""
+              placeHolder="Nome do Produto"
+              message=""
+              onInputChange={handleInputChange}
+            />
+            <Button variant="info" type="submit" onClick={handleFetch}>
+              <HiMagnifyingGlass
+                style={{ color: "white", fontSize: "26px", fontWeight: "700" }}
+              />
+            </Button>
+          </Form>
+        </div>
+        <ManagementTable
+          columnTitles={columnTitles}
+          data={products}
+          objectKeys={objectKeys}
+          handleDelete={(index) => handleDelete(products[index].name)}
+          showDeleteButton={true}
+          showEditButton={true}
+          redirectToUpdateForm={"/gerenciar-produtos/atualizar-produto"}
+          handleStatusUpdate={(data) => {
+            handleUpdate(data);
+          }}
+          changePageToPagination={currentPage}
+        />
+        <MyPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-      <ManagementTable
-        columnTitles={columnTitles}
-        data={products}
-        objectKeys={objectKeys}
-        handleDelete={(index) => handleDelete(products[index].name)}
-        showDeleteButton={true}
-        showEditButton={true}
-        redirectToUpdateForm={"/gerenciar-produtos/atualizar-produto"}
-        handleStatusUpdate={(data) => { handleUpdate(data)}}
-        changePageToPagination={currentPage}
-      />
-      <MyPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
-    </div>
+    </>
   );
 };
 

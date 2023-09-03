@@ -5,6 +5,9 @@ import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import NumberForm from "../../Components/Forms/NumberForm";
 import TableToggle from "../../Components/ManagementTable/TableToggle";
+import { HeaderContainer, Container } from "../../Components/Header/styles";
+import Logout from "../../Components/Header/Logout";
+import HeaderTitle from "../../Components/Header/HeaderTitle";
 
 const ManagementProductCreateForm: React.FC = () => {
   const navigate = useNavigate();
@@ -33,6 +36,11 @@ const ManagementProductCreateForm: React.FC = () => {
 
   return (
     <>
+      <HeaderContainer>
+        <Container />
+        <HeaderTitle title={"Cadastrar  Produto"} />
+        <Logout navigateTo="/gerenciar-produtos" message="Voltar" />
+      </HeaderContainer>
       <Form
         onSubmit={(event) => {
           event.preventDefault();

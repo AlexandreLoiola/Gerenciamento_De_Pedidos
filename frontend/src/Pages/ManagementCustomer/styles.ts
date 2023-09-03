@@ -29,6 +29,7 @@ export const SearchFormInput = styled.div`
   }
 `;
 
+
 export const FormInput = styled.input`
   display: flex;
   margin: 0 25px;
