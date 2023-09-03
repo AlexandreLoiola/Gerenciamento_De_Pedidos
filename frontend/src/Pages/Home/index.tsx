@@ -1,9 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { StyledButton, ArrowRightIcon } from "./styles";
-import { HeaderContainer, TitleContainer, TitleText } from "../../Components/Header/styles";
+import {
+  HeaderContainer,
+  TitleContainer,
+  TitleText,
+  Container
+} from "../../Components/Header/styles";
 import DividerLine from "../../Components/Header/HeaderDivisor";
-import Logout from "../../Components/Logout";
+import Logout from "../../Components/Header/Logout";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -11,14 +16,14 @@ const Home: React.FC = () => {
   return (
     <>
       <HeaderContainer>
-        <div style={{ width: "30%" }}></div>
+        <Container />
         <TitleContainer>
           <TitleText>Seja Bem-Vindo!</TitleText>
           <DividerLine />
         </TitleContainer>
-        <Logout redirectTo={"/login"} />
+        <Logout navigateTo="/login" message="SAIR" />
       </HeaderContainer>
-      <div style={{ padding: "40px 400px" }} className="d-grid gap-2">
+      <div style={{ padding: "0px 400px" }} className="d-grid gap-2">
         <StyledButton
           onClick={() => navigate("/gerenciar-produtos")}
           variant="outline-success"

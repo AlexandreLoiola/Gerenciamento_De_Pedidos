@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
-import MainHeader from "../../Components/Header";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-import SubmitButton from "../../Components/SubmitButton";
 import InputForm from "../../Components/Forms/InputForm";
 import PasswordInput from "../../Components/Forms/PasswordForm";
 import { FormContainer, StyledButton } from "../../Components/Forms/styles";
+import { HeaderContainer, TitleContainer, TitleText } from "../../Components/Header/styles";
+import DividerLine from "../../Components/Header/HeaderDivisor";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
           navigate("/");
         })
         .catch((error) => {
-          alert("Credenciais Inválidas!")
+          alert("Credenciais Inválidas!");
         });
     } catch (error) {
       console.error(error);
@@ -36,12 +36,21 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <MainHeader title={"Sistema de Gerenciamento de Pedidos"} />
+      <HeaderContainer>
+        <div style={{ width: "30%" }}></div>
+        <TitleContainer>
+          <TitleText>Sistema de Gerenciamento de Pedidos</TitleText>
+          <DividerLine />
+        </TitleContainer>
+        <div style={{ width: "30%" }}></div>
+      </HeaderContainer>
 
       <FormContainer>
-        <form onSubmit={(event) => {
-          event.preventDefault();
-        }}>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+          }}
+        >
           <InputForm
             label={"E-mail"}
             placeHolder={"Digite seu email"}
@@ -56,10 +65,17 @@ const Login: React.FC = () => {
             value={password}
             onInputChange={(value) => setPassword(value)}
           />
-         <StyledButton variant="success" onClick={() => validateLogin(email, password)}>ENTRAR</StyledButton>
+          <StyledButton
+            variant="success"
+            onClick={() => validateLogin(email, password)}
+          >
+            ENTRAR
+          </StyledButton>
         </form>
       </FormContainer>
-        <SubmitButton onClick={() => navigate("/cadastro")} title={"CADASTRE-SE"} />
+      <StyledButton variant="success" onClick={() => navigate("/cadastro")}>
+        CADASTRE-SE
+      </StyledButton>
     </>
   );
 };
