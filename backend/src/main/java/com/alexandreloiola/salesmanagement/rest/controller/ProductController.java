@@ -25,11 +25,11 @@ public class ProductController {
         return ResponseEntity.ok().body(productDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProductById (
-            @PathVariable("id") String id
+    @GetMapping("/{productName}")
+    public ResponseEntity<ProductDto> getProductByName (
+            @PathVariable("productName") String productName
     ) {
-        ProductDto productDto = productService.getProductById(id);
+        ProductDto productDto = productService.getProductByName(productName);
         return ResponseEntity.ok().body(productDto);
     }
 
@@ -41,20 +41,20 @@ public class ProductController {
         return ResponseEntity.ok().body(productDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{productName}")
     public ResponseEntity<ProductDto> updateProduct (
-            @PathVariable("id") String id,
+            @PathVariable("productName") String productName,
             @Valid @RequestBody ProductUpdateForm productUpdateForm
     ) {
-        ProductDto productDto = productService.updateProduct(id, productUpdateForm);
+        ProductDto productDto = productService.updateProduct(productName, productUpdateForm);
         return  ResponseEntity.ok().body(productDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{productName}")
     public  ResponseEntity<Void> deleteProduct (
-            @PathVariable("id") String id
+            @PathVariable("productName") String productName
     ) {
-        productService.deleteProduct(id);
+        productService.deleteProduct(productName);
         return ResponseEntity.noContent().build();
     }
 }
