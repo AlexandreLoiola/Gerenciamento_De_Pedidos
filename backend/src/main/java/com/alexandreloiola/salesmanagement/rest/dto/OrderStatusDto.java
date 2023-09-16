@@ -10,11 +10,6 @@ import javax.management.DescriptorKey;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderStatusDto {
-
-    private Long id;
-
     private String description;
-
     private Boolean isActive;
-
 }
