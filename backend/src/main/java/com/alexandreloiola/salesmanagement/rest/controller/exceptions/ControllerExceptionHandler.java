@@ -1,10 +1,15 @@
 package com.alexandreloiola.salesmanagement.rest.controller.exceptions;
 
-import com.alexandreloiola.salesmanagement.service.exceptions.*;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import com.alexandreloiola.salesmanagement.service.exceptions.orderStatus.OrderStatusAlreadyExistsException;
+import com.alexandreloiola.salesmanagement.service.exceptions.orderStatus.OrderStatusInsertException;
+import com.alexandreloiola.salesmanagement.service.exceptions.orderStatus.OrderStatusNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.orderStatus.OrderStatusUpdateException;
+import com.alexandreloiola.salesmanagement.service.exceptions.product.ProductAlreadyExistsException;
+import com.alexandreloiola.salesmanagement.service.exceptions.product.ProductInsertException;
+import com.alexandreloiola.salesmanagement.service.exceptions.product.ProductNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.product.ProductUpdateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -65,6 +70,50 @@ public class ControllerExceptionHandler {
                 System.currentTimeMillis(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Erro interno no servidor",
+                ex.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(exceptionsDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(OrderStatusNotFoundException.class)
+    public ResponseEntity<ExceptionsDto> handleOrderStatusNotFoundException(OrderStatusNotFoundException ex, HttpServletRequest request) {
+        ExceptionsDto exceptionsDto = new ExceptionsDto(
+                System.currentTimeMillis(),
+                HttpStatus.NOT_FOUND.value(),
+                "Não encontrado",
+                ex.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(exceptionsDto, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(OrderStatusAlreadyExistsException.class)
+    public ResponseEntity<ExceptionsDto> handleOrderStatusAlreadyExistsException(OrderStatusAlreadyExistsException ex, HttpServletRequest request) {
+        ExceptionsDto exceptionsDto = new ExceptionsDto(
+                System.currentTimeMillis(),
+                HttpStatus.CONFLICT.value(),
+                "Requisição inválida",
+                ex.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(exceptionsDto, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(OrderStatusInsertException.class)
+    public ResponseEntity<ExceptionsDto> handleOrderStatusInsertException(OrderStatusInsertException ex, HttpServletRequest request) {
+        ExceptionsDto exceptionsDto = new ExceptionsDto(
+                System.currentTimeMillis(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Requisição inválida",
+                ex.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(exceptionsDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(OrderStatusUpdateException.class)
+    public ResponseEntity<ExceptionsDto> handleOrderStatusUpdateException(OrderStatusUpdateException ex, HttpServletRequest request) {
+        ExceptionsDto exceptionsDto = new ExceptionsDto(
+                System.currentTimeMillis(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Requisição inválida",
                 ex.getMessage(),
                 request.getRequestURI());
         return new ResponseEntity<>(exceptionsDto, HttpStatus.INTERNAL_SERVER_ERROR);
