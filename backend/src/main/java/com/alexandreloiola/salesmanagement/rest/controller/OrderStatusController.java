@@ -26,37 +26,36 @@ public class OrderStatusController {
         return ResponseEntity.ok().body(orderStatusDtoList);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{orderStatusDescription}")
     public ResponseEntity<OrderStatusDto> getOrderStatusById(
-            @PathVariable("id") Long id
+            @PathVariable("orderStatusDescription") String orderDescription
     ) {
-        OrderStatusDto orderStatusDto = orderStatusService.getOrderStatusById(id);
+        OrderStatusDto orderStatusDto = orderStatusService.getOrderStatusByDescription(orderDescription);
         return ResponseEntity.ok().body(orderStatusDto);
     }
 
     @PostMapping
     public ResponseEntity<OrderStatusDto> insertOrderStatus(
             @Valid @RequestBody OrderStatusForm orderStatusForm
-            ) {
+    ) {
         OrderStatusDto orderStatusDto = orderStatusService.insertOrderStatus(orderStatusForm);
-        System.out.println("CONTROLLER: "+orderStatusForm);
         return ResponseEntity.ok().body(orderStatusDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{orderStatusDescription}")
     public ResponseEntity<OrderStatusDto> updateOrderStatus(
-            @PathVariable("id") Long id,
+            @PathVariable("orderStatusDescription") String orderStatusDescription,
             @Valid @RequestBody OrderStatusUpdateForm orderStatusUpdateForm
     ) {
-        OrderStatusDto orderStatusDto = orderStatusService.updateOrderStatus(id, orderStatusUpdateForm);
+        OrderStatusDto orderStatusDto = orderStatusService.updateOrderStatus(orderStatusDescription, orderStatusUpdateForm);
         return ResponseEntity.ok().body(orderStatusDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{orderStatusDescription}")
     public ResponseEntity<OrderStatusDto> deleteOrderStatus(
-            @PathVariable("id") Long id
+            @PathVariable("orderStatusDescription") String orderStatusDescription
     ) {
-        orderStatusService.deleteOrderStatus(id);
+        orderStatusService.deleteOrderStatus(orderStatusDescription);
         return ResponseEntity.noContent().build();
     }
 }
