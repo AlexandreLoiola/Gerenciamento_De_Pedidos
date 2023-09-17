@@ -7,6 +7,12 @@ import com.alexandreloiola.salesmanagement.rest.form.OrderForm;
 import com.alexandreloiola.salesmanagement.rest.form.OrderUpdateForm;
 import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderInsertException;
+import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderPriceUpdateException;
+import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderUpdateException;
+import com.alexandreloiola.salesmanagement.service.exceptions.orderStatus.OrderStatusNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.person.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -24,139 +30,113 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class OrderService {
+    private final OrderRepository orderRepository;
+    private final PersonRepository personRepository;
+    private final OrderStatusService orderStatusService;
+    private final OrderStatusRepository orderStatusRepository;
+    private final OrderItemsRepository orderItemsRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
-    private OrderStatusService orderStatusService;
-
-    @Autowired
-    private OrderStatusRepository orderStatusRepository;
-
-    @Autowired
-    private OrderItemsRepository orderItemsRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
+    public OrderService(OrderRepository orderRepository, PersonRepository personRepository,
+                        OrderStatusService orderStatusService, OrderStatusRepository orderStatusRepository,
+                        OrderItemsRepository orderItemsRepository, ProductRepository productRepository) {
+        this.orderRepository = orderRepository;
+        this.personRepository = personRepository;
+        this.orderStatusService = orderStatusService;
+        this.orderStatusRepository = orderStatusRepository;
+        this.orderItemsRepository = orderItemsRepository;
+        this.productRepository = productRepository;
+    }
 
     public List<OrderDto> getAllOrders() {
         List<OrderModel> orderModelList = orderRepository.findAll();
         return convertListToDto(orderModelList);
     }
 
+    private OrderModel findOrderModelByOrderNumber(Long orderNumber) {
+        return orderRepository.findByOrderNumber(orderNumber)
+                .orElseThrow(() -> new OrderNotFoundException(
+                        String.format("O pedido de número '%s' não foi encontrado", orderNumber))
+                );
+    }
+
     public OrderDto getOrderByOrderNumber(Long orderNumber) {
-        try {
-            OrderModel orderModel = orderRepository.findByOrderNumber(orderNumber).get();
-            return convertModelToDto(orderModel);
-        } catch (NoSuchElementException err) {
-            throw new ObjectNotFoundException("Pedido não encontrado!");
-        }
+        OrderModel orderModel = findOrderModelByOrderNumber(orderNumber);
+        return convertModelToDto(orderModel);
     }
 
     @Transactional
     public OrderDto insertOrder(OrderForm orderForm) {
         OrderModel newOrder = convertFormToModel(orderForm);
+        newOrder.setIdStatus(findOrderStatusModel("Em processamento"));
+        newOrder.setOrderNumber(generateOrderNumber());
+        newOrder.setTotalPrice(new BigDecimal(0.00));
+        newOrder.setDataTime(LocalDateTime.now());
         try {
-            newOrder.setStatus(orderStatusRepository.findById(1L).get());
-        }  catch (NoSuchElementException err) {
-            throw new ObjectNotFoundException("O status não foi encontrado, reporte ao administrador");
-        }
-        try {
-            newOrder.setOrderNumber(generateOrderNumber());
-            newOrder.setTotalPrice(new BigDecimal(0.00));
-            newOrder.setDataTime(LocalDateTime.now());
-
             newOrder = orderRepository.save(newOrder);
-
             return convertModelToDto(newOrder);
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException(
-                    "Campo(s) obrigatório(s) do pedido não foi(foram) devidamente preenchido(s)."
-            );
+            throw new OrderInsertException("Falha ao cadastrar o pedido. Verifique os dados informados");
         }
     }
 
-    @Transactional
-    public OrderDto updateOrder(Long id, OrderUpdateForm orderUpdateForm) {
-        try {
-            Optional<OrderStatusModel> status = orderStatusRepository.findById(orderUpdateForm.getIdStatus());
-            if(!status.isPresent()) {
-                throw new ObjectNotFoundException("O status não foi encontrado, reporte ao administrador");
-            }
-            Optional<OrderModel> orderModel = orderRepository.findById(id);
-            if (orderModel.isPresent()) {
-                OrderModel orderUpdated = orderModel.get();
-                orderUpdated.setStatus(status.get());
-
-                orderRepository.save(orderUpdated);
-                return convertModelToDto(orderUpdated);
-            } else {
-                throw new DataIntegrityViolationException("O pedido não pode ser atualizado");
-            }
-        } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException(
-                    "Campo(s) obrigatório(s) do pedido não foi(foram) devidamente preenchido(s)."
-            );
-        }
+    private OrderStatusModel findOrderStatusModel(String status) {
+        return orderStatusRepository.findByDescription(status)
+                .orElseThrow(() -> new OrderStatusNotFoundException(
+                        String.format("O status '%s' não foi encontrado", status)
+                ));
     }
 
     @Transactional
-    private void updateOrderPrice(long orderId) {
+    public OrderDto updateOrder(Long orderNumber, OrderUpdateForm orderUpdateForm) {
+        OrderModel orderUpdated = findOrderModelByOrderNumber(orderNumber);
+        OrderStatusModel orderStatusModel = findOrderStatusModel(orderUpdateForm.getStatus());
         try {
-            List<OrderItemsModel> orderItemsModelList = orderItemsRepository.findAllByOrderId(orderId).get();
-
-            BigDecimal price = new BigDecimal(0);
-            for (OrderItemsModel orderItem : orderItemsModelList) {
-                price = price.add(
-                        orderItem.getProduct().getUnitPrice().multiply(new BigDecimal(orderItem.getQuantity()))
-                );
-            }
-            orderRepository.findById(orderId).get().setTotalPrice(price);
+            orderUpdated.setIdStatus(orderStatusModel);
+            orderRepository.save(orderUpdated);
+            return convertModelToDto(orderUpdated);
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException(
-                    "Não foi possível pegar o preço total da ordem de pedido"
-            );
-        }
-    }
-
-    @Transactional
-    private void updateOrderPrice() {
-        try {
-            List<OrderModel> orders = orderRepository.findAll();
-            for (OrderModel order : orders) {
-                List<OrderItemsModel> orderItemsModelList = orderItemsRepository.findAllByOrderId(order.getId()).get();
-
-                BigDecimal price = new BigDecimal(0);
-                for (OrderItemsModel orderItem : orderItemsModelList) {
-                    price = price.add(
-                            orderItem.getProduct().getUnitPrice().multiply(new BigDecimal(orderItem.getQuantity()))
-                    );
-                }
-                order.setTotalPrice(price);
-            }
-        } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException(
-                    "Não foi possível pegar o preço total das ordem(ns) de(os) pedido(s)"
+            throw new OrderUpdateException(
+                    String.format("Falha ao atualizar o pedido '%s'. Verifique se os dados estão corretos", orderNumber)
             );
         }
     }
 
     @Transactional
     public void deleteOrder(Long orderNumber) {
-        try {
-            Optional<OrderModel> orderModel = orderRepository.findByOrderNumber(orderNumber);
-            if (orderModel.isPresent()) {
-                orderRepository.deleteById(orderModel.get().getId());
-            } else {
-                throw new DataIntegrityViolationException("Este pedido não existe");
-            }
-        } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("Não foi possível deletar o pedido");
+        OrderModel orderModel = findOrderModelByOrderNumber(orderNumber);
+        Long id = orderModel.getId();
+        orderRepository.deleteById(id);
+    }
+
+    @Transactional
+    private void updateOrderPrice(long orderId) {
+        List<OrderItemsModel> orderItemsModelList = orderItemsRepository.findAllByOrderId(orderId)
+                .orElseThrow(() -> new OrderPriceUpdateException("Não foi possível pegar o preço total da ordem de pedido"));
+        BigDecimal price = calculateTotalPrice(orderItemsModelList);
+        orderRepository.findById(orderId).get().setTotalPrice(price);
+    }
+
+    @Transactional
+    private void updateOrderPrice() {
+        List<OrderModel> orders = orderRepository.findAll();
+        for (OrderModel order : orders) {
+            List<OrderItemsModel> orderItemsModelList = orderItemsRepository.findAllByOrderId(order.getId())
+                    .orElseThrow(() -> new OrderPriceUpdateException(
+                            String.format("Não foi possível encontrar itens para o pedido de ID: %d", order.getId())
+                    ));
+            BigDecimal price = calculateTotalPrice(orderItemsModelList);
+            order.setTotalPrice(price);
         }
+    }
+
+    private BigDecimal calculateTotalPrice(List<OrderItemsModel> items) {
+        BigDecimal price = new BigDecimal(0);
+        for (OrderItemsModel item : items) {
+            price = price.add(item.getProduct().getUnitPrice().multiply(new BigDecimal(item.getQuantity())));
+        }
+        return price;
     }
 
     private long generateOrderNumber() {
@@ -170,36 +150,30 @@ public class OrderService {
         return orderNumber;
     }
 
-
     private OrderModel convertFormToModel(OrderForm orderForm) {
         OrderModel orderModel = new OrderModel();
-        try {
-            PersonModel customer = personRepository.findByCpf(orderForm.getCpfCustomer()).get();
-            orderModel.setCustomer(customer);
-        } catch (NoSuchElementException err) {
-            throw new ObjectNotFoundException("Cliente não foi encontrado");
-        }
-        try {
-            PersonModel seller = personRepository.findByCpf(orderForm.getCpfSeller()).get();
-            orderModel.setSeller(seller);
-        } catch (NoSuchElementException err) {
-            throw new ObjectNotFoundException("Vendedor não foi encontrado");
-        }
+        PersonModel customer = personRepository.findByCpf(orderForm.getCpfCustomer())
+                .orElseThrow(() -> new PersonNotFoundException(
+                        String.format("Cliente com cpf '%s' não foi encontrado", orderForm.getCpfCustomer()))
+                );
+        orderModel.setIdCustomer(customer);
+        PersonModel seller = personRepository.findByCpf(orderForm.getCpfSeller())
+                .orElseThrow(() -> new PersonNotFoundException(
+                        String.format("Vendedor com cpf '%s' não foi encontrado", orderForm.getCpfSeller()))
+                );
+        orderModel.setIdSeller(seller);
         return orderModel;
     }
 
     private OrderDto convertModelToDto(OrderModel orderModel) {
         OrderDto orderDto = new OrderDto();
-
         updateOrderPrice(orderModel.getId());
-
         orderDto.setOrderNumber(orderModel.getOrderNumber());
         orderDto.setPrice(orderModel.getTotalPrice());
         orderDto.setDateTime(orderModel.getDataTime());
-        orderDto.setStatus(orderModel.getStatus().getDescription());
-        orderDto.setCustomer(orderModel.getCustomer().getName());
-        orderDto.setSeller(orderModel.getSeller().getName());
-
+        orderDto.setStatus(orderModel.getIdStatus().getDescription());
+        orderDto.setCustomer(orderModel.getIdCustomer().getName());
+        orderDto.setSeller(orderModel.getIdSeller().getName());
         return orderDto;
     }
 
