@@ -8,10 +8,12 @@ import java.math.BigDecimal;
 @Data
 public class OrderForm {
 
-    @NotNull(message = "Insira o cpf do cliente")
+    @NotBlank(message = "O campo cpf do cliente não pode ficar em branco")
+    @Size(min = 11, max = 11, message = "O cpf deve ter 11 caracteres")
     private String cpfCustomer;
 
-    @NotNull(message = "Insira o cpf do vendedor")
+    @NotBlank(message = "O campo cpf do vendedor não pode ficar em branco")
+    @Size(min = 11, max = 11, message = "O cpf deve ter 11 caracteres")
     private String cpfSeller;
 
 }

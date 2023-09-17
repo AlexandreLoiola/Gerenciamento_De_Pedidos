@@ -10,7 +10,8 @@ import java.math.BigDecimal;
 @Data
 public class OrderUpdateForm {
 
-    @NotNull(message = "Insira o status do pedido")
-    private Long idStatus;
+    @NotBlank(message = "O campo status não pode ficar em branco")
+    @Size(min = 5, max = 100, message = "O status deve ter entre 5 e 100 caracteres")
+    private String status;
 
 }
