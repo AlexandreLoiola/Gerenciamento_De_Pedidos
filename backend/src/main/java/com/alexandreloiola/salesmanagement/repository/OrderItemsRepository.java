@@ -21,6 +21,7 @@ public interface OrderItemsRepository extends JpaRepository<OrderItemsModel, Lon
     @Query(value = "SELECT * FROM TB_ORDER_ITEMS WHERE ID_ORDER=:orderId", nativeQuery = true)
     Optional<List<OrderItemsModel>> findAllByOrderId(@Param("orderId") long orderId);
 
+
     Optional<OrderItemsModel> findByOrder(OrderModel orderModel);
 
     Optional<OrderItemsModel> findByProduct(ProductModel productModel);
