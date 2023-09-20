@@ -10,7 +10,14 @@ import com.alexandreloiola.salesmanagement.rest.dto.OrderItemsDto;
 import com.alexandreloiola.salesmanagement.rest.form.OrderItemsForm;
 import com.alexandreloiola.salesmanagement.rest.form.OrderItemsUpdateForm;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.orderItems.OrderItemDeletionException;
+import com.alexandreloiola.salesmanagement.service.exceptions.orderItems.OrderItemsInsertException;
+import com.alexandreloiola.salesmanagement.service.exceptions.orderItems.OrderItemsNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.orderItems.OrderItemsUpdateException;
+import com.alexandreloiola.salesmanagement.service.exceptions.product.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -35,99 +42,96 @@ public class OrderItemsService {
         return convertListModelToDto(orderItemsModelList);
     }
 
-    public List<OrderItemsDto> getOrderItems(Long orderNumber) {
-        try {
-            Optional<OrderModel> orderModel = orderRepository.findByOrderNumber(orderNumber);
-            if (!orderModel.isPresent()) {
-                throw new ObjectNotFoundException("O(s) item(ns) do pedido não foi(foram) encontrado(s)!");
-            }
-            Long id = orderModel.get().getId();
-            List<OrderItemsModel> orderItemsModelList = orderItemsRepository.findAllByOrderId(id).get();
+    private OrderModel findOrderModelByOrderNumber(Long orderNumber) {
+        return orderRepository.findByOrderNumber(orderNumber)
+                .orElseThrow(() -> new OrderNotFoundException(
+                        String.format("O pedido de número '%s' não foi encontrado", orderNumber))
+                );
+    }
 
-            return convertListModelToDto(orderItemsModelList);
-        } catch(NoSuchElementException err) {
-            throw new ObjectNotFoundException("O(s) item(ns) do pedido não foi(foram) encontrado(s)!");
-        }
+    private ProductModel findProductModelByName(String productName) {
+        return productRepository.findByName(productName)
+                .orElseThrow(() -> new ProductNotFoundException(
+                        String.format("O produto de nome '%s' não foi encontrado", productName)
+                ));
+    }
+
+    public List<OrderItemsDto> getOrderItems(Long orderNumber) {
+        OrderModel orderModel = findOrderModelByOrderNumber(orderNumber);
+
+        List<OrderItemsModel> orderItemsModelList = orderItemsRepository.findAllByOrderId(orderModel.getId())
+                .orElseThrow(() -> new OrderItemsNotFoundException(
+                        String.format("O(s) item(ns) do pedido '%s' não foi(foram) encontrado(s)!", orderNumber))
+                );
+        return convertListModelToDto(orderItemsModelList);
     }
 
     @Transactional
     public OrderItemsDto insertOrderItems(OrderItemsForm orderItemsForm) {
+        Long orderId = findOrderModelByOrderNumber(orderItemsForm.getOrderNumber()).getId();
+        Long productId = findProductModelByName(orderItemsForm.getProductName()).getId();
         try {
-            long orderId = orderRepository
-                    .findByOrderNumber(orderItemsForm.getOrderNumber()).get().getId();
-            long productId = productRepository
-                    .findByName(orderItemsForm.getProductName()).get().getId();
-
             if (orderItemsRepository.findByOrderIdAndProductId(orderId, productId).isPresent()) {
                 OrderItemsModel orderItemsModel = orderItemsRepository
-                        .findByOrderIdAndProductId(orderId, productId).get();
-
-                orderItemsModel.setQuantity(
-                        orderItemsModel.getQuantity() + orderItemsForm.getQuantity()
-                );
-
+                        .findByOrderIdAndProductId(orderId, productId)
+                        .orElseThrow(() -> new OrderNotFoundException(
+                                String.format("O item do pedido '%s' não foi encontrado", orderItemsForm.getOrderNumber())
+                        ));
+                orderItemsModel.setQuantity(orderItemsModel.getQuantity() + orderItemsForm.getQuantity());
                 orderItemsModel = orderItemsRepository.save(orderItemsModel);
                 return convertModelToDto(orderItemsModel);
-
             } else {
                 OrderItemsModel newOrderItemsModel = convertFormToModel(orderItemsForm);
-
                 newOrderItemsModel = orderItemsRepository.save(newOrderItemsModel);
                 return convertModelToDto(newOrderItemsModel);
             }
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException(
-                    "Campo(s) obrigatório(s) do(s) item(ns) do pedido não foi(foram) devidamente preenchido(s)."
+            throw new OrderItemsInsertException(
+                    String.format("Não foi possível salvar a item no pedido '%s. Verifique os seus dados", orderItemsForm.getOrderNumber())
             );
         }
-    };
+    }
 
     @Transactional
-    public OrderItemsDto updateOrderDto(Long id, OrderItemsUpdateForm orderItemsUpdateForm) {
+    public OrderItemsDto updateOrderItems(Long orderNumber, String productName, OrderItemsUpdateForm orderItemsUpdateForm) {
+        Long orderId = findOrderModelByOrderNumber(orderNumber).getId();
+        Long productId = findProductModelByName(productName).getId();
+        OrderItemsModel orderItemsUpdated = orderItemsRepository.findByOrderIdAndProductId(orderId, productId)
+                .orElseThrow(() -> new OrderItemsNotFoundException("Não foi possível encontrar o item de pedido"));
         try {
-            Optional<OrderItemsModel> orderItemsModel = orderItemsRepository.findById(id);
-            if (orderItemsModel.isPresent()) {
-                OrderItemsModel orderItemsUpdated = orderItemsModel.get();
-                orderItemsUpdated.setQuantity(orderItemsUpdateForm.getQuantity());
-                orderItemsUpdated = orderItemsRepository.save(orderItemsUpdated);
-
-                return convertModelToDto(orderItemsUpdated);
-            } else {
-                throw new DataIntegrityViolationException("O(s) item(ns) do pedido não pode(podem) ser atualizado(s)");
-            }
+            orderItemsUpdated.setQuantity(orderItemsUpdateForm.getQuantity());
+            orderItemsUpdated = orderItemsRepository.save(orderItemsUpdated);
+            return convertModelToDto(orderItemsUpdated);
         } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException(
-                    "Campo(s) obrigatório(s) do(s) item(ns) do pedido não foi(foram) devidamente preenchido(s)."
+            throw new OrderItemsUpdateException(
+                    String.format("Não foi possível salvar a item no pedido '%s. Verifique os seus dados", orderNumber)
             );
         }
-    };
+    }
 
     @Transactional
-    public void deleteOrderItems(Long id) {
-        try {
-            if (orderItemsRepository.existsById(id)) {
-                orderItemsRepository.deleteById(id);
+    public void deleteOrderItems(long orderId) {
+        List<OrderItemsModel> orderItemsModelList = orderItemsRepository.findAllByOrderId(orderId)
+                .orElseThrow(() -> new OrderItemsNotFoundException(
+                        String.format("O(s) item(ns) do pedido '%s' não foi(foram) encontrado(s)!"))
+                );
+        for (OrderItemsModel orderItem : orderItemsModelList) {
+            try {
+                orderItemsRepository.deleteById(orderItem.getId());
+            } catch (DataAccessException e) {
+                throw new OrderItemDeletionException(
+                        String.format("Não foi possível deletar os itens do pedido '%s'", orderItem.getOrder())
+                );
             }
-        } catch (DataIntegrityViolationException err) {
-            throw new DataIntegrityViolationException("Não foi possível deletar o(s) item(ns) do pedido");
         }
     }
 
     private OrderItemsModel convertFormToModel(OrderItemsForm orderItemsForm) {
+        OrderModel orderModel = findOrderModelByOrderNumber(orderItemsForm.getOrderNumber());
+        ProductModel productModel = findProductModelByName(orderItemsForm.getProductName());
         OrderItemsModel orderItemsModel = new OrderItemsModel();
-        try {
-            OrderModel orderModel = orderRepository.findByOrderNumber(orderItemsForm.getOrderNumber()).get();
-            orderItemsModel.setOrder(orderModel);
-        } catch (NoSuchElementException err) {
-            throw new ObjectNotFoundException("O pedido não foi encontrado");
-        }
-        try {
-            ProductModel productModel = productRepository.findByName(orderItemsForm.getProductName()).get();
-            orderItemsModel.setProduct(productModel);
-        } catch (NoSuchElementException err) {
-            throw new ObjectNotFoundException("O produto não foi encontrado");
-        }
-
+        orderItemsModel.setOrder(orderModel);
+        orderItemsModel.setProduct(productModel);
         orderItemsModel.setQuantity(orderItemsForm.getQuantity());
         return orderItemsModel;
     }
@@ -137,7 +141,6 @@ public class OrderItemsService {
         orderItemsDto.setQuantity(orderItemsModel.getQuantity());
         orderItemsDto.setOrderNumber(orderItemsModel.getOrder().getOrderNumber());
         orderItemsDto.setProductName(orderItemsModel.getProduct().getName());
-
         return orderItemsDto;
     }
 
@@ -147,7 +150,6 @@ public class OrderItemsService {
             OrderItemsDto orderItemsDto = this.convertModelToDto(orderItemsModel);
             orderItemsDtoList.add(orderItemsDto);
         }
-
         return orderItemsDtoList;
     }
 }
