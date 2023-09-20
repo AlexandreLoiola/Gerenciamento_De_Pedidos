@@ -11,7 +11,7 @@ public class OrderItemsModel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity", length = 5, nullable = false)
     private int quantity;
 
     @ManyToOne
