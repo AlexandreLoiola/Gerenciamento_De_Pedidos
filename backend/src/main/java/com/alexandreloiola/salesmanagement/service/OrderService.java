@@ -5,12 +5,7 @@ import com.alexandreloiola.salesmanagement.repository.*;
 import com.alexandreloiola.salesmanagement.rest.dto.OrderDto;
 import com.alexandreloiola.salesmanagement.rest.form.OrderForm;
 import com.alexandreloiola.salesmanagement.rest.form.OrderUpdateForm;
-import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
-import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
-import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderInsertException;
-import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderNotFoundException;
-import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderPriceUpdateException;
-import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderUpdateException;
+import com.alexandreloiola.salesmanagement.service.exceptions.order.*;
 import com.alexandreloiola.salesmanagement.service.exceptions.orderStatus.OrderStatusNotFoundException;
 import com.alexandreloiola.salesmanagement.service.exceptions.person.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +18,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -35,18 +28,29 @@ public class OrderService {
     private final OrderStatusService orderStatusService;
     private final OrderStatusRepository orderStatusRepository;
     private final OrderItemsRepository orderItemsRepository;
+
+    private final OrderItemsService orderItemsService;
     private final ProductRepository productRepository;
+
+    private final CustomerRepository customerRepository;
+
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
     public OrderService(OrderRepository orderRepository, PersonRepository personRepository,
                         OrderStatusService orderStatusService, OrderStatusRepository orderStatusRepository,
-                        OrderItemsRepository orderItemsRepository, ProductRepository productRepository) {
+                        OrderItemsRepository orderItemsRepository, OrderItemsService orderItemsService,
+                        ProductRepository productRepository, CustomerRepository customerRepository,
+                        EmployeeRepository employeeRepository) {
         this.orderRepository = orderRepository;
         this.personRepository = personRepository;
         this.orderStatusService = orderStatusService;
         this.orderStatusRepository = orderStatusRepository;
         this.orderItemsRepository = orderItemsRepository;
+        this.orderItemsService = orderItemsService;
         this.productRepository = productRepository;
+        this.customerRepository = customerRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     public List<OrderDto> getAllOrders() {
@@ -107,6 +111,7 @@ public class OrderService {
     public void deleteOrder(Long orderNumber) {
         OrderModel orderModel = findOrderModelByOrderNumber(orderNumber);
         Long id = orderModel.getId();
+        orderItemsService.deleteOrderItems(id);
         orderRepository.deleteById(id);
     }
 
@@ -151,16 +156,26 @@ public class OrderService {
     }
 
     private OrderModel convertFormToModel(OrderForm orderForm) {
-        OrderModel orderModel = new OrderModel();
         PersonModel customer = personRepository.findByCpf(orderForm.getCpfCustomer())
                 .orElseThrow(() -> new PersonNotFoundException(
-                        String.format("Cliente com cpf '%s' não foi encontrado", orderForm.getCpfCustomer()))
+                        String.format("O cpf '%s' não foi encontrado", orderForm.getCpfCustomer()))
                 );
-        orderModel.setIdCustomer(customer);
+        customerRepository.findById(customer.getId()).orElseThrow(
+                () -> new NotValidCustomerException(String.format("O cpf '%s' não é de um cliente", orderForm.getCpfCustomer()))
+        );
         PersonModel seller = personRepository.findByCpf(orderForm.getCpfSeller())
                 .orElseThrow(() -> new PersonNotFoundException(
                         String.format("Vendedor com cpf '%s' não foi encontrado", orderForm.getCpfSeller()))
                 );
+        EmployeeModel employeeModel = employeeRepository.findById(seller.getId()).orElseThrow(
+                () -> new NotValidSellerException(
+                        String.format("O cpf '%s' não é de um vendedor", orderForm.getCpfSeller())
+        ));
+        if (employeeModel.getEmployeePosition().getDescription() != "Vendedor") {
+            String.format("O cpf '%s' não é de um vendedor", orderForm.getCpfSeller());
+        }
+        OrderModel orderModel = new OrderModel();
+        orderModel.setIdCustomer(customer);
         orderModel.setIdSeller(seller);
         return orderModel;
     }
@@ -183,6 +198,7 @@ public class OrderService {
             OrderDto orderDto = this.convertModelToDto(orderModel);
             orderDtoList.add(orderDto);
         }
+        updateOrderPrice();
         return orderDtoList;
     }
 }
