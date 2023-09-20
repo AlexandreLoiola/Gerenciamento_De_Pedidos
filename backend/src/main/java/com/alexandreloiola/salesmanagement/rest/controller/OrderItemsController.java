@@ -1,6 +1,5 @@
 package com.alexandreloiola.salesmanagement.rest.controller;
 
-import com.alexandreloiola.salesmanagement.rest.dto.OrderDto;
 import com.alexandreloiola.salesmanagement.rest.dto.OrderItemsDto;
 import com.alexandreloiola.salesmanagement.rest.form.OrderItemsForm;
 import com.alexandreloiola.salesmanagement.rest.form.OrderItemsUpdateForm;
@@ -26,7 +25,7 @@ public class OrderItemsController {
     };
 
     @GetMapping("/{orderNumber}")
-    public ResponseEntity<List<OrderItemsDto>> getOrderItemsById (
+    public ResponseEntity<List<OrderItemsDto>> getOrderItemsByOrderNumber (
             @PathVariable ("orderNumber") Long orderNumber
     ) {
         List<OrderItemsDto> orderItemsDtoList = orderItemsService.getOrderItems(orderNumber);
@@ -41,20 +40,21 @@ public class OrderItemsController {
         return ResponseEntity.ok().body(orderItemsDto);
     };
 
-    @PutMapping("/{id}")
+    @PutMapping("/{orderNumber}/{productName}")
     public ResponseEntity<OrderItemsDto> updateOrderItem(
-            @PathVariable ("id") Long id,
+            @PathVariable("orderNumber") Long orderNumber,
+            @PathVariable("productName") String productName,
             @Valid @RequestBody OrderItemsUpdateForm orderItemsUpdateForm
     ) {
-        OrderItemsDto orderItemsDto = orderItemsService.updateOrderDto(id, orderItemsUpdateForm);
+        OrderItemsDto orderItemsDto = orderItemsService.updateOrderItems(orderNumber, productName, orderItemsUpdateForm);
         return ResponseEntity.ok().body(orderItemsDto);
-    };
+    }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{orderNumber}")
     public ResponseEntity<Void> deleteOrderItem(
-            @PathVariable("id") Long id
+            @PathVariable("orderNumber") Long orderNumber
     ) {
-        orderItemsService.deleteOrderItems(id);
+        orderItemsService.deleteOrderItems(orderNumber);
         return ResponseEntity.noContent().build();
     };
 }
