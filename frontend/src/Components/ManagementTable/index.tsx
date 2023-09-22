@@ -22,7 +22,6 @@ interface IProps {
   redirectToUpdateForm?: string;
   changePageToPagination: number;
   itemsPerPage?: number;
-  
 
   showEditButton?: boolean;
   showDeleteButton?: boolean;
@@ -105,7 +104,7 @@ const ManagementTable: React.FC<IProps> = ({
             ))}
             <td>
               {showViewButton && (
-                <StyledButton variant="success" onClick={handleView}>
+                <StyledButton variant="success" onClick={() => handleView(data)}>
                   <EyeIcon />
                 </StyledButton>
               )}
@@ -123,7 +122,6 @@ const ManagementTable: React.FC<IProps> = ({
                 <StyledButton
                   variant="danger"
                   onClick={() => {
-                    console.log(index);
                     handleDelete(index)
                   }}
                 >

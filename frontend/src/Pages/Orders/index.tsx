@@ -11,6 +11,7 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 import { Container, HeaderContainer } from "../../Components/Header/styles";
 import HeaderTitle from "../../Components/Header/HeaderTitle";
 import Logout from "../../Components/Header/Logout";
+import ViewOrder from "../../Components/Modal/ViewOrder";
 
 interface IOrder {
   customer: string;
@@ -26,6 +27,18 @@ const Orders: React.FC = () => {
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const [show, setShow] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const handleView = (order: any) => {
+    setSelectedOrder(order);
+    setShow(true);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
 
   const columnTitles = [
     "#",
@@ -98,6 +111,7 @@ const Orders: React.FC = () => {
 
   return (
     <>
+        <ViewOrder show={show} order={selectedOrder} handleClose={handleClose} />     
       <HeaderContainer>
         <Container />
         <HeaderTitle title={"Gerenciador de Pedidos"} />
@@ -164,10 +178,11 @@ const Orders: React.FC = () => {
           redirectToUpdateForm={"/gerenciar-pedidos/adicionar-itens"}
           changePageToPagination={currentPage}
           handleDelete={(index) => handleDelete(orders[index].orderNumber)}
+          handleView={handleView}
         />
         <MyPagination
           currentPage={currentPage}
-          totalPages={totalPages}
+          totalPages={totalPages} 
           onPageChange={handlePageChange}
         />
       </div>
