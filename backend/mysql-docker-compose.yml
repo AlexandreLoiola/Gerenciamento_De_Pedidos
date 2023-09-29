@@ -1,0 +1,19 @@
+version: "3"
+services:
+  spring-boot-service:
+    build:
+      context: .
+    ports:
+      - 8081:8081
+    environment:
+      DB_HOST: mysql-db
+      DB_NAME: mysql-spring
+      DB_USER: alexandre_admin
+      DB_PASSWORD : admin
+  mysql-db:
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql-spring
