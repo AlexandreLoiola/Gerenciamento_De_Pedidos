@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class SalesManagementApplication {
+	public String PORT = System.getenv("PORT");
 
 	public static void main(String[] args) {
 		SpringApplication.run(SalesManagementApplication.class, args);
