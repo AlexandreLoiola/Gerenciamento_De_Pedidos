@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import InputForm from "../../Components/Forms/InputForm";
-import { Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import axios from "axios";
-import TableToggle from "../../Components/ManagementTable/TableToggle";
+import NumberForm from "../../Components/Forms/NumberForm";
 import { HeaderContainer, Container } from "../../Components/Header/styles";
 import Logout from "../../Components/Header/Logout";
 import HeaderTitle from "../../Components/Header/HeaderTitle";
+import { FormContainer, FormRow } from "./styles";
 
 interface IProduct {
   name: string;
@@ -53,7 +54,7 @@ const ManagementProductUpdateForm: React.FC = () => {
         <HeaderTitle title={"Atualizar Produto"} />
         <Logout navigateTo="/gerenciar-produtos" message="Voltar" />
       </HeaderContainer>
-      <Form
+      <FormContainer
         onSubmit={(event) => {
           event.preventDefault();
         }}
@@ -72,32 +73,27 @@ const ManagementProductUpdateForm: React.FC = () => {
           message={""}
           onInputChange={(value) => setDescription(value)}
         />
-        <InputForm
-          label={"Quantidade em Estoque"}
-          placeHolder={"Quantidade em Estoque"}
-          value={stockQuantity}
-          message={""}
-          onInputChange={(value) => setStockQuantity(value)}
-        />
-        <InputForm
-          label={"Preço"}
-          placeHolder={"Preço unitário do produto"}
-          value={unitPrice}
-          message={""}
-          onInputChange={(value) => setUnitPrice(value)}
-        />
-        <InputForm
-          label={"Status"}
-          placeHolder={"Preço unitário do produto"}
-          value={isActive}
-          message={""}
-          onInputChange={(value) => setIsActive(value)}
-        />
-        <span>Status</span>
-        <TableToggle
-          onToggle={(value) => setIsActive(value)}
-          initialValue={data.isActive}
-        />
+       <FormRow>
+          <NumberForm
+            label={"Quantidade em estoque"}
+            placeholder={"0"}
+            value={unitPrice}
+            max={9999}
+            min={0}
+            onChange={(value) => {
+              setUnitPrice(value);
+            }}
+          />
+          <NumberForm
+            label={"Preço"}
+            placeholder={"00,00"}
+            value={stockQuantity}
+            max={9999.99}
+            min={0.01}
+            step={0.01}
+            onChange={(value) => setStockQuantity(value)}
+          />
+        </FormRow>
         <Button
           variant="success"
           onClick={() =>
@@ -112,7 +108,7 @@ const ManagementProductUpdateForm: React.FC = () => {
         >
           Salvar
         </Button>
-      </Form>
+      </FormContainer>
     </>
   );
 };
