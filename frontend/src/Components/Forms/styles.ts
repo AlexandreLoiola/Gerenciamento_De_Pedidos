@@ -30,7 +30,7 @@ export const StyledFormControlReadonly = styled(Form.Control)`
   border: 1px solid #ccc;
   font-size: 1rem;
   background-color: #d3d3d3;
-  width: 164px;
+  width: 220px;
   padding: 0.5rem 1rem;
   cursor: not-allowed;
 

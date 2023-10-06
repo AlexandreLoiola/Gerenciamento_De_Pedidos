@@ -25,7 +25,7 @@ export const SearchFormInput = styled.div`
     margin-right: 28px;
     box-shadow: none;
     z-index: 1;
-    width: 40%;
+    width: 40%;; 
   }
 `;
 
@@ -54,6 +54,7 @@ export const FormInput = styled.input`
 export const FormRow = styled.div`
   display: flex;
   justify-content: center;
+  gap: 50px;
   align-items: center;
   margin-bottom: 20px; 
 `;
