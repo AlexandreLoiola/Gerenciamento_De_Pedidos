@@ -7,7 +7,11 @@ import axios from "axios";
 import InputForm from "../../Components/Forms/InputForm";
 import PasswordInput from "../../Components/Forms/PasswordForm";
 import { FormContainer, StyledButton } from "../../Components/Forms/styles";
-import { HeaderContainer, TitleContainer, TitleText } from "../../Components/Header/styles";
+import {
+  HeaderContainer,
+  TitleContainer,
+  TitleText,
+} from "../../Components/Header/styles";
 import DividerLine from "../../Components/Header/HeaderDivisor";
 
 const Login: React.FC = () => {
@@ -73,6 +77,7 @@ const Login: React.FC = () => {
           </StyledButton>
         </form>
       </FormContainer>
+      <StyledButton variant="success" onClick={() => navigate("/")}>ENTRAR SEM AUTENTICAR</StyledButton>
       <StyledButton variant="success" onClick={() => navigate("/cadastro")}>
         CADASTRE-SE
       </StyledButton>
