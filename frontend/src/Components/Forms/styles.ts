@@ -5,6 +5,7 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 
 export const StyledFormGroup = styled(Form.Group)`
   margin-bottom: 1.5rem;
+  min-width: 240px;
 `;
 
 export const StyledFormLabel = styled(Form.Label)`

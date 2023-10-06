@@ -1,5 +1,6 @@
 import React from "react";
-import { Form } from "react-bootstrap";
+import { StyledFormGroup } from "./styles";
+import { Form } from "react-bootstrap"
 
 interface IProps {
   label: string;
@@ -26,7 +27,7 @@ const NumberForm: React.FC<IProps> = ({
   };
 
   return (
-    <Form.Group controlId="formBasicNumber">
+    <StyledFormGroup controlId="formBasicNumber">
       <Form.Label>{label}</Form.Label>
       <Form.Control
         type="number"
@@ -37,7 +38,7 @@ const NumberForm: React.FC<IProps> = ({
         step={step}
         onChange={handleChange}
       />
-    </Form.Group>
+    </StyledFormGroup>
   );
 };
 
