@@ -7,6 +7,7 @@ import com.alexandreloiola.salesmanagement.rest.form.EmployeePositionForm;
 import com.alexandreloiola.salesmanagement.rest.form.EmployeePositionUpdateForm;
 import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.employeePosition.EmployeePositionNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -27,11 +28,19 @@ public class EmployeePositionService {
         return convertListToDto(employeePositionModelList);
     }
 
+    public EmployeePositionModel findEmployeePositionModelByDescription(String description) {
+        return employeePositionRepository.findByDescription(description)
+                .orElseThrow(() -> new EmployeePositionNotFoundException(
+                                String.format("O cargo com a descrição '%s' não foi encontrado", description)
+                        )
+                );
+    }
+
     public EmployeePositionDto getEmployeePositionByDescription(String description) {
         try {
             EmployeePositionModel employeePositionModel = employeePositionRepository.findByDescription(description).get();
             return convertModelToDto(employeePositionModel);
-        }  catch(NoSuchElementException err) {
+        } catch (NoSuchElementException err) {
             throw new ObjectNotFoundException("Cargo não encontrado!");
         }
     }
@@ -47,7 +56,7 @@ public class EmployeePositionService {
             employeePositionModel = employeePositionRepository.save(employeePositionModel);
 
             return convertModelToDto(employeePositionModel);
-        }   catch (DataIntegrityViolationException err) {
+        } catch (DataIntegrityViolationException err) {
             throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do cargo não foi(foram) devidamente preenchido(s).");
         }
     }
@@ -61,7 +70,7 @@ public class EmployeePositionService {
                 employeePositionUpdate.setIsActive(employeePositionUpdateForm.getIsActive());
                 employeePositionUpdate = employeePositionRepository.save(employeePositionUpdate);
                 return convertModelToDto(employeePositionUpdate);
-            }  else {
+            } else {
                 throw new DataIntegrityViolationException("Campo(s) obrigatório(s) do cargo não foi(foram) devidamente preenchido(s).");
             }
         } catch (DataIntegrityViolationException err) {
