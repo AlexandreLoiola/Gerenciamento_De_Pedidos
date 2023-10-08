@@ -28,6 +28,6 @@ public class EmployeeUpdateForm {
     @NotNull(message ="O campo de identificador de cargo não pode ficar vazio")
     @DecimalMax(value = "99999")
     @DecimalMin(value = "00.01")
-    private Long idPosition;
+    private String position;
 
 }
