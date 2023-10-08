@@ -62,10 +62,10 @@ INSERT INTO TB_PERSON (id, name, email, birth_date, cpf, is_active) VALUES
 (113,'Robert Johnson','robert.johnson@example.com','2001-01-01','31234567890' ,true);
 
 INSERT INTO TB_EMPLOYEE (id, hire_date, resignation_date, salary, id_position) VALUES
-(1, '2023-01-01', NULL, 5000.00, 2),
-(2, '2023-02-01', NULL, 6000.00, 1),
-(3, '2023-03-01', NULL, 7000.00, 2),
-(4, '2023-04-01', NULL, 8000.00, 3);
+(101, '2023-01-01', NULL, 5000.00, 2),
+(102, '2023-02-01', NULL, 6000.00, 1),
+(103, '2023-03-01', NULL, 7000.00, 2),
+(104, '2023-04-01', NULL, 8000.00, 3);
 
 INSERT INTO TB_CUSTOMER (id, registration_date) VALUES
 (105, '2023-01-01'),
