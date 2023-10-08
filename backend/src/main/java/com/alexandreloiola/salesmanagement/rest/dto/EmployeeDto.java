@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -26,6 +23,6 @@ public class EmployeeDto {
 
     private BigDecimal salary;
 
-    private String position;
+    private EmployeePositionDto position;
 
 }
