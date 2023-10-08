@@ -7,6 +7,8 @@ import com.alexandreloiola.salesmanagement.rest.form.PersonForm;
 import com.alexandreloiola.salesmanagement.rest.form.PersonUpdateForm;
 import com.alexandreloiola.salesmanagement.service.exceptions.DataIntegrityException;
 import com.alexandreloiola.salesmanagement.service.exceptions.ObjectNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.person.PersonNotFoundException;
+import com.alexandreloiola.salesmanagement.service.exceptions.product.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,23 @@ public class PersonService {
         } catch (NoSuchElementException err) {
             throw new ObjectNotFoundException("Pessoa não encontrada!");
         }
+    }
+
+    public PersonModel findPersonModelByCpf(String cpf) {
+        return personRepository.findByCpf(cpf)
+                .orElseThrow(() -> new PersonNotFoundException(
+                        String.format("A pessoa com o cpf '%s' não foi encontrada", cpf))
+                );
+    }
+
+    public PersonModel findPersonModelById(Long id) {
+        return personRepository.findById(id).orElseThrow(
+                () -> new PersonNotFoundException("A pessoa não foi encontrada")
+        );
+    }
+
+    public Long findPersonIdByCpf(String cpf) {
+        return findPersonModelByCpf(cpf).getId();
     }
 
     public PersonDto insertPerson(PersonForm personForm) {
