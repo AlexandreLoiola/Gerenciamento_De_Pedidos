@@ -2,6 +2,7 @@ package com.alexandreloiola.salesmanagement.rest.controller.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alexandreloiola.salesmanagement.service.exceptions.employee.*;
 import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderInsertException;
 import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderNotFoundException;
 import com.alexandreloiola.salesmanagement.service.exceptions.order.OrderPriceUpdateException;
@@ -165,5 +166,62 @@ public class ControllerExceptionHandler {
                 ex.getMessage(),
                 request.getRequestURI());
         return new ResponseEntity<>(exceptionsDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+
+    @ExceptionHandler(EmployeeDeleteException.class)
+    public ResponseEntity<ExceptionsDto> handleEmployeeDeleteException(EmployeeDeleteException ex, HttpServletRequest request) {
+        ExceptionsDto exceptionsDto = new ExceptionsDto(
+                System.currentTimeMillis(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Requisição inválida",
+                ex.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(exceptionsDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(EmployeeInsertException.class)
+    public ResponseEntity<ExceptionsDto> handleEmployeeInsertException(EmployeeInsertException ex, HttpServletRequest request) {
+        ExceptionsDto exceptionsDto = new ExceptionsDto(
+                System.currentTimeMillis(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Requisição inválida",
+                ex.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(exceptionsDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    public ResponseEntity<ExceptionsDto> handleEmployeeNotFoundException(EmployeeNotFoundException ex, HttpServletRequest request) {
+        ExceptionsDto exceptionsDto = new ExceptionsDto(
+                System.currentTimeMillis(),
+                HttpStatus.NOT_FOUND.value(),
+                "Não encontrado",
+                ex.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(exceptionsDto, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EmployeeUpdateException.class)
+    public ResponseEntity<ExceptionsDto> handleEmployeeUpdateException(EmployeeUpdateException ex, HttpServletRequest request) {
+        ExceptionsDto exceptionsDto = new ExceptionsDto(
+                System.currentTimeMillis(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Requisição inválida",
+                ex.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(exceptionsDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(EmployeeAlreadyExistsException.class)
+    public ResponseEntity<ExceptionsDto> handleEmployeeAlreadyExistsException(EmployeeAlreadyExistsException ex, HttpServletRequest request) {
+        ExceptionsDto exceptionsDto = new ExceptionsDto(
+                System.currentTimeMillis(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Requisição inválida",
+                ex.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(exceptionsDto, HttpStatus.BAD_REQUEST);
     }
 }
