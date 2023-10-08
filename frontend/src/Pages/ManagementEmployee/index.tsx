@@ -24,7 +24,9 @@ interface IEmployee {
   hireDate: string;
   resignationDate: string;
   salary: number;
-  position: string;
+  position: {
+    description: string;
+  };
 }
 
 const ManagementEmployee: React.FC = () => {
@@ -53,7 +55,7 @@ const ManagementEmployee: React.FC = () => {
     "personDto.email",
     "personDto.cpf",
     "personDto.birthDate",
-    "position",
+    "position.description",
     "salary",
     "hireDate",
     "resignationDate",
@@ -89,7 +91,7 @@ const ManagementEmployee: React.FC = () => {
       birthDate: data.personDto.birthDate,
       isActive: data.personDto.isActive,
       salary: data.salary,
-      position: data.position,
+      position: data.position.description,
       hireDate: data.hireDate,
       resignationDate: data.resignationDate,
     };
@@ -170,7 +172,7 @@ const ManagementEmployee: React.FC = () => {
               event.preventDefault();
               handleFetch();
             }}
-            style={{ display: "flex", alignItems: "center", width: "88%" }}
+            style={{ display: "flex", alignItems: "center", width: "84%" }}
           >
             <span
               style={{
@@ -184,7 +186,7 @@ const ManagementEmployee: React.FC = () => {
             </span>
             <InputForm
               label=""
-              placeHolder="Nome do Produto"
+              placeHolder="CPF do Funcionário"
               message=""
               onInputChange={handleInputChange}
             />
