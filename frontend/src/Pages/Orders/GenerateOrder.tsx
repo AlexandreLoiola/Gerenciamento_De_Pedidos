@@ -1,13 +1,12 @@
 import React, { FormEvent, useState } from "react";
-import { FormContainer } from "./styles";
+import { FormContainer  } from "./styles";
 import axios from "axios";
 import InputForm from "../../Components/Forms/InputForm";
 import { useNavigate } from "react-router-dom";
-
+import { StyledButton } from "../../Components/Forms/styles";
 import { Container, HeaderContainer } from "../../Components/Header/styles";
 import HeaderTitle from "../../Components/Header/HeaderTitle";
 import Logout from "../../Components/Header/Logout";
-import { StyledButton } from "../Home/styles";
 
 interface IProps {
   customerCpf: string;
@@ -72,8 +71,7 @@ const GererateOrder: React.FC = () => {
             value={sellerCPF}
             onInputChange={(value) => setSellerCPF(value)}
           />
-          {/* <SubmitButton onClick={handleCreate} title="Gerar Pedido" /> */}
-          <StyledButton variant="success" onClick={handleCreate}>
+          <StyledButton  onClick={handleCreate}>
             Gerar Pedido
           </StyledButton>
         </form>
