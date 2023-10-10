@@ -12,6 +12,7 @@ import { Container, HeaderContainer } from "../../Components/Header/styles";
 import HeaderTitle from "../../Components/Header/HeaderTitle";
 import Logout from "../../Components/Header/Logout";
 import ViewOrder from "../../Components/Modal/ViewOrder";
+import moment from "moment";
 
 interface IOrder {
   customer: string;
@@ -71,10 +72,13 @@ const Orders: React.FC = () => {
       await axios
         .get(`http://localhost:8080/api/management/orders/${identifier}`)
         .then((response) => {
-          Array.isArray(response.data)
-            ? setOrders(response.data)
-            : setOrders([response.data]);
-
+          const formattedData = response.data.map((item: { dateTime: string; }) => {
+            return {
+              ...item,
+              dateTime: moment(item.dateTime.split('.')[0]).format('DD/MM/YYYY HH:mm:ss')
+            };
+          });
+          setOrders(formattedData);
           setTotalPages(Math.ceil(response.data.length / 5));
         })
         .catch((error) => {
