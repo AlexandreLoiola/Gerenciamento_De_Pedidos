@@ -109,7 +109,7 @@ const ManagementCustomer: React.FC = () => {
           handleFetch();
         })
         .catch((error) => {
-          alert(error.response.data.message);
+          alert(`O cliente de cpf: ${cpf} está associado a um pedido, portanto não pode ser deletado, a menos que delete o pedido primeiro`);
         });
     } catch (error) {
       alert("O Cliente não foi deletado");

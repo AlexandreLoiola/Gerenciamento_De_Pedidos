@@ -123,7 +123,7 @@ const ManagementEmployee: React.FC = () => {
           handleFetch();
         })
         .catch((error) => {
-          alert(error.response.data.message);
+          alert(`O funcionário de cpf: ${cpf} está associado a um pedido, portanto não pode ser deletado, a menos que delete o pedido primeiro`);
         });
     } catch (error) {
       alert("O Funcionário não foi deletado");

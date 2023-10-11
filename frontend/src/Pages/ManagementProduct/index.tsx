@@ -96,7 +96,7 @@ const ManagementProduct: React.FC = () => {
           handleFetch();
         })
         .catch((error) => {
-          alert(error.response.data.message);
+          alert(`O produto '${name}' está associado a um pedido, portanto não pode ser deletado, a menos que delete o pedido primeiro`);
         });
     } catch (error) {
       console.error(error);
