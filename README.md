@@ -22,7 +22,7 @@ Possui uma interface Web para facilitar o uso e a visualização das suas funcio
 </div>
 
 ## 🗃️ Modelagem
-![DER - SISTEMA_GERENCIAMENTO_DE_PEDIDOS-Diagrama Entidade Relacionamento.jpg](static%2FDER%20-%20SISTEMA_GERENCIAMENTO_DE_PEDIDOS-Diagrama%20Entidade%20Relacionamento.jpg)
+![DER - GERENCIAMENTO_DE_PEDIDOS.jpg](static%2FDER%20-%20GERENCIAMENTO_DE_PEDIDOS.jpg)
 
 ## ⚡ Funcionalidades
 - **Cadastro e gerenciamento de clientes:** O sistema permite o cadastro e gerenciamento dos dados
