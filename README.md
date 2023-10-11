@@ -1,61 +1,58 @@
-# Sistema de Gerenciamento De Pedidos
+<div align="center">
+    <h1>
+        Sistema de Gerenciamento De Pedidos
+    </h1>
+</div>
+
+![img.png](static/CAPA.png)
 
 O Sistema de Gerenciamento de pedidos é um software que permite a gestão 
-de diversos aspectos relacionados ao processo de vendas de uma empresa.
-Possui uma interface Web para facilitar o uso
-das funcionalidades do sistema.
+de diversos aspectos relacionados ao processo de vendas de uma empresa,
+bem como pedidos, produtos, clientes e funcionários. O foco do desenvolvimento
+foi em seu backend, que foi feito utilizando Spring Boot.
 
-O software realiza o cadastro e gerencia dos dados dos clientes e 
-funcionários, cadastro de produtos e controle dos seus níveis de estoque,
-criação e emissão de pedidos,  acompanhamento do status do pedido por parte
-do cliente, além disso, possui um sistema de autenticação e autorização de usuários, que permite definir diferentes níveis de acesso e permissões para cada funcionário da empresa.
+Possui uma interface Web para facilitar o uso e a visualização das suas funcionalidades.
 
----
-## 📌 Pré-requisitos
-Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas :
-### Para o Backend :
-- [Java 17 ou superior](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) 
-- [Apache Maven 3.1+](https://maven.apache.org/download.cgi)
 
-### Para o Frontend :
-- [Node.js](https://nodejs.org/en)
----
-## 🚀 Iniciar Projeto
-#### Para o Frontend e a Documentação do projeto funcionar corretamente, é preciso que o Backend esteja sendo executado
 
-### Instalação :
-    # Clone este repositório
-    $ git clone https://github.com/AlexandreLoiola/Sistema_de_Gerenciamento_De_Pedidos.git
+<div align="center">
+    <h3>
+        🚧⚠️ <i>Sistema em fase de desenvolvimento</i> ⚠️🚧
+    </h3>
+</div>
 
-### Iniciando Servidor (Backend) :
+## 🗃️ Modelagem
+![DER - SISTEMA_GERENCIAMENTO_DE_PEDIDOS-Diagrama Entidade Relacionamento.jpg](static%2FDER%20-%20SISTEMA_GERENCIAMENTO_DE_PEDIDOS-Diagrama%20Entidade%20Relacionamento.jpg)
 
-    # Acesse a pasta do servidor do projeto no terminal/cmd
-    $ cd Sistema_De_Transferencia_Financeira_Simplificado/backend
+## ⚡ Funcionalidades
+- **Cadastro e gerenciamento de clientes:** O sistema permite o cadastro e gerenciamento dos dados
+dos clientes, incluindo informações como nome, email, cpf e data de nascimento.
 
-    # Instale as dependências do projeto
-    $ mvn clean install
 
-    # Execute a aplicação
-    $ mvn spring-boot:run
-####
-    # O servidor inciará na porta:8080
-    # Caminho da Api - http://localhost:8080/api/financial-transaction/
-    
-    # Documentação - http://localhost:8080/api/financial-transaction/swagger-ui/index.html
+- **Cadastro e gerenciamento de funcionários:** O sistema permite o cadastro e gerenciamento dos 
+dados dos funcionários, incluindo informações como nome, email, cpf, data de nascimento, cargo,  salários. 
 
-### Iniciando o Cliente web (Frontend) :
-    # Acesse a pasta do servidor do projeto no terminal/cmd
-    $ cd Sistema_De_Transferencia_Financeira_Simplificado/frontend
 
-    # Instale as dependências do projeto
-    $ npm install
+- **Cadastro e gerenciamento de produtos:** O sistema permite o cadastro e gerenciamento dos dados
+dos produtos, incluindo informações como nome, descrição, preço e níveis de estoque.
 
-    # Execute a aplicação
-    $ npm start
-####
-    # O cliente iniciará na porta:3000
-    # Acesse: http://localhost:3000
----
+
+- **Criação e emissão de pedidos:** O sistema permite a criação e emissão de pedidos pelos vendedores, incluindo informações como.
+
+
+- **Histórico de pedidos:** O sistema permite que cada cliente visualize seu histórico de pedidos.
+
+
+- **Acompanhamento do status do pedido:** O sistema permite que os clientes acompanhem o status de seus pedido.
+
+
+- **Sistema de autenticação e autorização de usuários:** O sistema possui um sistema de autenticação e autorização de usuários que permite definir diferentes níveis de acesso e permissões para cada funcionário da empresa.
+
+## 📖 Documentação dos Endpoints
+A documentação completa do projeto está disponível através do Swagger.
+
+![img_1.png](static/DOCUMENTACAO-SWAGGER.png)
+Acesse a [documentação completa](http://localhost:8080/api/management/swagger-ui/index.html) para obter informações detalhadas sobre os endpoints, parâmetros, modelos de dados e demais recursos disponíveis na API.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -65,6 +62,9 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 
 
 - <img src="https://img.shields.io/badge/java-3a75b0.svg?style=flat&https://img.shields.io/badge/Spring%20Boot-64a43a.svg?style=flat&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCwwLDI1NiwyNTYiPgo8ZyBmaWxsPSIjRkZGRkZGIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2UtZGFzaGFycmF5PSIiIHN0cm9rZS1kYXNob2Zmc2V0PSIwIiBmb250LWZhbWlseT0ibm9uZSIgZm9udC13ZWlnaHQ9Im5vbmUiIGZvbnQtc2l6ZT0ibm9uZSIgdGV4dC1hbmNob3I9Im5vbmUiIHN0eWxlPSJtaXgtYmxlbmQtbW9kZTogbm9ybWFsIj48ZyB0cmFuc2Zvcm09InNjYWxlKDUuMTIsNS4xMikiPjxwYXRoIGQ9Ik0yOC4xODc1LDBjMi43NSw2LjM2MzI4IC05Ljg1OTM3LDEwLjI5Mjk3IC0xMS4wMzEyNSwxNS41OTM3NWMtMS4wNzQyMiw0Ljg3MTA5IDcuNDkyMTksMTAuNTMxMjUgNy41LDEwLjUzMTI1Yy0xLjMwMDc4LC0yLjAxNTYyIC0yLjI1NzgxLC0zLjY3NTc4IC0zLjU2MjUsLTYuODEyNWMtMi4yMDcwMywtNS4zMDQ2OSAxMy40NDE0MSwtMTAuMTA1NDcgNy4wOTM3NSwtMTkuMzEyNXpNMzYuNTYyNSw4LjgxMjVjMCwwIC0xMS4wNjI1LDAuNzEwOTQgLTExLjYyNSw3Ljc4MTI1Yy0wLjI1LDMuMTQ4NDQgMi45MTAxNiw0LjgwNDY5IDMsNy4wOTM3NWMwLjA3NDIyLDEuODcxMDkgLTEuODc1LDMuNDM3NSAtMS44NzUsMy40Mzc1YzAsMCAzLjU0Njg4LC0wLjY3NTc4IDQuNjU2MjUsLTMuNTMxMjVjMS4yMzA0NywtMy4xNjc5NyAtMi4zOTg0NCwtNS4zMDg1OSAtMi4wMzEyNSwtNy44NDM3NWMwLjM1MTU2LC0yLjQyNTc4IDcuODc1LC02LjkzNzUgNy44NzUsLTYuOTM3NXpNMTkuMTg3NSwyNS4xNTYyNWMwLDAgLTEwLjEyNSwtMC4xNDQ1MyAtMTAuMTI1LDIuNzE4NzVjMCwyLjk5MjE5IDEzLjI1MzkxLDMuMjE0ODQgMjIuNzE4NzUsMS4zNzVjMCwwIDIuNTE1NjMsLTEuNzMwNDcgMy4xODc1LC0yLjM3NWMtNi4yMDMxMiwxLjI2NTYzIC0yMC4zNDM3NSwxLjQwNjI1IC0yMC4zNDM3NSwwLjMxMjVjMCwtMS4wMDc4MSA0LjU2MjUsLTIuMDMxMjUgNC41NjI1LC0yLjAzMTI1ek0zOC42NTYyNSwyNS4xNTYyNWMtMC45OTIxOSwwLjA3ODEzIC0yLjA2MjUsMC40NjA5NCAtMy4wMzEyNSwxLjE1NjI1YzIuMjgxMjUsLTAuNDkyMTkgNC4yMTg3NSwwLjkyMTg4IDQuMjE4NzUsMi41MzEyNWMwLDMuNjI1IC01LjI1LDcuMDMxMjUgLTUuMjUsNy4wMzEyNWMwLDAgOC4xMjUsLTAuOTIxODcgOC4xMjUsLTYuODc1YzAsLTIuNzAzMTIgLTEuODc4OTEsLTQuMDE1NjIgLTQuMDYyNSwtMy44NDM3NXpNMTYuNzUsMzAuNzE4NzVjLTEuNTU0NjksMCAtMy44NzUsMS4yMTg3NSAtMy44NzUsMi4zNzVjMCwyLjMyNDIyIDExLjY4NzUsNC4xMTMyOCAyMC4zNDM3NSwwLjcxODc1bC0zLC0xLjg0Mzc1Yy01Ljg2NzE5LDEuODc4OTEgLTE2LjY3MTg3LDEuMjY1NjMgLTEzLjQ2ODc1LC0xLjI1ek0xOC4xODc1LDM1LjkzNzVjLTIuMTI4OTEsMCAtMy41MzEyNSwxLjI4NTE2IC0zLjUzMTI1LDIuMjVjMCwyLjk4NDM4IDEyLjcxNDg0LDMuMjg1MTYgMTcuNzUsMC4yNWwtMy4xODc1LC0yLjAzMTI1Yy0zLjc2MTcyLDEuNTg5ODQgLTEzLjIwMzEyLDEuODMyMDMgLTExLjAzMTI1LC0wLjQ2ODc1ek0xMS4wOTM3NSwzOC42MjVjLTMuNDY4NzUsLTAuMDcwMzEgLTUuNzE4NzUsMS40ODgyOCAtNS43MTg3NSwyLjc4MTI1YzAsNi44NzUgMzUuNSw2LjU1ODU5IDM1LjUsLTAuNDY4NzVjMCwtMS4xNjc5NyAtMS4zNDc2NiwtMS43MzQzNyAtMS44NDM3NSwtMmMyLjkwMjM0LDYuNzE4NzUgLTI5LjA2MjUsNi4xODM1OSAtMjkuMDYyNSwyLjIxODc1YzAsLTAuOTAyMzQgMi4zNTE1NiwtMS43NjU2MiA0LjUzMTI1LC0xLjM0Mzc1bC0xLjg0Mzc1LC0xLjA2MjVjLTAuNTQyOTcsLTAuMDgyMDMgLTEuMDY2NDEsLTAuMTEzMjggLTEuNTYyNSwtMC4xMjV6TTQ0LjYyNSw0My4yNWMtNS4zOTg0NCw1LjExNzE5IC0xOS4wNzgxMiw2Ljk3MjY2IC0zMi44NDM3NSwzLjgxMjVjMTMuNzYxNzIsNS42MzI4MSAzMi43NzczNCwyLjQ3MjY2IDMyLjg0Mzc1LC0zLjgxMjV6Ij48L3BhdGg+PC9nPjwvZz4KPC9zdmc+" width="80" height="30"> Linguagem de Programação;
+
+
+- <img src="https://img.shields.io/badge/Spring%20Security-64a43a.svg?style=flat&logo=data:image/svg%2bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PgogICAgICAgIDwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgCiAgICAgICAgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+IDxzdmcgc3R5bGU9ImNvbG9yOiB3aGl0ZSIgcm9sZT0iaW1nIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPlNwcmluZyBTZWN1cml0eTwvdGl0bGU+PHBhdGggZD0iTTIwLjU5IDIuMDY2IDExLjk5MyAwIDMuNDEgMi4wNjZ2Ni42MTJoNC41NTdhMy44MDQgMy44MDQgMCAwIDAgMCAuOTU0SDMuNDF2My4xMDZDMy40MSAxOS44NjcgMTEuOTk0IDI0IDExLjk5NCAyNHM4LjU4Mi00LjEzMyA4LjU4Mi0xMS4yNThWOS42MzVoLTQuNTQ1YTMuNjE2IDMuNjE2IDAgMCAwIDAtLjk1NGg0LjU1OHpNMTIgMTIuMjYyaC0uMDA2YTMuMTA5IDMuMTA5IDAgMSAxIC4wMDYgMHptLS4wMDYtNC41NzlhLjgwNC44MDQgMCAwIDAtLjM3IDEuNTJ2LjIwOGwuMjM4LjIzN3YuMTU5bC4xNTkuMTU5di4xNTlsLS4xNC4xNC4xNS4yNDZ2LjE1OWwtLjE2LjE4OS4yMjMuMjIyLjI0Ni0uMjQ2VjkuMjE4YS44MDQuODA0IDAgMCAwLS4zNDYtMS41MzV6bTAgLjgzNmEuMjk5LjI5OSAwIDEgMSAuMjk4LS4yOTkuMjk5LjI5OSAwIDAgMS0uMjk4LjN6IiBmaWxsPSJ3aGl0ZSI+PC9wYXRoPjwvc3ZnPiA=" width="150" height="28"> framework de segurança para aplicativos Java;
 
 
 - <img src="https://img.shields.io/badge/Springfox-64a43a.svg?style=flat&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PHBhdGggZmlsbD0iIzg1RUEyRCIgZD0iTTEyNy45OTkgMjQ5Ljg5NWMtNjcuMjE1IDAtMTIxLjktNTQuNjgtMTIxLjktMTIxLjg5NkM2LjEgNjAuNzgyIDYwLjc4NSA2LjEwMiAxMjggNi4xMDJjNjcuMjE0IDAgMTIxLjg5OSA1NC42ODUgMTIxLjg5OSAxMjEuOWMwIDY3LjIxNC01NC42ODUgMTIxLjg5My0xMjEuOSAxMjEuODkzWiIvPjxwYXRoIGZpbGw9IiMxNzM2NDciIGQ9Ik0xMjcuOTk5IDEyLjIwMmM2My45NTQgMCAxMTUuNzk3IDUxLjg0MiAxMTUuNzk3IDExNS43OTdjMCA2My45NTItNTEuODQzIDExNS43OTctMTE1Ljc5NyAxMTUuNzk3Yy02My45NTIgMC0xMTUuNzk3LTUxLjg0NS0xMTUuNzk3LTExNS43OTdTNjQuMDQ3IDEyLjIwMiAxMjcuOTk5IDEyLjIwMm0wLTEyLjIwMkM1Ny40MTkgMCAwIDU3LjQyIDAgMTI3Ljk5OXM1Ny40MiAxMjcuOTk4IDEyNy45OTkgMTI3Ljk5OFMyNTYgMTk4LjU3NyAyNTYgMTI4QzI1NiA1Ny40MTkgMTk4LjU3OCAwIDEyNy45OTkgMFoiLz48cGF0aCBmaWxsPSIjMTczNjQ3IiBkPSJNODAuNTk4IDg2LjYxOWMtLjM5NCA0LjM4LjE0NiA4LjkwOS0uMTQ2IDEzLjMzOGMtLjM0NSA0LjQzMS0uODg3IDguODExLTEuNzczIDEzLjE5MmMtMS4yMyA2LjI1LTUuMTIgMTAuOTc2LTEwLjQ4MiAxNC45MTRjMTAuNDM2IDYuNzkzIDExLjYxNiAxNy4zMjQgMTIuMzA0IDI4LjAwNmMuMzQ1IDUuNzYuMTk3IDExLjU2Ny43ODggMTcuMjc2Yy40NDMgNC40MjkgMi4xNjUgNS41NjIgNi43NDUgNS43MDhjMS44Ny4wNDggMy43ODYgMCA1Ljk1NiAwdjEzLjY4M2MtMTMuNTM1IDIuMzEzLTI0LjcwOC0xLjUyNS0yNy40NjctMTIuOTkyYy0uODg3LTQuMTg0LTEuNDc4LTguNDY3LTEuNjczLTEyLjc5OGMtLjI5Ny00LjU3OC4xOTUtOS4xNTUtLjE0OC0xMy43MzJjLS45ODUtMTIuNTUzLTIuNjEtMTYuNzg1LTE0LjYxOC0xNy4zNzZ2LTE1LjYwMmEyMy43MTQgMjMuNzE0IDAgMCAxIDIuNjA4LS40NDNjNi41OTYtLjM0NSA5LjQtMi4zNjQgMTAuODI4LTguODZjLjY5LTMuNjQxIDEuMDg0LTcuMzMzIDEuMjMtMTEuMDc0Yy40OTQtNy4xMzYuMjk3LTE0LjQyIDEuNTI1LTIxLjUwN0M2Ny45OTcgNjguMTYzIDc0LjMgNjMuMjQgODQuNzg1IDYyLjY1YzIuOTUyLS4xNDkgNS45NTUgMCA5LjM1IDB2MTMuOThjLTEuNDI3LjEtMi42NTguMjk0LTMuOTM3LjI5NGMtOC41MTUtLjI5Ny04Ljk2IDIuNjA3LTkuNiA5LjY5NVptMTYuMzkgMzIuMzg2aC0uMTk2Yy00LjkyMy0uMjQ1LTkuMTU1IDMuNTkzLTkuNDAzIDguNTE1Yy0uMjQ2IDQuOTcyIDMuNTkyIDkuMjA2IDguNTE1IDkuNDVoLjU5YzQuODc1LjI5NiA5LjA1Ni0zLjQ0NyA5LjM1Mi04LjMxOXYtLjQ5MWMuMS00Ljk3MS0zLjg4Ni05LjA1NS04Ljg1Ny05LjE1NVptMzAuODYyIDBjLTQuNzc0LS4xNDgtOC43NjMgMy41OTMtOC45MDkgOC4zMThjMCAuMjk3IDAgLjU0My4wNTEuODM3YzAgNS4zNjUgMy42NDEgOC44MTIgOS4xNTUgOC44MTJjNS40MTQgMCA4LjgxMi0zLjU0NCA4LjgxMi05LjEwNmMtLjA1MS01LjM2Ni0zLjY0Ni04LjkxLTkuMTA5LTguODZabTMxLjYwMiAwYy01LjAyLS4xLTkuMjA2IDMuODktOS4zNTIgOC45MWE5LjAzIDkuMDMgMCAwIDAgOS4wNTUgOS4wNTRoLjFjNC41MjguNzg4IDkuMTA2LTMuNTkyIDkuNDAyLTguODU4Yy4yNDMtNC44NzQtNC4xODYtOS4xMDYtOS4yMDUtOS4xMDZabTQzLjM2My43MzdjLTUuNzExLS4yNDUtOC41NjctMi4xNjQtOS45OTItNy41ODFhNTQuODc0IDU0Ljg3NCAwIDAgMS0xLjYyNC0xMC41ODJjLS4zOTUtNi41OTYtLjM0Ni0xMy4yNDEtLjc4OS0xOS44MzdjLTEuMDMzLTE1LjY1MS0xMi4zNTItMjEuMTE0LTI4Ljc5NC0xOC40MVY3Ni45MmMyLjYwNyAwIDQuNjI2IDAgNi42NDUuMDQ5YzMuNDk1LjA0OCA2LjE1MyAxLjM3OSA2LjQ5NiA1LjI2OGMuMzQ1IDMuNTQzLjM0NSA3LjEzNi42OSAxMC43M2MuNjkyIDcuMTM5IDEuMDgzIDE0LjM3MiAyLjMxNCAyMS40MWMxLjA4NSA1LjgwOSA1LjA3IDEwLjE0IDEwLjA0IDEzLjY4NGMtOC43MSA1Ljg1Ny0xMS4yNyAxNC4yMjMtMTEuNzE0IDIzLjYyNmMtLjI0NSA2LjQ0OC0uMzk0IDEyLjk0NC0uNzM2IDE5LjQ0M2MtLjI5NyA1LjkwNS0yLjM2MiA3LjgyNC04LjMxOCA3Ljk3MmMtMS42NzQuMDUtMy4yOTguMTk4LTUuMTY5LjI5N3YxMy45M2MzLjQ5NSAwIDYuNjk0LjE5NiA5Ljg5MiAwYzkuOTQyLS41OTIgMTUuOTQ3LTUuNDE1IDE3LjkxOC0xNS4wNjNhMTI1LjU4MiAxMjUuNTgyIDAgMCAwIDEuNDc2LTE2LjA0NWMuMzQzLTQuOTIzLjI5Ny05Ljg5NC43ODgtMTQuNzY2Yy43MzctNy42MyA0LjIzMi0xMC43OCAxMS44NjItMTEuMjdjLjczOS0uMSAxLjQyNy0uMjQ2IDIuMTE4LS40OTJ2LTE1LjYwNGMtMS4yODItLjE0OS0yLjE3LS4yOTUtMy4xMDMtLjM0NloiLz48L3N2Zz4=" width="120" height="28"> Gera a documentação da API Swagger automaticamente;
@@ -83,7 +83,7 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 
 
 - <img src="https://img.shields.io/badge/-ReactJs-61DAFB?style=flat&logo=react&logoColor=white" width="100" height="28">  Biblioteca JavaScript para criar interfaces de usuário;
-  
+
 
 - <img src="https://shields.io/badge/TypeScript-3178C6?style=flat&logo=TypeScript&logoColor=FFF" width="100" height="28">  Superconjunto tipado de JavaScript;
 
@@ -95,38 +95,74 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 
 
 - <img src="https://img.shields.io/badge/-jest-%23C21325?style=flat&logo=jest&logoColor=white" width="70" height="28"> Framework de teste;
----
 
-## 📖 Documentação dos Endpoints
-A documentação completa do projeto está disponível através do Swagger.
 
-Acesse a [documentação do Swagger](http://localhost:8080/api/management/swagger-ui/index.html) para obter informações detalhadas sobre os endpoints, parâmetros, modelos de dados e demais recursos disponíveis na API.
+## 📌 Pré-requisitos
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas :
+### Para o Backend :
+- [Java 17 ou superior](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) 
+- [Apache Maven 3.1+](https://maven.apache.org/download.cgi)
 
----
+### Para o Frontend :
+- [Node.js](https://nodejs.org/en)
+
+## 🚀 Iniciar Projeto
+#### Para o Frontend e a Documentação do projeto funcionar corretamente, é preciso que o Backend esteja sendo executado
+
+### Instalação :
+    # Clone este repositório
+    $ git clone https://github.com/AlexandreLoiola/Gerenciamento_De_Pedidos.git
+
+### Iniciando Servidor (Backend) :
+
+    # Acesse a pasta do servidor do projeto no terminal/cmd
+    $ cd Gerenciamento_De_Pedidos/backend
+
+    # Instale as dependências do projeto
+    $ mvn clean install
+
+    # Execute a aplicação
+    $ mvn spring-boot:run
+####
+    # O servidor inciará na porta:8080
+    # Caminho da Api - http://localhost:8080/api/management/
+    
+    # Documentação - http://localhost:8080/api/management/swagger-ui/index.html
+
+### Iniciando o Cliente web (Frontend) :
+    # Acesse a pasta do servidor do projeto no terminal/cmd
+    $ cd Gerenciamento_De_Pedidos/frontend
+
+    # Instale as dependências do projeto
+    $ npm install
+
+    # Execute a aplicação
+    $ npm start
+####
+    # O cliente iniciará na porta:3000
+    # Acesse: http://localhost:3000
 
 ## ⚙️ Executando os Testes
 
 ### Para o Servidor :
     # Acesse o diretório do server
-    $ cd Sistema_De_Transferencia_Financeira_Simplificado/backend
-####
+    $ cd Gerenciamento_De_Pedidos/backend
+
     # Executa todos os testes
     $ mvn test
-####
+
     # Executa todos os testes de uma classe
     $ mvn -Dtest=NomeDaClasseTest test
-####
+
     # Executa um único teste
     $ mvn -Dtest=NomeDaClasseTest#nomeDoMetodo test
 
 ### Para o Frontend :
     # Acesse o diretório do frontend
-    $ cd Sistema_De_Transferencia_Financeira_Simplificado/frontend
-####
+    $ cd Sistema_de_Gerenciamento_De_Pedidos/frontend
+
     # Executa todos os testes
     $ npm test
-
----
 
 ## 📝 Licença
 #### Este projeto está sob a licença MIT - Veja o arquivo LICENSE.md para detalhes.
